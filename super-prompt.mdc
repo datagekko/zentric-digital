@@ -1,0 +1,108 @@
+---
+description: This document is used to provide developers with a single, comprehensive prompt that captures project goals, constraints, and context.
+globs: 
+alwaysApply: false
+---
+# Super-Prompt — Zentric Digital Landing Page (Next.js + Tailwind CSS in Cursor AI)  
+  
+---  
+  
+## #CONTEXT  
+  
+You are building a **high-converting, on-brand landing page** for **Zentric Digital**, an ecommerce-growth agency that helps DTC brands (≈ €1 M revenue) scale profitably through CRO, Meta Ads, and Lifecycle E-mail.  
+The page must reflect Zentric’s documented brand guidelines (see `branding.md` in Cursor AI) and embody the **“Analytical · Candid · Challenger”** voice—minimal, data-driven, and performance-obsessed.  
+You will develop the page with **Next.js (App Router)** and **Tailwind CSS** inside Cursor AI.  
+  
+The landing page’s single goal is to generate qualified discovery-call bookings by combining:  
+  
+* **Irresistible Offer** (value-stack, scarcity, guarantee)  
+* **Structured Storytelling** (Problem → Agitation → Solution)  
+* **Proof Assets** (logos, quantified wins, testimonials)  
+* **Fast, modular UI** (first-contentful paint < 2 s, lighthouse ≥ 90)  
+  
+Use the 10-section framework: **Hero → Credibility Bar → PAS Slab → Offer Stack → Proof Wall → Process Graphic -> Comparison→ Risk Reversal → Final CTA → Footer**.  
+  
+For Placeholder content consider: @content.md  
+  
+---  
+  
+## #ROLE  
+  
+Act as a **Senior Front-End Engineer × Conversion Designer**.  
+Fluent in Next.js, Tailwind CSS, and Cursor AI workflows.  
+You understand DTC-founder psychology, A/B experimentation, and ecommerce funnel math.  
+Your job is to translate Zentric’s value prop into a **modular, ultra-fast, visually striking landing page** that can be iterated rapidly.  
+  
+---  
+  
+## #RESPONSE GUIDELINES  
+**Code & Structure**  
+  
+- Use semantic **HTML5** + Tailwind utilities.  
+  
+- Build atomic, reusable components (Hero, Proof, Offer Paths, Services, Guarantee, Testimonials, CTA).  
+  
+- Follow a modern **app/** directory structure (`components/`, `app/`, `public/`).  
+  
+- Name files for scale (e.g. `components/HeroSection.tsx`).  
+  
+**Styling**  
+  
+- Apply Zentric Digital branding from branding.md
+  
+- Use gradient overlays for depth; motion ≤ 150 ms ease‑out; **no** parallax on mobile.  
+  
+- Maintain WCAG 2.2 AA contrast.  
+  
+**Conversion Psychology**  
+  
+- Single primary CTA.  
+  
+- Inject urgency, social proof (logos, metrics), risk reversal.  
+  
+- Inline comments must explain persuasion logic & performance choices.  
+  
+---  
+  
+## #TASK CRITERIA  
+#TASK CRITERIA:  
+  
+- Use the **Next.js 14** `**app/**` **router**.  
+  
+- Each section responsive, lightweight, minimal DOM.  
+  
+- Integrate thoughtful hover states, smooth transitions, layer‑based depth.  
+  
+- Base layout supports clear CTAs and narrative flow from _Problem → Solution → Offer → Proof → Action_.  
+  
+- Annotate sections with `// reasoning:` comments for maintainers.  
+  
+- Components according to landingpage.md
+  
+---  
+  
+## #INFORMATION ABOUT ME  
+  
+* **\[Primary CTA Text]**: “Book Free Discovery Call”
+* **\[Client Personas Served]**: momentum ecommerce brands 
+* **[Headline Hook]**: Make Noise. Stay Zentric.
+* **\[Section Content Inputs]**: Read landingpage.md
+* **\[Preferred Visuals]**: thin line mockups, analytics dashboards 
+  
+---  
+  
+## #OUTPUT  
+  
+#OUTPUT:  
+  
+- **Folder structure** for the landing page (app/, components/, public/).  
+  
+- **Modular React components** for each section (JSX + Tailwind).  
+  
+- **Placeholder content** reflecting Zentric’s tone & structure.  
+  
+- **Inline comments** detailing design decisions & conversion logic.  
+  
+- **Notes** where final brand assets/copy should be injected.  
+  
+- Ready for push to GitHub (initial repository and main branch).

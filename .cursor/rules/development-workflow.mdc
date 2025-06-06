@@ -1,0 +1,32 @@
+---
+description: Use this rule to follow standardized development processes from feature planning to deployment. Reference for guidance on local development, testing, and release procedures.
+globs: 
+alwaysApply: false
+---
+# Development Workflow
+
+## Getting Started
+1. Clone the repository
+2. Install dependencies with `npm install`
+3. Run the development server with `npm run dev`
+4. Access the site at http://localhost:3000
+
+## Component Development
+1. Create new components in the appropriate directory:
+   - Section components in [app/components/sections/](mdc:app/components/sections)
+   - UI components in [app/components/ui/](mdc:app/components/ui)
+2. Follow existing component patterns and naming conventions
+3. Use Tailwind CSS for styling
+4. Import and use in [app/page.tsx](mdc:app/page.tsx)
+
+## Common Issues
+- If you see a CSS error about `duration-120` class, ensure you're using standard Tailwind duration classes (e.g., `duration-100`, `duration-200`)
+- Use standard Tailwind utilities instead of custom classes like `backdrop-blur-glass`
+- Ensure proper quoting in component props
+- Set metadata.metadataBase for proper Open Graph and Twitter images
+
+## Optimization Guidelines
+- Optimize images before adding to the project
+- Minimize unnecessary re-renders in components
+- Use Next.js Image component for image optimization
+- Follow React best practices for component composition

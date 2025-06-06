@@ -1,0 +1,189 @@
+---
+description: This document is used to guide in translating the brand’s colors, typography, spacing, and tone into code and content, ensuring every digital component stays visually and behaviorally consistent.
+globs: 
+alwaysApply: false
+---
+# Zentric Digital 
+
+_Last updated: 4 June 2025_
+
+---
+
+## 1. Brand Core
+
+**Essence** _Smart Systems. Rapid Outcomes._  
+**Mission** Transform under‑performing funnels into compounding profit engines in 30 days — or clients don’t pay.  
+**Tagline** **Make Noise. Stay Zentric**
+
+**Value Proposition**: We are your growth partner that delivers 10x agency results with 1/10th the overhead. No account managers. No bloat. Just fast, AI-powered execution that turns your traffic into scalable profit — or you don’t pay.
+
+### 1.1 Brand Values
+
+**Precision · Momentum · Motion · Clarity · Minimalism**
+
+> Our tone is crisp, technically confident, and free of bravado. We replace agency theatre with  clarity and focus.
+
+## 3. Visual Identity
+
+### 3.1 Colour System
+
+| Swatch           | HEX     | Role                           | Usage Ratio |
+| ---------------- | ------- | ------------------------------ | ----------- |
+| **Iris Purple**  | #635BFF | Primary CTA buttons & links    | 10 %        |
+| **Mint Green**   | #53DD6C | Secondary CTA & success states | 5 %         |
+| **Nordic Ivory** | #F5F0EA | Light background               | 50 %        |
+| **Onyx**         | #262627 | Base dark background           | 20 %        |
+| **Deep Navy**    | #0A2540 | Alternate dark sections/cards  | 15 %        |
+
+> **Accessibility** Maintain AA contrast (WCAG 2.2). When Iris Purple is used over dark backgrounds, ensure ≥4.5:1 contrast; tint Mint Green darker (#38C958) for hover if ratio is insufficient.
+
+Use gradients for backgrounds and font styling.
+
+### 3.2 Glassmorphism Tokens
+
+```
+Blur             16 px (backdrop‑filter)
+Layer Opacity    0.75 (rgba(255,255,255,0.04))
+Border           1 px solid rgba(255,255,255,0.16)
+Radius           24 px (cards) · 32 px (modals)
+Shadow           0 4 24 rgba(0,0,0,0.18)
+```
+
+Apply only on Onyx or Deep Navy surfaces; maximum three glass layers per viewport.
+
+### 3.3 Iconography & Illustration
+
+- 1.5 px stroke, rounded caps.
+    
+- Geometric, negative‑space; no skeuomorphism.
+    
+- Motion: 100 ms ease‑out on hover; spring physics on core CTAs.
+    
+
+### 3.4 Approved Imagery
+
+|Must‑Have|Avoid|
+|---|---|
+|Anonymised performance dashboards (ROAS overlays)|Whiteboard sessions|
+|Split‑screen funnel before / after|Stock “digital marketing” clichés|
+|Velocity Stack — blueprint diagrams|People pointing at screens|
+|Agency‑vs‑System comparison graphics|Freelance coffee‑shop vibes|
+
+---
+
+## 4. Typography System
+
+|Role|Typeface / Weight|Styling Rules|
+|---|---|---|
+|Hero H1|**Inter Extra Bold 96**|−2 tracking; sentence case|
+|Section H2|Inter Bold 56|−1 tracking|
+|Sub‑head H3|Inter SemiBold 32|0 tracking|
+|KPI Digits|**SF Mono Uppercase 20**|Uppercase, 8 pt letter‑spacing|
+|Body Text|Inter Regular 18|1.5 line‑height|
+|Micro‑copy / Label|Inter Medium 14|Uppercase, Onyx tint 4 %|
+
+> **Drop Shadows** Only for text on Onyx; 0 1 3 rgba(0,0,0,0.65).
+
+---
+
+## 5. Layout & Grid
+
+- **Grid** 12‑col, 88 px gutters (desktop) · 4‑col, 24 px (mobile).
+    
+- **Whitespace** ≥10 % viewport height per section.
+    
+- **Density** 1 primary CTA per ~750 px scroll depth.
+    
+- **Sticky Sidebar KPIs** Pinned right ≥1280 px.
+    
+
+---
+
+## 6. UI / UX Components
+
+### 6.1 Buttons
+
+|Variant|Background / Border|Text Colour|Radius|Motion|
+|---|---|---|---|---|
+|**Primary**|Iris Purple ▶︎ linear gradient to slightly lighter #7A6CFF|#FFF|24 px|Scale 1→1.04 (120 ms)|
+|**Secondary**|Transparent, 1 px Iris Purple border|#635BFF|24 px|Gradient underline fade|
+|**Tertiary**|Text‑link Onyx|#262627|—|Colour shift to #0A2540|
+
+### 6.2 System Walkthrough
+
+Horizontal timeline with glass cards; week markers animate with Mint Green radial grow.
+
+### 6.3 Testimonial Carousel
+
+Raw screen captures, DMs, Loom GIF loops; glass frame 8 px blur.
+
+---
+
+## 7. Motion
+
+|Element|Duration|Easing|Purpose|
+|---|---|---|---|
+|CTA hover|120 ms|ease‑out|Immediate responsiveness|
+|Section reveal|400 ms|spring(50)|Momentum without drama|
+|KPI counter|1 s|linear|Precision & flow|
+
+---
+
+## 8. Voice & Tone
+
+- **Crisp** short sentences, outcome‑first.
+    
+- **Precise** numbers > adjectives (“4.1× ROAS”).
+    
+- **Calm** technical confidence, no hype.
+    
+
+---
+
+## 9. Logo Specification (High‑level)
+
+|Spec|Detail|
+|---|---|
+|**Word‑mark Typeface**|Inter Extra Bold, custom‑kerned|
+|**Monogram Typeface**|SF Mono Uppercase|
+|**Colours**|Primary Iris Purple #635BFF; optional Mint Green accent|
+|**Motif**|Forward‑slanted “Z” diagonal implying speed + glass inset|
+|**Forbidden**|Drop‑shadows · bevels · >2 colours|
+|**Sizes**|320×72 px (horiz.) · 128×128 px (stacked) · 32×32 px (favicon)|
+
+---
+
+## 10. Motion & Interaction
+
+(see § 7)
+
+---
+
+## 11. Design Principles
+
+- **Scandinavian Minimalism** Exercise restraint.
+    
+- Clarity over cleverness: Language is literal and typography neutral to keep focus on data, not style. neutral type + generous spacing
+
+- **Functional Purpose** If an element does not advance comprehension or conversion, remove it.
+
+- Purposeful motion: Micro-animations (200-300 ms ease-out) only signal state changes or progress; hero mesh gradients pause when `prefers-reduced-motion` is on.
+
+Consistency & repetition
+
+---
+
+## 12. Implementation Notes
+
+- **CSS** Use Tailwind with custom theme extending Zentric colours.
+    
+- **Accessibility** All text passes WCAG 2.2 AA.
+    
+- **Motion** Implement with Framer Motion.
+    
+- **Glass Components** Centralise glass tokens for consistency.
+    
+
+---
+
+© 2025 Zentric Digital — Confidential & Proprietary

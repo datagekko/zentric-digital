@@ -1,0 +1,19 @@
+---
+description: Use this rule to navigate and maintain the codebase organization. Reference when adding new files or directories to ensure they follow the established project structure conventions.
+globs: 
+alwaysApply: false
+---
+# Project Structure
+
+This is a Next.js 14 landing page for Zentric Digital, an ecommerce growth agency helping DTC brands scale.
+
+## Key Files
+- [app/page.tsx](mdc:app/page.tsx) - Main landing page
+- [app/globals.css](mdc:app/globals.css) - Global styles
+- [tailwind.config.js](mdc:tailwind.config.js) - Tailwind configuration with brand colors
+- [package.json](mdc:package.json) - Project dependencies
+
+## Directories
+- [app/components/sections/](mdc:app/components/sections) - Landing page section components
+- [app/components/ui/](mdc:app/components/ui) - Reusable UI components
+- [public/](mdc:public) - Static assets (images, fonts)

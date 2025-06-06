@@ -1,0 +1,26 @@
+---
+description: Use this rule to understand the component architecture and patterns used throughout the project. Reference when creating new UI components to ensure consistency with existing patterns and best practices.
+globs: 
+alwaysApply: false
+---
+# Component Framework
+
+The landing page follows a structured conversion framework with the following components:
+
+## Section Components
+- **HeroSection** - Main value proposition and CTA
+- **CredibilityBar** - Client logos and trust signals
+- **PasSlab** - Problem-Agitation-Solution framework
+- **OfferStack** - Service tiers and pricing
+- **ProofWall** - Testimonials and case studies
+- **ProcessTimeline** - Client workflow visualization
+- **ComparisonSection** - Contrasting with traditional agencies
+- **RiskReversal** - Guarantee section
+- **FinalCta** - Final conversion call-to-action
+- **Footer** - Contact information and links
+
+## Implementation Notes
+- All components use Tailwind CSS for styling
+- Components should follow brand guidelines for colors and typography
+- Optimize for mobile responsiveness
+- Add appropriate animations and transitions

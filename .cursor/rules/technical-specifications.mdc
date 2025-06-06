@@ -1,0 +1,39 @@
+---
+description: Use this rule to implement features according to defined technical requirements and standards. Reference for information about API integrations, performance requirements, and technical constraints.
+globs: 
+alwaysApply: false
+---
+# Technical Specifications
+
+## Tech Stack
+- **Framework**: Next.js 14
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Deployment**: TBD (Vercel recommended)
+
+## Performance Requirements
+- Lighthouse score target: 90+ for all categories
+- First contentful paint under 1.2s
+- Fully interactive under 3.5s
+- Optimize for Core Web Vitals
+
+## Responsive Design
+- Mobile-first approach
+- Breakpoints:
+  - Mobile: < 640px
+  - Tablet: 640px - 1024px
+  - Desktop: > 1024px
+
+## SEO Requirements
+- Set metadata.metadataBase for proper Open Graph and Twitter images
+- Add appropriate meta tags for each page
+- Ensure proper heading structure
+- Optimize image alt text
+- Include structured data where appropriate
+
+## Accessibility Standards
+- WCAG 2.1 AA compliance
+- Keyboard navigation support
+- Screen reader friendly
+- Proper color contrast ratios
+- Focus indicators for interactive elements

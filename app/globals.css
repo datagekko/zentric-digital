@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-nordic-ivory text-onyx font-inter;
+  }
+
+  /* Glass effect utility */
+  .glass {
+    @apply backdrop-blur-md bg-white/5 border border-white/20 rounded-3xl shadow-glass;
+  }
+  
+  /* Button styles based on brand guidelines */
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-8 py-4 
+           bg-gradient-primary text-white font-inter font-semibold
+           rounded-3xl transition-transform duration-100 ease-out
+           hover:scale-[1.04] focus:outline-none focus:ring-2 
+           focus:ring-iris-purple focus:ring-opacity-50;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-8 py-4 
+           bg-transparent border border-iris-purple text-iris-purple
+           font-inter font-semibold rounded-3xl transition-all duration-100
+           ease-out hover:bg-iris-purple/5 focus:outline-none
+           focus:ring-2 focus:ring-iris-purple focus:ring-opacity-50;
+  }
+  
+  .btn-tertiary {
+    @apply inline-flex items-center justify-center font-inter font-medium
+           text-onyx transition-colors duration-100 ease-out
+           hover:text-deep-navy focus:outline-none;
+  }
+  
+  /* Section spacing */
+  section {
+    @apply py-section;
+  }
+  
+  /* Typography */
+  h1 {
+    @apply text-hero;
+  }
+  
+  h2 {
+    @apply text-h2;
+  }
+  
+  h3 {
+    @apply text-h3;
+  }
+  
+  .kpi-text {
+    @apply font-sf-mono text-kpi tracking-wider uppercase;
+  }
+  
+  .micro-text {
+    @apply text-micro tracking-wide uppercase;
+  }
+}
+
+/* Custom animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeUp {
+  animation: fadeUp 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+} 

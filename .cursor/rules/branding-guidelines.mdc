@@ -1,0 +1,30 @@
+---
+description: Use this rule to ensure adherence to Zentric's brand guidelines when making design or UI changes, including colors, typography, and voice. Reference for any visual or messaging consistency questions.
+globs: 
+alwaysApply: false
+---
+# Branding Guidelines
+
+## Brand Colors
+Zentric Digital's brand colors are defined in [tailwind.config.js](mdc:tailwind.config.js):
+
+- **iris-purple** - Primary brand color
+- **mint-green** - Secondary brand color
+- **nordic-ivory** - Background color
+- **rich-black** - Text color
+
+## Typography
+- Use appropriate heading sizes (h1, h2, h3) with consistent styling
+- Maintain proper spacing between text elements
+- Ensure readability across all device sizes
+
+## Design Elements
+- Use subtle animations for interactive elements
+- Maintain consistent padding and margins
+- Ensure all CTAs follow the same design pattern
+- Use appropriate imagery that matches the brand aesthetic
+
+## Accessibility
+- Maintain proper color contrast for text readability
+- Ensure all interactive elements are keyboard accessible
+- Add appropriate alt text for images

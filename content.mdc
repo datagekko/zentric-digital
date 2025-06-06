@@ -1,0 +1,107 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+### Your landing-page “bill of materials”
+
+Below is everything you need to build a **visually striking, on-brand page that prints leads instead of bounce-rates**. I’ve grouped it by **Strategy → Structure → Substance**, then added a one-page checklist you can copy-paste into the brief.
+
+---
+
+#### 1. Strategy – before a single pixel
+
+| What                                      | Why it matters                                                                     | How to get it (books & models)                                                                                                                                                       |
+| ----------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **ICP Snapshot** (Ideal Customer Profile) | Copy converts when it _mirrors_ the reader.                                        | Do the “Starving Crowd” exercise from _$100M Offers_ – pains, desired end-state, and purchasing power.                                                                               |
+| **One-Sentence Promise**                  | Visitors give you ≈ 5 sec. Your promise is the only thing they’ll definitely read. | “So good it feels stupid to say no” framing (Hormozi). Force your UVP into the _Hedgehog_ three-circles test: (1) Best-in-world at? (2) Fuels economic engine? (3) Passion?          |
+| **Offer Stack**                           | High conversions come from irresistible offers, not clever CSS.                    | Use the Value Equation (Dream Outcome – Perceived Likelihood – Time – Effort & Sacrifice). Add scarcity, urgency, bonus, guarantee.                                                  |
+| **Core Proof Assets**                     | Doubt kills action; proof kills doubt.                                             | Collect 3 tiers: authority logos (meta ads, Shopify, Klaviyo), case-study snippets, quantified outcomes (e.g., “+38 % CR uplift in 28 days”). Cialdini’s “Social Proof & Authority.” |
+| **Brand Voice Grid**                      | Prevents Frankenstein copy when more people touch the page.                        | 3 words you _are_ (e.g., “Analytical, Candid, Challenger”) and 3 you’re _not_ (“Corporate, Hipster, Snarky”). Keep it beside every copy block.                                       |
+
+> **Challenge** – Can you state your whole offer in 12 words, _without_ a buzzword? If not, keep sharpening.
+
+---
+#### 2. Structure – wireframe anatomy (desktop & mobile)
+
+1. **Hero (above the fold)**
+    
+    - Hook headline: Make Noise. Stay Zentric. ('Stay Zentric.' in contrast gradient color)
+        
+    - Supporting visual: dashboard mockup that shows 
+        
+    - CTA button #1 – glassmorphism, contrasting color, specific ("Book a FREE Discovery Call”), repeat in sticky header.
+        
+2. **Credibility bar**
+    
+    - Authority logos or count (“Trusted by 20+ DTC brands globally”).
+        
+3. **Problem → Agitation → Solution slab**
+        
+4. **Offer stack panel**
+
+Acquisition -> Conversion -> Retention
+
+CTA: Book a FREE Discovery Call
+    
+    - Table or cards for core service + bonuses + guarantee.
+        
+    - No prices
+        
+5. **Social proof wall**
+    
+    - carousel of telegram and whatsapp screenshots, star ratings.
+        
+6. **Process / Timeline**
+    
+    - 3-step simple graphic (Never >5 steps) – lowers perceived effort.
+	    - Discovery Call: Initial conversaion
+	    - Engine Check: audit of creatives, campaigns and store
+	    - Engine Boost: implementation
+	- in less than 2 weeks
+        
+7. **Risk Reversal**
+    
+    - Guarantee or out-clause (“only set up fee, if not positive roas, we optimise for free”).
+
+8. Comparison Table to Conventional Agencies
+        
+9. **Final CTA section**
+    
+    - Repeat promise, explain what happens next, set clear expectation urgency, CTA #2. Link to Calendly to book Discovery Call
+        
+10. **Footer essentials**
+    
+    - Trust badges, contact, tiny legal. No outbound distractions.
+        
+
+---
+
+#### 3. Substance – copy & visuals
+
+|Element|Copy rules|Visual rules|
+|---|---|---|
+|Headlines|1 idea per line, active voice, <80 characters. Test benefit vs. pain-lead.|Large, left-aligned, plenty of whitespace.|
+|Body|Bullets beat paragraphs, verbs beat nouns. Mirror customer language (mine chat logs, reviews).|Keep max 65 characters/line for readability.|
+|CTAs|Start with verbs. Frame gain (“See Growth Plan”) not task (“Submit”).|High-contrast fill, ample padding, micro-animation on hover.|
+|Imagery|Show product in use or evidence of result. Faces build trust (Influence – Liking).|Use your brand palette, one accent color for actions, consistent photography style.|
+|Motion|Subtle (“slide-up” on section reveal). Anything gratuitous kills load time and conversions.|Keep < 2 MB total for fastest first contentful paint.|
+
+---
+
+#### 4. Technical spec for the dev
+
+- **Performance**: Load ≤ 2 s on 4G (use Lighthouse 90+). Lazy-load images, minify CSS/JS, pre-connect fonts.
+    
+- **Responsive grid**: Flexbox / CSS grid, breakpoint @ 768 px, touch-friendly buttons.
+    
+- **Accessibility**: WCAG 2.1 AA, alt-tags, color contrast.
+    
+- **Analytics hooks**: GTM container, GA4 events on CTA clicks, scroll-depth, form submits.
+    
+- **A/B framework**: Simple query-string variant switch or integrated tool (e.g., VWO).
+    
+- **SEO hygiene**: H-tag hierarchy, meta title ≤ 60 chars, og:image, JSON-LD org schema.
+    
+- **CMS or static**: If copy testing often, recommend headless CMS (e.g., Sanity) → Next.js front end.
+    
