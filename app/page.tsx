@@ -9,6 +9,7 @@ import ProofWall from './components/sections/ProofWall';
 import ProcessTimeline from './components/sections/ProcessTimeline';
 import HowWeOperate from './components/sections/HowWeOperate';
 import ComparisonSection from './components/sections/ComparisonSection';
+import CaseStudies from './components/sections/CaseStudies';
 import RiskReversal from './components/sections/RiskReversal';
 import FinalCta from './components/sections/FinalCta';
 import Footer from './components/sections/Footer';
@@ -40,6 +41,7 @@ export default function Home() {
       <ProcessTimeline />
       <HowWeOperate />
       <ComparisonSection />
+      <CaseStudies />
       <RiskReversal />
       <FinalCta />
       <Footer />
