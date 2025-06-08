@@ -7,6 +7,7 @@ import PasSlab from './components/sections/PasSlab';
 import OfferStack from './components/sections/OfferStack';
 import ProofWall from './components/sections/ProofWall';
 import ProcessTimeline from './components/sections/ProcessTimeline';
+import HowWeOperate from './components/sections/HowWeOperate';
 import ComparisonSection from './components/sections/ComparisonSection';
 import RiskReversal from './components/sections/RiskReversal';
 import FinalCta from './components/sections/FinalCta';
@@ -37,6 +38,7 @@ export default function Home() {
       <OfferStack />
       <ProofWall />
       <ProcessTimeline />
+      <HowWeOperate />
       <ComparisonSection />
       <RiskReversal />
       <FinalCta />
