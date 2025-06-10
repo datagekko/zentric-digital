@@ -22,18 +22,20 @@ const HowWeOperate = () => {
   };
 
   const doneForYouItems = [
-    "We create the strategy",
-    "We create the campaigns",
-    "We collect data & optimise",
-    "We scale to unseen heights",
-    "We deliver a breathtaking ROI",
-    "We take care of everything. A-Z"
+    "Predictable net-new revenue (minimum 3× blended ROAS in 90 days)",
+    "Meta & TikTok paid media campaigns with zero setup fee",
+    "On-site copy, layout and offer-sequencing optimization",
+    "Senior operators run growth end-to-end — no account manager hand-offs",
+    "AI-powered creative pipeline for rapid ad variants",
+    "Weekly performance reviews and optimization"
   ];
 
   const doneWithYouItems = [
-    "For businesses that need consulting.",
-    "In conjunction with your team, Lasse will construct a premium advertising campaign, and instruct you on how to scale and maintain it in the future.",
-    "Gives your team great insight into the mechanics of profitable social media advertising, from someone who does it successfully on a daily basis."
+    "4-hour response SLA on WhatsApp Business / Microsoft Teams",
+    "Quarterly Zentric Review of performance, CRO roadmap and creative themes",
+    "First-party dashboard with real-time spend, revenue, ROAS metrics",
+    "Performance guarantees with creative SLA and 3× ROAS pledge",
+    "No lock-in exit after 90 days with full creative and data ownership"
   ];
 
   return (
@@ -46,9 +48,12 @@ const HowWeOperate = () => {
           className="space-y-16"
         >
           <motion.div variants={fadeUp} className="text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
               How We Operate
             </h2>
+            <p className="text-white/80 text-lg max-w-3xl mx-auto">
+              Precision-Driven Growth Engine: Paid Acquisition + Conversion-Rate Optimisation for Lifestyle Brands
+            </p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -96,11 +101,10 @@ const HowWeOperate = () => {
           <motion.div variants={fadeUp} className="mt-16">
             <div className="bg-white/5 p-8 rounded-2xl border border-white/10">
               <h3 className="text-2xl font-bold mb-6">
-                Build A Bullet Proof Sales Channel
+                Progressive Revenue-Share Model
               </h3>
               <p className="text-white/80 text-lg mb-8">
-                Take the guess work out of sales. Our team will help you create consistent sales 
-                for your brand, so you can focus on other things.
+                We only win when you win. Our pricing scales with your success, with progressive tiers based on revenue performance.
               </p>
               <div className="flex justify-center">
                 <a 

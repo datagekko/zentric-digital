@@ -2,16 +2,12 @@
 
 import { useEffect } from 'react';
 import HeroSection from './components/sections/HeroSection';
-import CredibilityBar from './components/sections/CredibilityBar';
 import PasSlab from './components/sections/PasSlab';
 import OfferStack from './components/sections/OfferStack';
 import ProofWall from './components/sections/ProofWall';
 import ProcessTimeline from './components/sections/ProcessTimeline';
 import HowWeOperate from './components/sections/HowWeOperate';
-import ComparisonSection from './components/sections/ComparisonSection';
-import CaseStudies from './components/sections/CaseStudies';
-import RiskReversal from './components/sections/RiskReversal';
-import FinalCta from './components/sections/FinalCta';
+import RiskFreeCta from './components/sections/RiskFreeCta';
 import Footer from './components/sections/Footer';
 
 export default function Home() {
@@ -34,16 +30,12 @@ export default function Home() {
   return (
     <main className="overflow-x-hidden">
       <HeroSection />
-      <CredibilityBar />
       <PasSlab />
       <OfferStack />
       <ProofWall />
       <ProcessTimeline />
       <HowWeOperate />
-      <ComparisonSection />
-      <CaseStudies />
-      <RiskReversal />
-      <FinalCta />
+      <RiskFreeCta />
       <Footer />
     </main>
   );

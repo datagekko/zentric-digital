@@ -63,7 +63,7 @@ const HeroSection = () => {
           {/* Left column: Text content */}
           <div className="space-y-8">
             <motion.div variants={fadeUp} className="">
-              <p className="text-iris-purple font-medium tracking-wider uppercase text-sm">Ecommerce Growth Agency</p>
+              <p className="text-iris-purple font-medium tracking-wider uppercase text-sm">Digital Growth Agency</p>
             </motion.div>
 
             <motion.h1 
@@ -78,7 +78,7 @@ const HeroSection = () => {
               variants={fadeUp} 
               className="text-xl md:text-2xl text-deep-navy/80 max-w-3xl"
             >
-              Transform under-performing funnels into compounding profit engines in 30 days — or you don't pay. Powering DTC brands through CRO, Meta Ads, and Lifecycle Email.
+              Transform underperforming funnels into profit machines in just 30 days. No fluff, no false promises - just real, measurable results. We help e-commerce businesses scale rapidly with high-converting Meta Ads and proven CRO strategies.
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-col md:flex-row gap-6 pt-4">

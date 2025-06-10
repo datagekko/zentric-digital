@@ -3,9 +3,133 @@ description:
 globs: 
 alwaysApply: false
 ---
-### Your landing-page “bill of materials”
+### Zentric Digital Landing Page Content Structure
 
-Below is everything you need to build a **visually striking, on-brand page that prints leads instead of bounce-rates**. I’ve grouped it by **Strategy → Structure → Substance**, then added a one-page checklist you can copy-paste into the brief.
+Below is the current structure and content of the Zentric Digital landing page, organized by sections in the order they appear.
+
+---
+
+#### 1. Page Structure Overview
+
+The landing page consists of the following main sections in this order:
+1. Hero Section
+2. Problem-Agitation-Solution (PAS) Slab
+3. Offer Stack
+4. Proof Wall (Testimonials)
+5. Process Timeline
+6. How We Operate
+7. Risk-Free CTA (Combined risk reversal and call-to-action)
+8. Footer
+
+---
+
+#### 2. Section Details
+
+##### 1. Hero Section (HeroSection.tsx)
+- Main headline: "Make Noise. Stay Zentric."
+- Supporting copy about digital growth services
+- Primary CTA button: "Book a FREE Discovery Call"
+- Visual: Dashboard mockup showing client results
+
+##### 2. Problem-Agitation-Solution (PasSlab.tsx)
+- Outlines key pain points for target customers
+- Agitates these problems by describing consequences
+- Presents Zentric's approach as the solution
+- Uses a visually distinctive layout with problem→solution framing
+
+##### 3. Offer Stack (OfferStack.tsx)
+- Details the core service offering
+- Lists included services and deliverables
+- Presents bonuses and value-adds
+- No pricing information (leads to discovery call)
+- CTA: "Book a FREE Discovery Call"
+
+##### 4. Proof Wall (ProofWall.tsx)
+- Social proof section with testimonials
+- Client success metrics and results
+- Screenshots of client messages/feedback
+- Trust indicators and credibility elements
+
+##### 5. Process Timeline (ProcessTimeline.tsx)
+- Visual timeline showing the client journey
+- Three main steps:
+  1. Discovery Call: Initial conversation
+  2. Engine Check: Audit of creatives, campaigns, and store
+  3. Engine Boost: Implementation
+- Timeline indicates completion in less than 2 weeks
+- Uses Zentric's branded design elements
+
+##### 6. How We Operate (HowWeOperate.tsx)
+- Explains Zentric's approach and methodology
+- Comparison with conventional agencies
+- Highlights key differentiators and advantages
+- Uses clean, information-focused design
+
+##### 7. Risk-Free CTA (RiskFreeCta.tsx)
+- **Combined section** that merges risk reversal and final CTA
+- Two-column layout:
+  - Left: Risk-Free Guarantee
+    - "Zero-Risk Guarantee" with 30-day "No Results, No Fee" policy
+    - List of guarantee benefits with mint green checkmarks
+    - Clear explanation of risk reversal terms
+  - Right: Call-to-Action
+    - Headline: "Ready to Scale Your Brand Profitably?"
+    - Scarcity messaging: "Only 5 Spots Left"
+    - Information about the discovery call process
+    - Prominent "Apply Now" button
+    - Response time indicator
+- Uses deep navy background with glass card design elements
+- Maintains brand color scheme with iris purple and mint green accents
+
+##### 8. Footer (Footer.tsx)
+- Contact information
+- Social media links
+- Legal information and disclaimers
+- Brand logo and copyright
+
+---
+
+#### 3. Design Elements
+
+- **Color Scheme**: Follows the Zentric brand guidelines with:
+  - Iris Purple (#635BFF) - Primary CTA buttons & links
+  - Mint Green (#53DD6C) - Secondary CTA & success states
+  - Nordic Ivory (#F5F0EA) - Light background
+  - Onyx (#262627) - Base dark background
+  - Deep Navy (#0A2540) - Alternate dark sections/cards
+
+- **Typography**:
+  - Headings: Inter Bold/Extra Bold
+  - Body: Inter Regular
+  - KPI numbers: SF Mono
+  - Maintains proper hierarchy and spacing
+
+- **UI Components**:
+  - Glass card effects for key elements
+  - Gradient backgrounds for visual interest
+  - Rounded corners (24px radius) for cards
+  - Consistent button styling across the site
+  - Subtle animations on scroll and interaction
+
+- **Responsive Behavior**:
+  - Adapts from desktop to mobile layouts
+  - Maintains readability and functionality across devices
+  - Adjusts spacing and typography for smaller screens
+
+---
+
+#### 4. Technical Implementation
+
+- Built with Next.js (App Router)
+- Styled with Tailwind CSS (custom theme extends Zentric colors)
+- Animations implemented with Framer Motion
+- Analytics: Scroll depth tracking with hooks for GTM/GA4
+- Responsive design with mobile-first approach
+- Accessibility considerations for colors and contrast
+
+### Your landing-page "bill of materials"
+
+Below is everything you need to build a **visually striking, on-brand page that prints leads instead of bounce-rates**. I've grouped it by **Strategy → Structure → Substance**, then added a one-page checklist you can copy-paste into the brief.
 
 ---
 
@@ -13,11 +137,11 @@ Below is everything you need to build a **visually striking, on-brand page that 
 
 | What                                      | Why it matters                                                                     | How to get it (books & models)                                                                                                                                                       |
 | ----------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **ICP Snapshot** (Ideal Customer Profile) | Copy converts when it _mirrors_ the reader.                                        | Do the “Starving Crowd” exercise from _$100M Offers_ – pains, desired end-state, and purchasing power.                                                                               |
-| **One-Sentence Promise**                  | Visitors give you ≈ 5 sec. Your promise is the only thing they’ll definitely read. | “So good it feels stupid to say no” framing (Hormozi). Force your UVP into the _Hedgehog_ three-circles test: (1) Best-in-world at? (2) Fuels economic engine? (3) Passion?          |
+| **ICP Snapshot** (Ideal Customer Profile) | Copy converts when it _mirrors_ the reader.                                        | Do the "Starving Crowd" exercise from _$100M Offers_ – pains, desired end-state, and purchasing power.                                                                               |
+| **One-Sentence Promise**                  | Visitors give you ≈ 5 sec. Your promise is the only thing they'll definitely read. | "So good it feels stupid to say no" framing (Hormozi). Force your UVP into the _Hedgehog_ three-circles test: (1) Best-in-world at? (2) Fuels economic engine? (3) Passion?          |
 | **Offer Stack**                           | High conversions come from irresistible offers, not clever CSS.                    | Use the Value Equation (Dream Outcome – Perceived Likelihood – Time – Effort & Sacrifice). Add scarcity, urgency, bonus, guarantee.                                                  |
-| **Core Proof Assets**                     | Doubt kills action; proof kills doubt.                                             | Collect 3 tiers: authority logos (meta ads, Shopify, Klaviyo), case-study snippets, quantified outcomes (e.g., “+38 % CR uplift in 28 days”). Cialdini’s “Social Proof & Authority.” |
-| **Brand Voice Grid**                      | Prevents Frankenstein copy when more people touch the page.                        | 3 words you _are_ (e.g., “Analytical, Candid, Challenger”) and 3 you’re _not_ (“Corporate, Hipster, Snarky”). Keep it beside every copy block.                                       |
+| **Core Proof Assets**                     | Doubt kills action; proof kills doubt.                                             | Collect 3 tiers: authority logos (meta ads, Shopify, Klaviyo), case-study snippets, quantified outcomes (e.g., "+38 % CR uplift in 28 days"). Cialdini's "Social Proof & Authority." |
+| **Brand Voice Grid**                      | Prevents Frankenstein copy when more people touch the page.                        | 3 words you _are_ (e.g., "Analytical, Candid, Challenger") and 3 you're _not_ ("Corporate, Hipster, Snarky"). Keep it beside every copy block.                                       |
 
 > **Challenge** – Can you state your whole offer in 12 words, _without_ a buzzword? If not, keep sharpening.
 
@@ -30,17 +154,15 @@ Below is everything you need to build a **visually striking, on-brand page that 
         
     - Supporting visual: dashboard mockup that shows 
         
-    - CTA button #1 – glassmorphism, contrasting color, specific ("Book a FREE Discovery Call”), repeat in sticky header.
+    - CTA button #1 – glassmorphism, contrasting color, specific ("Book a FREE Discovery Call"), repeat in sticky header.
         
 2. **Credibility bar**
     
-    - Authority logos or count (“Trusted by 20+ DTC brands globally”).
+    - Authority logos or count ("Trusted by 20+ DTC brands globally").
         
 3. **Problem → Agitation → Solution slab**
         
 4. **Offer stack panel**
-
-Acquisition -> Conversion -> Retention
 
 CTA: Book a FREE Discovery Call
     
@@ -62,7 +184,7 @@ CTA: Book a FREE Discovery Call
         
 7. **Risk Reversal**
     
-    - Guarantee or out-clause (“only set up fee, if not positive roas, we optimise for free”).
+    - Guarantee or out-clause ("only set up fee, if not positive roas, we optimise for free").
 
 8. Comparison Table to Conventional Agencies
         
@@ -83,9 +205,9 @@ CTA: Book a FREE Discovery Call
 |---|---|---|
 |Headlines|1 idea per line, active voice, <80 characters. Test benefit vs. pain-lead.|Large, left-aligned, plenty of whitespace.|
 |Body|Bullets beat paragraphs, verbs beat nouns. Mirror customer language (mine chat logs, reviews).|Keep max 65 characters/line for readability.|
-|CTAs|Start with verbs. Frame gain (“See Growth Plan”) not task (“Submit”).|High-contrast fill, ample padding, micro-animation on hover.|
+|CTAs|Start with verbs. Frame gain ("See Growth Plan") not task ("Submit").|High-contrast fill, ample padding, micro-animation on hover.|
 |Imagery|Show product in use or evidence of result. Faces build trust (Influence – Liking).|Use your brand palette, one accent color for actions, consistent photography style.|
-|Motion|Subtle (“slide-up” on section reveal). Anything gratuitous kills load time and conversions.|Keep < 2 MB total for fastest first contentful paint.|
+|Motion|Subtle ("slide-up" on section reveal). Anything gratuitous kills load time and conversions.|Keep < 2 MB total for fastest first contentful paint.|
 
 ---
 
