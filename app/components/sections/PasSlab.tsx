@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
@@ -24,20 +25,43 @@ const PasSlab = () => {
   const problems = [
     {
       title: "Eroding ROAS",
-      description: "Ad costs climbing while conversion rates flatline—it's not the platform, it's your funnel.",
+      description: "Watching ad costs climb 30% while conversion rates plummet? Your ROAS is eroding faster than agencies can explain it away.",
     },
     {
-      title: "One-Shot Buyers",
-      description: "85% of customers buy once and vanish. Your data shows why, but agencies ignore it.",
+      title: "Agency Bloat",
+      description: "Tired of explaining your business to a new account manager every month? Agency bloat means you pay for layers, not results.",
     },
     {
-      title: "Acquisition Addiction",
-      description: "Burning cash acquiring customers while ignoring the ones you already converted.",
+      title: "Zero Accountability",
+      description: "Stuck in contracts while performance tanks? Traditional agencies collect the same fee whether you profit or not.",
+    }
+  ];
+
+  const comparisonPoints = [
+    {
+      traditional: "Monthly retainer regardless of results",
+      zentric: "Performance-based fee structure"
+    },
+    {
+      traditional: "Quarterly campaign reviews",
+      zentric: "Weekly 30-min online meetings"
+    },
+    {
+      traditional: "Siloed teams (creative, ads, email)",
+      zentric: "Founder-level strategists + AI creative engine"
+    },
+    {
+      traditional: "Basic A/B testing (if any)",
+      zentric: "Rapid CRO sprints for copy, layout, and offers"
+    },
+    {
+      traditional: '3-6 month "ramp-up" period',
+      zentric: "3× blended ROAS in 90 days guarantee"
     }
   ];
 
   return (
-    <section className="py-20 bg-nordic-ivory relative">
+    <section className="py-20 bg-deep-navy text-white relative">
       {/* Background pattern */}
       <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-5 z-0"></div>
       
@@ -50,94 +74,83 @@ const PasSlab = () => {
         >
           {/* Problem Section */}
           <motion.div variants={fadeUp}>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-16 text-center">
-              Ecommerce brands face 3 universal challenges...
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-16 text-center text-white">
+              Lifestyle brands face 3 universal challenges...
             </h2>
             
             <div className="grid md:grid-cols-3 gap-8">
               {problems.map((problem, index) => (
                 <div 
                   key={index}
-                  className="bg-white p-8 rounded-2xl shadow-sm border border-deep-navy/5 flex flex-col"
+                  className="bg-white/10 p-8 rounded-2xl border border-white/5 backdrop-blur-sm flex flex-col"
                 >
                   <div className="kpi-text text-iris-purple mb-2">0{index + 1}</div>
-                  <h3 className="text-xl font-bold mb-3">{problem.title}</h3>
-                  <p className="text-deep-navy/70">{problem.description}</p>
+                  <h3 className="text-xl font-bold mb-3 text-white">{problem.title}</h3>
+                  <p className="text-white/80">{problem.description}</p>
                 </div>
               ))}
             </div>
           </motion.div>
 
-          {/* Agitation Section */}
-          <motion.div variants={fadeUp} className="bg-deep-navy text-white p-8 md:p-12 rounded-3xl">
-            <div className="max-w-3xl mx-auto">
-              <h3 className="text-2xl md:text-3xl font-semibold mb-6">
-                Meanwhile, traditional agencies are...
-              </h3>
-              
-              <div className="space-y-6">
-                <div className="flex gap-4 items-start">
-                  <div className="w-6 h-6 rounded-full bg-iris-purple/20 flex items-center justify-center mt-1">
-                    <span className="text-sm text-mint-green">✗</span>
-                  </div>
-                  <p className="text-white/90">Charging retainers regardless of results</p>
-                </div>
-                
-                <div className="flex gap-4 items-start">
-                  <div className="w-6 h-6 rounded-full bg-iris-purple/20 flex items-center justify-center mt-1">
-                    <span className="text-sm text-mint-green">✗</span>
-                  </div>
-                  <p className="text-white/90">Using vanity metrics to hide declining performance</p>
-                </div>
-                
-                <div className="flex gap-4 items-start">
-                  <div className="w-6 h-6 rounded-full bg-iris-purple/20 flex items-center justify-center mt-1">
-                    <span className="text-sm text-mint-green">✗</span>
-                  </div>
-                  <p className="text-white/90">Taking 30+ days to implement simple campaign tweaks</p>
-                </div>
-                
-                <div className="mt-8 p-6 bg-white/5 rounded-xl border border-white/10">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <span className="text-white/50 text-sm uppercase">Industry Average</span>
-                      <div className="text-2xl font-bold text-white">1.8x ROAS</div>
-                    </div>
-                    <div className="h-10 w-px bg-white/10"></div>
-                    <div>
-                      <span className="text-mint-green text-sm uppercase">Zentric Clients</span>
-                      <div className="text-2xl font-bold text-mint-green">4.2x ROAS</div>
-                    </div>
-                  </div>
-                </div>
+          {/* Comparison Table */}
+          <motion.div variants={fadeUp} className="overflow-hidden rounded-2xl">
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              {/* Headers */}
+              <div className="bg-white/10 p-6 border-b border-white/10">
+                <h3 className="text-xl font-bold text-white/80">Traditional Agency</h3>
               </div>
+              <div className="bg-iris-purple p-6 border-b border-iris-purple/30">
+                <h3 className="text-xl font-bold">Precision-Driven Growth Engine</h3>
+              </div>
+              
+              {/* Comparison Rows */}
+              {comparisonPoints.map((point, index) => (
+                <React.Fragment key={index}>
+                  <div className={`p-6 ${index % 2 === 0 ? 'bg-white/5' : 'bg-transparent'} flex items-center`}>
+                    <div className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center mt-0.5">
+                        <span className="text-xs text-red-500">✗</span>
+                      </div>
+                      <span className="text-white/80">{point.traditional}</span>
+                    </div>
+                  </div>
+                  <div className={`p-6 ${index % 2 === 0 ? 'bg-iris-purple/20' : 'bg-transparent'} flex items-center`}>
+                    <div className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-mint-green/20 flex items-center justify-center mt-0.5">
+                        <span className="text-xs text-mint-green">✓</span>
+                      </div>
+                      <span className="text-white">{point.zentric}</span>
+                    </div>
+                  </div>
+                </React.Fragment>
+              ))}
             </div>
           </motion.div>
 
-          {/* Solution Section */}
-          <motion.div variants={fadeUp} className="max-w-3xl mx-auto text-center">
-            <h3 className="text-2xl md:text-3xl font-semibold mb-6">
-              The Zentric Difference
-            </h3>
-            
-            <p className="text-lg md:text-xl text-deep-navy/80 mb-8">
-              We approach ecommerce growth as a data engineering problem, not a creative guessing game. Our system integrates CRO, Meta Ads, and Lifecycle Email through one cohesive strategy—converting your traffic into scalable profit.
-            </p>
-            
-            <div className="grid md:grid-cols-3 gap-6 text-left">
-              <div className="p-5 bg-nordic-ivory border border-mint-green/20 rounded-xl">
-                <div className="text-mint-green font-semibold">CRO</div>
-                <p className="text-sm text-deep-navy/70">Data-driven UI/UX optimizations that lift conversion rates by avg. 37%</p>
+          {/* Key Advantage */}
+          <motion.div variants={fadeUp} className="bg-white/5 p-8 rounded-2xl border border-white/10">
+            <div className="flex flex-col md:flex-row gap-8 items-center">
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold mb-4 text-white">Your Key Advantage</h3>
+                <p className="text-white/80 mb-6">
+                  With Zentric.digital, you're not just buying services—you're partnering with a team that's financially incentivized to maximize your success. If we don't lift your blended ROAS in 60 days, you stop paying until we do.
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-mint-green/10 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green">
+                      <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-white">Aligned Incentives</div>
+                    <div className="text-white/60 text-sm">Pay for performance, not promises</div>
+                  </div>
+                </div>
               </div>
-              
-              <div className="p-5 bg-nordic-ivory border border-iris-purple/20 rounded-xl">
-                <div className="text-iris-purple font-semibold">Meta Ads</div>
-                <p className="text-sm text-deep-navy/70">Rapid testing with AI-driven creative and audience analysis</p>
-              </div>
-              
-              <div className="p-5 bg-nordic-ivory border border-deep-navy/20 rounded-xl">
-                <div className="text-deep-navy font-semibold">Lifecycle Email</div>
-                <p className="text-sm text-deep-navy/70">Behavior-triggered campaigns that convert 1-time buyers into loyal customers</p>
+              <div className="md:w-1/3 bg-iris-purple/20 rounded-xl p-6 text-center">
+                <div className="text-xs text-white/60 uppercase tracking-wider mb-2">MINIMUM ROAS GUARANTEE</div>
+                <div className="text-5xl font-bold text-mint-green mb-2">3×</div>
+                <div className="text-white/70">In 90 days or you don't pay</div>
               </div>
             </div>
           </motion.div>
