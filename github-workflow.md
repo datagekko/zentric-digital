@@ -1,0 +1,69 @@
+# Zentric Digital GitHub Workflow
+
+This document outlines the workflow for managing and publishing the Zentric Digital landing page on GitHub.
+
+## Repository Setup
+
+```bash
+git init
+git add .
+git commit -m "Initial commit: Project structure and branding setup"
+git remote add origin https://github.com/dategekko/zentric-digital.git
+git push -u origin main
+```
+
+## Branching Strategy
+
+- `main`: Production-ready code
+- `develop`: Ongoing development and integration
+- Feature branches: Created from `develop` for specific implementations
+- Example: `feat/hero-section`, `feat/responsiveness`, `fix/cta-button`
+- Use descriptive branch names and meaningful commit messages
+
+## Branch Workflow
+
+```bash
+# Create a new feature branch from develop
+git checkout develop
+git pull
+git checkout -b feat/new-feature
+
+# Make changes, then commit
+git add .
+git commit -m "Descriptive message about changes"
+
+# Push branch and create PR to develop
+git push -u origin feat/new-feature
+# Create PR through GitHub interface
+```
+
+## Security Best Practices
+
+- All `.env*` files are in .gitignore
+- No API keys or sensitive data in code
+- Store sensitive configuration in Vercel environment variables
+
+## Deployment Process
+
+1. Connect GitHub repository to Vercel
+2. Configure custom domain (zentric.digital)
+3. Set up automatic deployments from `main` branch
+4. Use preview deployments for PRs (Vercel feature)
+
+## Documentation Requirements
+
+The README.md should include:
+- Project overview
+- Setup instructions
+- Deployment process
+- Content management guidance
+- Brand guideline references
+
+## Pull Request Template
+
+PRs should include:
+- Description of changes
+- Screenshots (for visual changes)
+- Testing steps
+- Any related issues
+- Checklist of completed items 
