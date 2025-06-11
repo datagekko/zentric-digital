@@ -28,7 +28,19 @@ jobs:
       
     - name: Build
       run: npm run build
-      
+
+
+    - name: Run Lighthouse CI
+      run: npx -y @lhci/cli autorun
+
+    - name: Run aXe accessibility tests
+      run: |
+        npm start &
+        SERVER_PID=$!
+        npx wait-on http://localhost:3000
+        npx -y @axe-core/cli http://localhost:3000 --exit
+        kill $SERVER_PID
+
     - name: Lint
       run: npm run lint
       
