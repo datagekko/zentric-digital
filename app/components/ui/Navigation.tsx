@@ -182,12 +182,16 @@ const Navigation = () => {
         
         {/* CTA Button with improved hover effect */}
         <div className="hidden md:block">
-          <button 
+          <motion.button 
             onClick={openLeadForm}
-            className="py-3 px-8 text-white font-semibold rounded-full relative z-10 bg-gradient-to-r from-[#635BFF] to-[#7A6CFF]"
+            variants={ctaButtonVariants}
+            initial="rest"
+            whileHover="hover"
+            whileTap="tap"
+            className="py-3 px-8 text-white font-semibold rounded-full relative z-10 bg-gradient-to-r from-[#635BFF] to-[#7A6CFF] will-change-transform"
           >
             Book Free Discovery Call
-          </button>
+          </motion.button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -279,15 +283,19 @@ const Navigation = () => {
                 Cases
               </Link>
               <div className="pt-2">
-                <button 
+                <motion.button 
                   onClick={() => {
                     openLeadForm();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="w-full py-3 px-8 text-white font-semibold rounded-full bg-gradient-to-r from-[#635BFF] to-[#7A6CFF]"
+                  variants={ctaButtonVariants}
+                  initial="rest"
+                  whileHover="hover"
+                  whileTap="tap"
+                  className="w-full py-3 px-8 text-white font-semibold rounded-full bg-gradient-to-r from-[#635BFF] to-[#7A6CFF] will-change-transform"
                 >
                   Book Free Discovery Call
-                </button>
+                </motion.button>
               </div>
             </div>
           </motion.div>

@@ -1,0 +1,47 @@
+# Branding Guidelines
+
+## Brand Colors
+Zentric Digital's brand colors are defined in [tailwind.config.js](mdc:tailwind.config.js):
+
+- **iris-purple** - Primary brand color
+- **mint-green** - Secondary brand color
+- **nordic-ivory** - Background color
+- **rich-black** - Text color
+
+## Typography
+- Use appropriate heading sizes (h1, h2, h3) with consistent styling
+- Maintain proper spacing between text elements
+- Ensure readability across all device sizes
+
+## Design Elements
+- Use subtle animations for interactive elements
+- Maintain consistent padding and margins
+- Ensure all CTAs follow the same design pattern
+- Use appropriate imagery that matches the brand aesthetic
+
+## Data Visualization & Metrics
+- Use mint-green for positive metrics and KPIs to draw attention
+- Present KPIs with clear hierarchy: bold, larger numbers with smaller explanatory text
+- Progress bars should use the brand gradient (iris-purple to mint-green)
+- Dashboard elements should use deep-navy background with subtle gradients
+- Maintain consistent spacing between dashboard elements
+
+## Hero Section Design
+- Hero sections should fit within the viewport height (use h-screen)
+- Main headlines should use the brand gradient for emphasis on key phrases
+- CTAs should have whitespace-nowrap to prevent wrapping
+- Keep vertical spacing compact but readable (use space-y-6)
+- Place supporting statements strategically to enhance the primary message
+- Ensure the main value proposition is immediately visible without scrolling
+
+## Card Components
+- Use rounded corners (rounded-3xl) for all cards
+- Apply consistent shadow depth (shadow-sm) for subtle elevation
+- Maintain uniform padding within cards (p-6)
+- For case study cards, use two-column layout with dashboard mockups on desktop
+- Dashboard mockups should follow the pattern documented in timeline-component-rule.mdc
+
+## Accessibility
+- Maintain proper color contrast for text readability
+- Ensure all interactive elements are keyboard accessible
+- Add appropriate alt text for images 
