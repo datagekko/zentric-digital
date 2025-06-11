@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import TypeformPopup from '../ui/TypeformPopup';
+import { useLeadForm } from '../../contexts/LeadFormContext';
 
 // Define a simple SolutionSection component right here to avoid import issues
 const SimpleSolutionSection = () => {
@@ -54,6 +54,7 @@ const SimpleSolutionSection = () => {
 };
 
 const PasSlab = () => {
+  const { openLeadForm } = useLeadForm();
   const [ref, inView] = useInView({
     triggerOnce: false,
     threshold: 0.1,
@@ -330,7 +331,7 @@ const PasSlab = () => {
 
             {/* Mobile CTA to open lead form */}
             <div 
-              onClick={() => setIsPopupOpen(true)}
+              onClick={openLeadForm}
               className="sm:hidden p-4 bg-gradient-to-r from-iris-purple/20 to-mint-green/20 text-center cursor-pointer hover:from-iris-purple/30 hover:to-mint-green/30 transition-all duration-300"
             >
               <div className="w-full py-3 px-4 text-white font-medium text-sm">
@@ -340,7 +341,7 @@ const PasSlab = () => {
             
             {/* Desktop CTA to open lead form */}
             <div 
-              onClick={() => setIsPopupOpen(true)}
+              onClick={openLeadForm}
               className="hidden sm:block p-5 bg-gradient-to-r from-iris-purple/20 to-mint-green/20 text-center border-t border-white/10 cursor-pointer hover:from-iris-purple/30 hover:to-mint-green/30 transition-all duration-300"
             >
               <div className="px-8 py-4 text-white font-medium">
@@ -351,21 +352,6 @@ const PasSlab = () => {
         </motion.div>
       </div>
     </section>
-    
-    {/* Use the simplified solution section */}
-    <SimpleSolutionSection />
-    
-    {/* Typeform Popup */}
-    <TypeformPopup 
-      isOpen={isPopupOpen} 
-      onClose={() => setIsPopupOpen(false)} 
-      onSubmit={(data) => {
-        console.log('Form submitted:', data);
-        // Here you would typically send the data to your backend
-        setIsPopupOpen(false);
-        setIsFormSubmitted(true);
-      }} 
-    />
     </>
   );
 };

@@ -3,8 +3,10 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import CtaButton from '../ui/CtaButton';
+import { useLeadForm } from '../../contexts/LeadFormContext';
 
 const FinalCta = () => {
+  const { openLeadForm } = useLeadForm();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -46,7 +48,7 @@ const FinalCta = () => {
             <div className="flex flex-col md:flex-row items-center gap-6 mb-12">
               <CtaButton 
                 text="Book Free Discovery Call" 
-                onClick={() => console.log('Final CTA clicked')}
+                onClick={openLeadForm}
                 isSecondary={false}
               />
               

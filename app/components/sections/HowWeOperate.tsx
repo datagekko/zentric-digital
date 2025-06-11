@@ -2,8 +2,10 @@
 
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useLeadForm } from '../../contexts/LeadFormContext';
 
 const HowWeOperate = () => {
+  const { openLeadForm } = useLeadForm();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -39,7 +41,7 @@ const HowWeOperate = () => {
   ];
 
   return (
-    <section className="py-20 bg-deep-navy text-white relative overflow-hidden">
+    <section id="process" className="py-20 bg-deep-navy text-white relative overflow-hidden">
       <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-7xl">
         <motion.div
           initial="hidden"
@@ -107,15 +109,15 @@ const HowWeOperate = () => {
                 We only win when you win. Our pricing scales with your success, with progressive tiers based on revenue performance.
               </p>
               <div className="flex justify-center">
-                <a 
-                  href="#" 
+                <button 
+                  onClick={openLeadForm}
                   className="inline-flex items-center px-8 py-3 bg-iris-purple hover:bg-iris-purple-light rounded-full text-white font-medium transition-all"
                 >
                   Book A Free Consultation
                   <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
                   </svg>
-                </a>
+                </button>
               </div>
             </div>
           </motion.div>

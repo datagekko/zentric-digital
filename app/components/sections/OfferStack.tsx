@@ -3,8 +3,10 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import CtaButton from '../ui/CtaButton';
+import { useLeadForm } from '../../contexts/LeadFormContext';
 
 const OfferStack = () => {
+  const { openLeadForm } = useLeadForm();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -174,7 +176,7 @@ const OfferStack = () => {
               <div className="mt-12 text-center">
                 <CtaButton 
                   text="Book Free Discovery Call" 
-                  onClick={() => console.log('Offer CTA clicked')}
+                  onClick={openLeadForm}
                   isSecondary={false}
                 />
                 <p className="mt-4 text-deep-navy/60 text-sm">No obligation. 30-minute fit check call.</p>
