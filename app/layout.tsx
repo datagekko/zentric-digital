@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Zentric Digital - Make Noise. Stay Zentric.',
   description: "Transform under-performing funnels into compounding profit engines in 30 days — or you don't pay. DTC ecommerce growth through CRO, Meta Ads, and Lifecycle Email.",
   keywords: 'ecommerce growth, CRO, conversion rate optimization, Meta ads, DTC brands, lifecycle email',
+  metadataBase: new URL('https://zentric.digital'),
   openGraph: {
     title: 'Zentric Digital - Make Noise. Stay Zentric.',
     description: "Transform under-performing funnels into compounding profit engines in 30 days — or you don't pay.",
