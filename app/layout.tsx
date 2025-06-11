@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { LeadFormProvider } from './contexts/LeadFormContext'
 
 export const metadata: Metadata = {
   title: 'Zentric Digital - Make Noise. Stay Zentric.',
@@ -31,7 +32,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <LeadFormProvider>
+          {children}
+        </LeadFormProvider>
       </body>
     </html>
   )
