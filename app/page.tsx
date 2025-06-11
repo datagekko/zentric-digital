@@ -9,6 +9,7 @@ import ProcessTimeline from './components/sections/ProcessTimeline';
 import HowWeOperate from './components/sections/HowWeOperate';
 import RiskFreeCta from './components/sections/RiskFreeCta';
 import Footer from './components/sections/Footer';
+import { LeadFormProvider } from './contexts/LeadFormContext';
 
 export default function Home() {
   // Track scroll depth for analytics
@@ -28,15 +29,17 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="overflow-x-hidden">
-      <HeroSection />
-      <PasSlab />
-      <OfferStack />
-      <ProofWall />
-      <ProcessTimeline />
-      <HowWeOperate />
-      <RiskFreeCta />
-      <Footer />
-    </main>
+    <LeadFormProvider>
+      <main className="overflow-x-hidden">
+        <HeroSection />
+        <PasSlab />
+        <OfferStack />
+        <ProofWall />
+        <ProcessTimeline />
+        <HowWeOperate />
+        <RiskFreeCta />
+        <Footer />
+      </main>
+    </LeadFormProvider>
   );
 } 
