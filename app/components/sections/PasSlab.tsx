@@ -3,8 +3,55 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import SolutionSection from './SolutionSection';
 import TypeformPopup from '../ui/TypeformPopup';
+
+// Define a simple SolutionSection component right here to avoid import issues
+const SimpleSolutionSection = () => {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.4,
+        ease: [0.16, 1, 0.3, 1]
+      }
+    }
+  };
+
+  return (
+    <section id="solution" className="min-h-screen py-20 bg-onyx text-white relative scroll-mt-24 overflow-hidden flex items-center">
+      <div className="absolute inset-0 bg-gradient-to-br from-iris-purple/20 to-deep-navy z-0"></div>
+      
+      <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-7xl">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          transition={{ staggerChildren: 0.2 }}
+          className="space-y-16"
+        >
+          <motion.div variants={fadeUp} className="text-center">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white">
+              The Zentric Growth Engine
+            </h2>
+            <p className="text-xl text-white max-w-4xl mx-auto">
+              A complete system to drive predictable revenue growth with a guaranteed
+              <span className="font-bold bg-mint-green text-onyx px-2 py-0.5 rounded mx-1 inline-block">
+                3× blended ROAS
+              </span> 
+              in 90 days or you don't pay.
+            </p>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
 
 const PasSlab = () => {
   const [ref, inView] = useInView({
@@ -17,6 +64,9 @@ const PasSlab = () => {
   // State for form popup
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  
+  // Add state to handle the solution section visibility
+  const [showSolutionSection, setShowSolutionSection] = useState(false);
 
   const fadeUp = {
     hidden: { opacity: 0, y: 20 },
@@ -302,9 +352,9 @@ const PasSlab = () => {
       </div>
     </section>
     
-    {/* Import the Solution Section as a separate component */}
-    <SolutionSection />
-
+    {/* Use the simplified solution section */}
+    <SimpleSolutionSection />
+    
     {/* Typeform Popup */}
     <TypeformPopup 
       isOpen={isPopupOpen} 
