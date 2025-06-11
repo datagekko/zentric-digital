@@ -1,5 +1,29 @@
 ---
-description:
+description: Guidelines for building the onboarding timeline and related dashboard mockups.
 globs:
 alwaysApply: false
 ---
+# Timeline Component
+
+The onboarding timeline visually walks prospects through our seven‑step process. Use it whenever a section needs to emphasise speed and clarity of execution.
+
+## Layout
+* Vertical line centred on desktop and aligned left on mobile
+* Steps alternate left and right on larger screens
+* Each step shows a **number**, **title**, short **description** and **duration**
+
+## Animation
+* Fade steps upward with Framer Motion using the `fadeUp` variant
+* Animate the connecting line from top to bottom as the section enters view
+
+## Style
+* Gradient line from **Iris Purple** to **Mint Green**
+* Step numbers use the gradient as text fill
+* Card backgrounds follow the glass style: `bg-deep-navy/50` with `backdrop-blur-sm`
+* Ensure at least AA contrast for text
+
+## Dashboard Mockups
+The dashboard screenshots in each step should be consistent:
+* Rounded corners (`rounded-xl`) and thin border (`border-iris-purple/20`)
+* Full width on mobile, 50% width on desktop
+* Keep the same aspect ratio so the timeline feels uniform

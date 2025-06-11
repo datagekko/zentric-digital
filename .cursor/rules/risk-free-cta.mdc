@@ -1,5 +1,24 @@
 ---
-description:
+description: Rules for the final risk-free call to action section.
 globs:
 alwaysApply: false
 ---
+# Risk-Free CTA
+
+This section combines our guarantee with a direct invitation to book a discovery call. Follow these points when implementing or modifying the component:
+
+## Guarantee Card
+* Summarise the **30‑day no-results, no-fee** promise
+* List key benefits with checkmark icons
+* Use a subtle glass background (`bg-white/10` with `backdrop-blur-sm`)
+
+## CTA Card
+* Headline invites the visitor to "Scale Your Brand Profitably"
+* Emphasise limited availability using `spotsLeft` state
+* Button triggers `openLeadForm` from the context
+* Provide a small reassurance line beneath the button about response time
+
+## Design Notes
+* Section background is a gradient from **Iris Purple** to **Deep Navy**
+* Use matching rounded corners and borders across both cards
+* Ensure text remains readable over the gradient (AA contrast)
