@@ -49,7 +49,7 @@ The landing page follows a structured storytelling approach with these sections:
 
 ### Prerequisites
 
-- Node.js 18+ and npm/yarn
+- Node.js 20+ and npm/yarn
 
 ### Installation
 
