@@ -87,3 +87,7 @@ npm start
 - Brand colors and typography defined in `tailwind.config.js`
 - Component styles follow consistent patterns
 - Section content can be easily modified in respective component files 
+## Static Asset Caching
+
+Static assets with hashed filenames (e.g., `logo.abcd1234.png`) are served with long-term caching. The production server sets `Cache-Control: public, max-age=31536000, immutable` for files under `/_next/static` and any hashed files in `public/`.
+
