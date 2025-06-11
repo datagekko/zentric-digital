@@ -50,10 +50,10 @@ const Navigation = () => {
   }, [isMobileMenuOpen]);
 
   const quickStartSections = [
-    { label: 'Case Studies', href: '#case-studies' },
-    { label: 'Our Approach', href: '#our-approach' },
-    { label: 'Pricing', href: '#pricing' },
-    { label: 'FAQ', href: '#faq' },
+    { label: 'The Challenge', href: '#challenge' },
+    { label: 'Our Solution', href: '#solution' },
+    { label: 'The Zentric Way', href: '#process' },
+    { label: 'Let\'s Talk', href: '#contact' },
   ];
 
   const dropdownVariants = {
@@ -182,16 +182,12 @@ const Navigation = () => {
         
         {/* CTA Button with improved hover effect */}
         <div className="hidden md:block">
-          <motion.button 
+          <button 
             onClick={openLeadForm}
-            variants={ctaButtonVariants}
-            initial="rest"
-            whileHover="hover"
-            whileTap="tap"
-            className="py-3 px-8 text-white font-semibold rounded-full relative z-10 bg-gradient-to-r from-[#635BFF] to-[#7A6CFF] will-change-transform"
+            className="py-3 px-8 text-white font-semibold rounded-full relative z-10 bg-gradient-to-r from-[#635BFF] to-[#7A6CFF]"
           >
             Book Free Discovery Call
-          </motion.button>
+          </button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -283,19 +279,15 @@ const Navigation = () => {
                 Cases
               </Link>
               <div className="pt-2">
-                <motion.button 
+                <button 
                   onClick={() => {
                     openLeadForm();
                     setIsMobileMenuOpen(false);
                   }}
-                  variants={ctaButtonVariants}
-                  initial="rest"
-                  whileHover="hover"
-                  whileTap="tap"
-                  className="w-full py-3 px-8 text-white font-semibold rounded-full bg-gradient-to-r from-[#635BFF] to-[#7A6CFF] will-change-transform"
+                  className="w-full py-3 px-8 text-white font-semibold rounded-full bg-gradient-to-r from-[#635BFF] to-[#7A6CFF]"
                 >
                   Book Free Discovery Call
-                </motion.button>
+                </button>
               </div>
             </div>
           </motion.div>

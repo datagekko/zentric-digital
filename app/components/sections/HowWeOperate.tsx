@@ -39,7 +39,7 @@ const HowWeOperate = () => {
   ];
 
   return (
-    <section className="py-20 bg-deep-navy text-white relative overflow-hidden">
+    <section id="process" className="py-20 bg-deep-navy text-white relative overflow-hidden">
       <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-7xl">
         <motion.div
           initial="hidden"
