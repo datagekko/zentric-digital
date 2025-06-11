@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import SolutionSection from '../sections/SolutionSection';
+import SolutionSection from './SolutionSection';
 import TypeformPopup from '../ui/TypeformPopup';
 
 const PasSlab = () => {
