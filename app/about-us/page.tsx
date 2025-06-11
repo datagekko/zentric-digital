@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Footer from '../components/sections/Footer';
 import Navigation from '../components/ui/Navigation';
+import Image from 'next/image';
 import { useLeadForm } from '../contexts/LeadFormContext';
 
 export default function AboutUs() {
@@ -34,9 +35,13 @@ export default function AboutUs() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* Team Member 1 */}
               <div className="flex flex-col items-center text-center">
-                <div className="w-40 h-40 bg-iris-purple/10 rounded-full mb-4 overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-iris-purple/20 to-mint-green/20"></div>
-                </div>
+              <Image
+                src="/images/sarah-chen.svg"
+                alt="Photo of Sarah Chen"
+                width={160}
+                height={160}
+                className="w-40 h-40 rounded-full mb-4 object-cover"
+              />
                 <h3 className="text-xl font-semibold mb-1">Sarah Chen</h3>
                 <p className="text-iris-purple mb-3">Founder & CEO</p>
                 <p className="text-onyx/70 text-sm">Ex-Facebook ads strategist with 7+ years experience scaling e-commerce brands from 6 to 8 figures.</p>
@@ -44,9 +49,13 @@ export default function AboutUs() {
               
               {/* Team Member 2 */}
               <div className="flex flex-col items-center text-center">
-                <div className="w-40 h-40 bg-iris-purple/10 rounded-full mb-4 overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-iris-purple/20 to-mint-green/20"></div>
-                </div>
+              <Image
+                src="/images/marcus-johnson.svg"
+                alt="Photo of Marcus Johnson"
+                width={160}
+                height={160}
+                className="w-40 h-40 rounded-full mb-4 object-cover"
+              />
                 <h3 className="text-xl font-semibold mb-1">Marcus Johnson</h3>
                 <p className="text-iris-purple mb-3">Head of Media Buying</p>
                 <p className="text-onyx/70 text-sm">Managed $15M+ in ad spend with an average ROAS of 4.2x across diverse e-commerce verticals.</p>
@@ -54,9 +63,13 @@ export default function AboutUs() {
               
               {/* Team Member 3 */}
               <div className="flex flex-col items-center text-center">
-                <div className="w-40 h-40 bg-iris-purple/10 rounded-full mb-4 overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-iris-purple/20 to-mint-green/20"></div>
-                </div>
+              <Image
+                src="/images/elena-rodriguez.svg"
+                alt="Photo of Elena Rodriguez"
+                width={160}
+                height={160}
+                className="w-40 h-40 rounded-full mb-4 object-cover"
+              />
                 <h3 className="text-xl font-semibold mb-1">Elena Rodriguez</h3>
                 <p className="text-iris-purple mb-3">Creative Director</p>
                 <p className="text-onyx/70 text-sm">Award-winning designer specializing in high-conversion ad creative and landing page optimization.</p>

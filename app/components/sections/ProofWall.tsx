@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import Image from 'next/image';
 
 const ProofWall = () => {
   const [ref, inView] = useInView({
@@ -88,7 +89,13 @@ const ProofWall = () => {
                   Read full case study →
                 </button>
               </div>
-              <div className="md:w-1/2 lg:w-2/5 bg-deep-navy/5 rounded-xl"></div>
+              <Image
+                src="/images/proof-wall-case-study.svg"
+                alt="Screenshot from PureEssentials case study"
+                width={600}
+                height={400}
+                className="md:w-1/2 lg:w-2/5 rounded-xl object-cover"
+              />
             </div>
           </motion.div>
         </motion.div>
