@@ -453,9 +453,9 @@ const HeroSection = () => {
                           <a 
                             href={section.href}
                             onClick={() => setIsQuickStartOpen(false)}
-                            className="flex px-5 py-3 text-nordic-ivory hover:bg-iris-purple/15 transition-all duration-120 ease-out group relative"
+                            className="flex px-5 py-3 text-nordic-ivory hover:bg-iris-purple/15 transition-all duration-100 ease-out group relative"
                           >
-                            <span className="absolute left-0 top-0 bottom-0 w-0 bg-mint-green group-hover:w-[3px] transition-all duration-120"></span>
+                            <span className="absolute left-0 top-0 bottom-0 w-0 bg-mint-green group-hover:w-[3px] transition-all duration-100"></span>
                             <span>{section.label}</span>
                           </a>
                         </motion.li>
