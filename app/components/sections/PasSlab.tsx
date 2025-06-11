@@ -3,10 +3,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import SolutionSection from '../sections/SolutionSection';
-import TypeformPopup from '../ui/TypeformPopup';
+import { useLeadForm } from '../../contexts/LeadFormContext';
 
 const PasSlab = () => {
+  const { openLeadForm } = useLeadForm();
   const [ref, inView] = useInView({
     triggerOnce: false,
     threshold: 0.1,
@@ -14,9 +14,6 @@ const PasSlab = () => {
 
   // State for animations
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  // State for form popup
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   const fadeUp = {
     hidden: { opacity: 0, y: 20 },
@@ -280,7 +277,7 @@ const PasSlab = () => {
 
             {/* Mobile CTA to open lead form */}
             <div 
-              onClick={() => setIsPopupOpen(true)}
+              onClick={openLeadForm}
               className="sm:hidden p-4 bg-gradient-to-r from-iris-purple/20 to-mint-green/20 text-center cursor-pointer hover:from-iris-purple/30 hover:to-mint-green/30 transition-all duration-300"
             >
               <div className="w-full py-3 px-4 text-white font-medium text-sm">
@@ -290,7 +287,7 @@ const PasSlab = () => {
             
             {/* Desktop CTA to open lead form */}
             <div 
-              onClick={() => setIsPopupOpen(true)}
+              onClick={openLeadForm}
               className="hidden sm:block p-5 bg-gradient-to-r from-iris-purple/20 to-mint-green/20 text-center border-t border-white/10 cursor-pointer hover:from-iris-purple/30 hover:to-mint-green/30 transition-all duration-300"
             >
               <div className="px-8 py-4 text-white font-medium">
@@ -301,21 +298,6 @@ const PasSlab = () => {
         </motion.div>
       </div>
     </section>
-    
-    {/* Import the Solution Section as a separate component */}
-    <SolutionSection />
-
-    {/* Typeform Popup */}
-    <TypeformPopup 
-      isOpen={isPopupOpen} 
-      onClose={() => setIsPopupOpen(false)} 
-      onSubmit={(data) => {
-        console.log('Form submitted:', data);
-        // Here you would typically send the data to your backend
-        setIsPopupOpen(false);
-        setIsFormSubmitted(true);
-      }} 
-    />
     </>
   );
 };

@@ -3,8 +3,10 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import CtaButton from '../ui/CtaButton';
+import { useLeadForm } from '../../contexts/LeadFormContext';
 
 const RiskReversal = () => {
+  const { openLeadForm } = useLeadForm();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -104,7 +106,7 @@ const RiskReversal = () => {
           <motion.div variants={fadeUp} className="text-center">
             <CtaButton 
               text="Book Free Discovery Call" 
-              onClick={() => console.log('Guarantee CTA clicked')}
+              onClick={openLeadForm}
               isSecondary={false}
             />
             <p className="mt-4 text-deep-navy/60 text-sm">

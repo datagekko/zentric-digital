@@ -5,6 +5,7 @@ import type { CSSProperties } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, useScroll } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import Link from 'next/link';
+import { useLeadForm } from '../../contexts/LeadFormContext';
 
 // Create a function to merge refs
 const useMergedRef = <T extends HTMLElement>(...refs: (MutableRefObject<T | null> | ((node: T) => void) | null)[]) => {
@@ -36,6 +37,7 @@ const throttle = <T extends (...args: any[]) => any>(
 };
 
 const HeroSection = () => {
+  const { openLeadForm } = useLeadForm();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isQuickStartOpen, setIsQuickStartOpen] = useState(false);
@@ -491,7 +493,7 @@ const HeroSection = () => {
         {/* CTA Button with improved hover effect */}
         <div className="hidden md:block">
           <button 
-            onClick={() => console.log('CTA clicked in header')}
+            onClick={openLeadForm}
             className="py-3 px-8 text-white font-semibold rounded-full relative z-10 bg-gradient-to-r from-[#635BFF] to-[#7A6CFF]"
           >
             Book Free Discovery Call
@@ -583,7 +585,7 @@ const HeroSection = () => {
               <div className="pt-2">
                 <button 
                   onClick={() => {
-                    console.log('CTA clicked in mobile menu');
+                    openLeadForm();
                     setIsMobileMenuOpen(false);
                   }}
                   className="w-full py-3 px-8 text-white font-semibold rounded-full bg-gradient-to-r from-[#635BFF] to-[#7A6CFF]"
@@ -627,7 +629,7 @@ const HeroSection = () => {
 
             <motion.div variants={fadeUp} className="flex flex-col md:flex-row gap-4 pt-2">
               <motion.button 
-                onClick={() => console.log('Primary CTA clicked')}
+                onClick={openLeadForm}
                 variants={ctaButtonVariants}
                 initial="rest"
                 whileHover="hover"

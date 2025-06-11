@@ -3,9 +3,8 @@
 import { useEffect } from 'react';
 import HeroSection from './components/sections/HeroSection';
 import PasSlab from './components/sections/PasSlab';
-import OfferStack from './components/sections/OfferStack';
-import ProofWall from './components/sections/ProofWall';
-import ProcessTimeline from './components/sections/ProcessTimeline';
+import SolutionSection from './components/sections/SolutionSection';
+import Guarantees from './components/sections/Guarantees';
 import HowWeOperate from './components/sections/HowWeOperate';
 import RiskFreeCta from './components/sections/RiskFreeCta';
 import Footer from './components/sections/Footer';
@@ -33,9 +32,8 @@ export default function Home() {
       <Navigation />
       <HeroSection />
       <PasSlab />
-      <OfferStack />
-      <ProofWall />
-      <ProcessTimeline />
+      <SolutionSection />
+      <Guarantees />
       <HowWeOperate />
       <RiskFreeCta />
       <Footer />
