@@ -3,20 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-
-// Create a mock context hook to replace the missing import
-const useLeadForm = () => {
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-  
-  const openLeadForm = () => {
-    console.log('Opening lead form...');
-    setIsFormOpen(true);
-    // In a real implementation, this would open a form modal
-  };
-  
-  return { openLeadForm, isFormSubmitted };
-};
+import { useLeadForm } from '../../contexts/LeadFormContext';
 
 const RiskFreeCta = () => {
   const [spotsLeft] = useState(5);
@@ -50,7 +37,7 @@ const RiskFreeCta = () => {
   };
 
   return (
-    <section className="py-20 bg-deep-navy text-white relative overflow-hidden">
+    <section id="contact" className="py-20 bg-deep-navy text-white relative overflow-hidden">
       {/* Background pattern/gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-iris-purple/20 to-deep-navy z-0"></div>
       
@@ -185,7 +172,7 @@ const RiskFreeCta = () => {
                 onClick={openLeadForm}
                 className="w-full py-4 bg-gradient-to-r from-iris-purple to-mint-green text-white font-semibold rounded-lg hover:opacity-95 transition-all duration-300"
               >
-                Apply Now
+                Book a Free Discovery Call
               </button>
               
               <p className="mt-4 text-white/60 text-sm text-center">
