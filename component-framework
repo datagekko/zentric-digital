@@ -1,0 +1,31 @@
+Use this rule to understand the component architecture and patterns used throughout the project. Reference when creating new UI components to ensure consistency with existing patterns and best practices.
+
+# Component Framework
+
+The landing page follows a structured conversion framework with the following components:
+
+## Section Components
+- **HeroSection** - Main value proposition and CTA
+  - Maintains full screen height with responsive layout
+  - Features an animated performance dashboard with key metrics
+  - Uses progressive disclosure with main message up front and supporting metrics in the dashboard
+  - Dashboard includes progress bar animation and three KPI cards (ROAS improvement, CPA reduction, Email revenue boost)
+  - Supporting caption positioned below dashboard for clean separation of elements
+- **PasSlab** - Problem-Agitation-Solution framework
+- **OfferStack** - Service tiers and pricing
+- **ProofWall** - Testimonials and case studies
+- **ProcessTimeline** - Client workflow visualization
+- **ComparisonSection** - Contrasting with traditional agencies
+- **RiskReversal** - Guarantee section
+- **FinalCta** - Final conversion call-to-action
+- **Footer** - Contact information and links
+
+## Implementation Notes
+- All components use Tailwind CSS for styling
+- Components should follow brand guidelines for colors and typography
+- Optimize for mobile responsiveness
+- Add appropriate animations and transitions
+  - Use subtle animations like progress bars to draw attention to key metrics
+  - Avoid excessive animation that distracts from the core message
+- Button text should use whitespace-nowrap to prevent text wrapping on smaller screens
+- Keep primary content above the fold when possible 
