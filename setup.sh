@@ -21,7 +21,7 @@ fi
 
 
 # 1. Set up Node.js version
-NODE_VERSION="20"
+NODE_VERSION=20
 echo -e "${YELLOW}Switching to Node.js v${NODE_VERSION} using nvm...${NC}"
 if command -v nvm &> /dev/null; then
     nvm use ${NODE_VERSION} > /dev/null 2>&1 || (nvm install ${NODE_VERSION} && nvm use ${NODE_VERSION})
