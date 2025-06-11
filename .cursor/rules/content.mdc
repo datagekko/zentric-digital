@@ -13,13 +13,15 @@ Below is the current structure and content of the Zentric Digital landing page, 
 
 The landing page consists of the following main sections in this order:
 1. Hero Section
-2. Problem-Agitation-Solution (PAS) Slab
-3. Offer Stack
-4. Proof Wall (Testimonials)
-5. Process Timeline
-6. How We Operate
-7. Risk-Free CTA (Combined risk reversal and call-to-action)
-8. Footer
+2. Credibility Bar
+3. Problem-Agitation-Solution (PAS) Slab
+4. Offer Stack
+5. Proof Wall (Testimonials)
+6. Process Timeline
+7. Comparison Section
+8. Risk Reversal
+9. Final CTA
+10. Footer
 
 ---
 
@@ -31,26 +33,30 @@ The landing page consists of the following main sections in this order:
 - Primary CTA button: "Book a FREE Discovery Call"
 - Visual: Dashboard mockup showing client results
 
-##### 2. Problem-Agitation-Solution (PasSlab.tsx)
+##### 2. Credibility Bar (CredibilityBar.tsx)
+- Quick trust signals with client logos
+- Minimal layout to keep momentum high
+
+##### 3. Problem-Agitation-Solution (PasSlab.tsx)
 - Outlines key pain points for target customers
 - Agitates these problems by describing consequences
 - Presents Zentric's approach as the solution
 - Uses a visually distinctive layout with problem→solution framing
 
-##### 3. Offer Stack (OfferStack.tsx)
+##### 4. Offer Stack (OfferStack.tsx)
 - Details the core service offering
 - Lists included services and deliverables
 - Presents bonuses and value-adds
 - No pricing information (leads to discovery call)
 - CTA: "Book a FREE Discovery Call"
 
-##### 4. Proof Wall (ProofWall.tsx)
+##### 5. Proof Wall (ProofWall.tsx)
 - Social proof section with testimonials
 - Client success metrics and results
 - Screenshots of client messages/feedback
 - Trust indicators and credibility elements
 
-##### 5. Process Timeline (ProcessTimeline.tsx)
+##### 6. Process Timeline (ProcessTimeline.tsx)
 - Visual timeline showing the client journey
 - Three main steps:
   1. Discovery Call: Initial conversation
@@ -59,29 +65,22 @@ The landing page consists of the following main sections in this order:
 - Timeline indicates completion in less than 2 weeks
 - Uses Zentric's branded design elements
 
-##### 6. How We Operate (HowWeOperate.tsx)
-- Explains Zentric's approach and methodology
-- Comparison with conventional agencies
-- Highlights key differentiators and advantages
-- Uses clean, information-focused design
+##### 7. Comparison Section (ComparisonSection.tsx)
+- Highlights differences versus traditional agencies
+- Side-by-side table with checkmarks and cross icons
+- Reinforces Zentric's unique approach
 
-##### 7. Risk-Free CTA (RiskFreeCta.tsx)
-- **Combined section** that merges risk reversal and final CTA
-- Two-column layout:
-  - Left: Risk-Free Guarantee
-    - "Zero-Risk Guarantee" with 30-day "No Results, No Fee" policy
-    - List of guarantee benefits with mint green checkmarks
-    - Clear explanation of risk reversal terms
-  - Right: Call-to-Action
-    - Headline: "Ready to Scale Your Brand Profitably?"
-    - Scarcity messaging: "Only 5 Spots Left"
-    - Information about the discovery call process
-    - Prominent "Apply Now" button
-    - Response time indicator
-- Uses deep navy background with glass card design elements
-- Maintains brand color scheme with iris purple and mint green accents
+##### 8. Risk Reversal (RiskReversal.tsx)
+- 30-day "No Results, No Fee" policy
+- Bullet list of guarantee benefits
+- Addresses objections and builds trust
 
-##### 8. Footer (Footer.tsx)
+##### 9. Final CTA (FinalCta.tsx)
+- Restates the main offer and urgency
+- Encourages booking a discovery call
+- Includes trust metrics for credibility
+
+##### 10. Footer (Footer.tsx)
 - Contact information
 - Social media links
 - Legal information and disclaimers
