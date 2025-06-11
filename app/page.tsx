@@ -20,7 +20,6 @@ export default function Home() {
       const scrollPercentage = (scrollPosition / (docHeight - windowHeight)) * 100;
       
       // Would normally push to GTM/GA4
-      console.log(`Scroll depth: ${Math.round(scrollPercentage)}%`);
     };
 
     window.addEventListener('scroll', handleScroll);

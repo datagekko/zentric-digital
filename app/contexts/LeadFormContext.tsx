@@ -49,7 +49,6 @@ export const LeadFormProvider = ({ children }: LeadFormProviderProps) => {
   };
 
   const handleFormSubmit = (data: FormData) => {
-    console.log('Form submitted:', data);
     // Here you would typically send the data to your backend
     setIsFormOpen(false);
     setIsFormSubmitted(true);
