@@ -20,7 +20,7 @@ alwaysApply: false
 4. Import and use in [app/page.tsx](mdc:app/page.tsx)
 
 ## Common Issues
-- If you see a CSS error about `duration-120` class, ensure you're using standard Tailwind duration classes (e.g., `duration-100`, `duration-200`)
+- If you see a CSS error about `duration-[120ms]` class, ensure you're using standard Tailwind duration classes (e.g., `duration-100`, `duration-200`)
 - Use standard Tailwind utilities instead of custom classes like `backdrop-blur-glass`
 - Ensure proper quoting in component props
 - Set metadata.metadataBase for proper Open Graph and Twitter images
