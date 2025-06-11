@@ -206,11 +206,11 @@ const HeroSection = () => {
   const revealText = {
     hidden: { 
       opacity: 0,
-      clipPath: "inset(0 100% 0 0)"
+      y: 20
     },
     visible: { 
       opacity: 1,
-      clipPath: "inset(0 0 0 0)",
+      y: 0,
       transition: {
         duration: 0.8,
         ease: [0.16, 1, 0.3, 1],
@@ -363,8 +363,8 @@ const HeroSection = () => {
   return (
     <section 
       ref={mergedRef}
-      className="h-screen flex flex-col justify-between bg-nordic-ivory relative overflow-hidden"
-      style={bgStyle}
+      className="min-h-screen h-auto flex flex-col justify-between bg-nordic-ivory relative"
+      style={{ ...bgStyle, overflow: 'visible' }}
     >
       {/* Static background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-iris-purple/5 to-mint-green/5 z-0" />
@@ -599,30 +599,43 @@ const HeroSection = () => {
       </AnimatePresence>
 
       <motion.div 
-        className="container mx-auto px-6 md:px-8 pt-12 md:pt-20 pb-4 z-10 text-center md:text-left max-w-7xl flex-1 flex flex-col justify-center"
+        className="container mx-auto px-6 md:px-8 pt-8 md:pt-16 pb-4 z-10 text-center md:text-left max-w-7xl flex-1 flex flex-col justify-center"
         variants={container}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
+        style={{ overflow: 'visible', clipPath: 'none' }}
       >
         {/* Grid layout for desktop, stack for mobile */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 lg:gap-12 items-center" style={{ overflow: 'visible' }}>
           {/* Left column: Text content */}
-          <div className="space-y-4 md:space-y-6">
+          <div className="space-y-1 md:space-y-3" style={{ overflow: 'visible', clipPath: 'none', padding: '0 0 0.5em 0' }}>
             <motion.div variants={fadeUp} className="">
               <p className="text-iris-purple font-medium tracking-wider uppercase text-sm">Digital Growth Agency</p>
             </motion.div>
 
             <motion.h1 
               variants={revealText} 
-              className="text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-tight -tracking-[2px] overflow-visible"
+              className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-none -tracking-[2px] whitespace-nowrap"
+              style={{ overflow: 'visible', lineHeight: '1.1', paddingBottom: '0.1em' }}
             >
-              Make Noise.<br /> 
-              <span className="bg-gradient-to-r from-mint-green to-iris-purple bg-clip-text text-transparent overflow-visible">Stay Zentric.</span>
+              <div className="whitespace-nowrap">Make Noise.</div>
+              <span 
+                className="bg-gradient-to-r from-mint-green to-iris-purple bg-clip-text text-transparent whitespace-nowrap"
+                style={{ 
+                  display: 'inline-block', 
+                  overflow: 'visible', 
+                  paddingBottom: '0.1em',
+                  position: 'relative',
+                  zIndex: 10
+                }}
+              >
+                Stay Zentric.
+              </span>
             </motion.h1>
 
             <motion.p 
               variants={fadeUp} 
-              className="text-base md:text-lg lg:text-xl text-deep-navy/80 max-w-3xl"
+              className="text-sm md:text-lg lg:text-xl text-deep-navy/80 max-w-3xl mt-0"
             >
               Transform underperforming funnels into profit machines in just 30 days. We help e-commerce businesses scale rapidly with high-converting Meta Ads and proven CRO strategies.
             </motion.p>
