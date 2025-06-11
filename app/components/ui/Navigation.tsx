@@ -182,32 +182,42 @@ const Navigation = () => {
         
         {/* CTA Button with improved hover effect */}
         <div className="hidden md:block">
-<motion.button 
-  onClick={openLeadForm}
-  variants={ctaButtonVariants}
-  initial="rest"
-  whileHover="hover"
-  whileTap="tap"
-  className="py-3 px-8 text-white font-semibold rounded-full relative z-10 bg-gradient-to-r from-[#635BFF] to-[#7A6CFF] will-change-transform"
->
-  Book Free Discovery Call
-</motion.button>
+          <motion.button 
+            onClick={openLeadForm}
+            variants={ctaButtonVariants}
+            initial="rest"
+            whileHover="hover"
+            whileTap="tap"
+            className="py-3 px-8 text-white font-semibold rounded-full relative z-10 bg-gradient-to-r from-[#635BFF] to-[#7A6CFF] will-change-transform"
+          >
+            Book Free Discovery Call
+          </motion.button>
         </div>
 
         {/* Mobile Menu Button */}
-<motion.button 
-  onClick={() => {
-    openLeadForm();
-    setIsMobileMenuOpen(false);
-  }}
-  variants={ctaButtonVariants}
-  initial="rest"
-  whileHover="hover"
-  whileTap="tap"
-  className="w-full py-3 px-8 text-white font-semibold rounded-full bg-gradient-to-r from-[#635BFF] to-[#7A6CFF] will-change-transform"
->
-  Book Free Discovery Call
-</motion.button>
+        <button
+          className="md:hidden p-2"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle mobile menu"
+        >
+          <div className="w-6 flex flex-col items-end space-y-1.5">
+            <span 
+              className={`block h-0.5 bg-onyx transition-all duration-300 ${
+                isMobileMenuOpen ? 'w-6 translate-y-2 rotate-45' : 'w-6'
+              }`}
+            ></span>
+            <span 
+              className={`block h-0.5 bg-onyx transition-all duration-300 ${
+                isMobileMenuOpen ? 'opacity-0' : 'w-4'
+              }`}
+            ></span>
+            <span 
+              className={`block h-0.5 bg-onyx transition-all duration-300 ${
+                isMobileMenuOpen ? 'w-6 -translate-y-2 -rotate-45' : 'w-5'
+              }`}
+            ></span>
+          </div>
+        </button>
       </header>
 
       {/* Mobile Menu */}
@@ -273,12 +283,19 @@ const Navigation = () => {
                 Cases
               </Link>
               <div className="pt-2">
-                <button 
-
-                  className="w-full py-3 px-8 text-white font-semibold rounded-full bg-gradient-to-r from-[#635BFF] to-[#7A6CFF]"
+                <motion.button 
+                  onClick={() => {
+                    openLeadForm();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  variants={ctaButtonVariants}
+                  initial="rest"
+                  whileHover="hover"
+                  whileTap="tap"
+                  className="w-full py-3 px-8 text-white font-semibold rounded-full bg-gradient-to-r from-[#635BFF] to-[#7A6CFF] will-change-transform"
                 >
                   Book Free Discovery Call
-                </button>
+                </motion.button>
               </div>
             </div>
           </motion.div>

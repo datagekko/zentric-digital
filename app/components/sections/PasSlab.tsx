@@ -62,12 +62,6 @@ const PasSlab = () => {
 
   // State for animations
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  // State for form popup
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-  
-  // Add state to handle the solution section visibility
-  const [showSolutionSection, setShowSolutionSection] = useState(false);
 
   const fadeUp = {
     hidden: { opacity: 0, y: 20 },
