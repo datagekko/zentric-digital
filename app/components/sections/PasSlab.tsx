@@ -113,36 +113,36 @@ const PasSlab = () => {
     {
       traditional: "12-month binding contracts",
       zentric: {
-        main: "No lock-in contracts",
-        highlight: " — exit with 15 days' notice"
+        main: "No lock-in contracts ",
+        highlight: "- leave after 90 days"
       }
     },
     {
       traditional: "Siloed teams (creative, ads, email)",
       zentric: {
-        main: "Founder-level strategists",
-        highlight: " + AI creative engine"
+        main: "Founder-level strategists ",
+        highlight: "+ AI creative engine"
       }
     },
     {
       traditional: "Account manager as primary contact point",
       zentric: {
-        main: "Text the founders directly",
-        highlight: " — weekly strategy calls"
+        main: "Text the founders directly ",
+        highlight: "- weekly strategy calls"
       }
     },
     {
       traditional: "20% commission on ad spend + monthly fees",
       zentric: {
-        main: "100% transparent pricing",
-        highlight: " — we profit when you profit"
+        main: "100% transparent pricing ",
+        highlight: "- we profit when you profit"
       }
     },
     {
       traditional: "€8k+ monthly retainer regardless of results",
       zentric: {
-        main: "Pay for results only",
-        highlight: " — we cut the retainer until 3× ROAS hit"
+        main: "Pay for results only ",
+        highlight: "- we cut the retainer until 3× ROAS hit"
       }
     }
   ];
@@ -311,7 +311,9 @@ const PasSlab = () => {
                       >
                         {point.zentric.main}
                       </motion.span>
-                      <span className="text-sm sm:text-base text-white">{point.zentric.highlight}</span>
+                      <span className="text-sm sm:text-base text-white">
+                        <span className="inline-block">&nbsp;{point.zentric.highlight}</span>
+                      </span>
                     </span>
                   </div>
                 </motion.div>
