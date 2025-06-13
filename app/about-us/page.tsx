@@ -33,47 +33,33 @@ export default function AboutUs() {
           <div className="glass-card p-8 md:p-12">
             <h2 className="text-3xl font-semibold mb-8">Meet Our Team</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Team Member 1 */}
               <div className="flex flex-col items-center text-center">
               <Image
-                src="/images/sarah-chen.svg"
-                alt="Photo of Sarah Chen"
+                src="/images/marcus-johnson.svg"
+                alt="Photo of Kilian Dreher"
                 width={160}
                 height={160}
                 className="w-40 h-40 rounded-full mb-4 object-cover"
               />
-                <h3 className="text-xl font-semibold mb-1">Sarah Chen</h3>
-                <p className="text-primary mb-3">Founder & CEO</p>
-                <p className="text-muted-foreground text-sm">Ex-Facebook ads strategist with 7+ years experience scaling e-commerce brands from 6 to 8 figures.</p>
+                <h3 className="text-xl font-semibold mb-1">Kilian Dreher</h3>
+                <p className="text-primary mb-3">Co-Founder</p>
+                <p className="text-muted-foreground text-sm">Entrepreneur and growth consultant with 5+ years of experience scaling e-commerce brands from 0 up to 8 figures.</p>
               </div>
               
               {/* Team Member 2 */}
               <div className="flex flex-col items-center text-center">
               <Image
-                src="/images/marcus-johnson.svg"
-                alt="Photo of Marcus Johnson"
-                width={160}
-                height={160}
-                className="w-40 h-40 rounded-full mb-4 object-cover"
-              />
-                <h3 className="text-xl font-semibold mb-1">Marcus Johnson</h3>
-                <p className="text-primary mb-3">Head of Media Buying</p>
-                <p className="text-muted-foreground text-sm">Managed $15M+ in ad spend with an average ROAS of 4.2x across diverse e-commerce verticals.</p>
-              </div>
-              
-              {/* Team Member 3 */}
-              <div className="flex flex-col items-center text-center">
-              <Image
                 src="/images/elena-rodriguez.svg"
-                alt="Photo of Elena Rodriguez"
+                alt="Photo of Oliver Hauritz"
                 width={160}
                 height={160}
                 className="w-40 h-40 rounded-full mb-4 object-cover"
               />
-                <h3 className="text-xl font-semibold mb-1">Elena Rodriguez</h3>
-                <p className="text-primary mb-3">Creative Director</p>
-                <p className="text-muted-foreground text-sm">Award-winning designer specializing in high-conversion ad creative and landing page optimization.</p>
+                <h3 className="text-xl font-semibold mb-1">Oliver Hauritz</h3>
+                <p className="text-primary mb-3">Co-Founder</p>
+                <p className="text-muted-foreground text-sm">Expert in driving targeted traffic and optimising conversion funnels to maximise profitability. He turns clicks into customers.</p>
               </div>
             </div>
           </div>
