@@ -496,7 +496,7 @@ const HeroSection = () => {
               variants={fadeUp} 
               className="text-sm md:text-lg lg:text-xl text-deep-navy/80 max-w-3xl mt-0"
             >
-              Transform underperforming funnels into profit machines in just 30 days. We help e-commerce businesses scale rapidly with high-converting Meta Ads and proven CRO strategies.
+              Transform underperforming funnels into profit machines in just 90 days. We help e-commerce businesses scale rapidly with high-converting Meta Ads and proven CRO strategies.
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-col md:flex-row gap-4 pt-2">

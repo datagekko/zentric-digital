@@ -14,7 +14,7 @@ const CompleteFormSchema = z.object({
   website: z.string().min(1, { message: "Website URL is required" }),
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
-  phone: z.string().min(1, { message: "Phone number is required" }),
+  phone: z.string().optional(),
   referralSource: z.string().min(1, { message: "Referral source is required" }),
 });
 
