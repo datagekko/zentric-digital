@@ -134,7 +134,7 @@ const PasSlab = () => {
     {
       traditional: "20% commission on ad spend + monthly fees",
       zentric: {
-        main: "100% transparent pricing ",
+        main: "100% transparent revenue-share pricing ",
         highlight: "- we profit when you profit"
       }
     },
@@ -142,7 +142,7 @@ const PasSlab = () => {
       traditional: "€8k+ monthly retainer regardless of results",
       zentric: {
         main: "Pay for results only ",
-        highlight: "- we cut the retainer until 3× ROAS hit"
+        highlight: "- we cut the retainer until 3x ROAS hit"
       }
     }
   ];
