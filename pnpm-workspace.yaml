@@ -1,0 +1,6 @@
+packages:
+  - "app"
+  - "."
+
+onlyBuiltDependencies:
+  - unrs-resolver

@@ -71,7 +71,7 @@ export default function Cases() {
     : caseStudies.filter(item => item.category === activeTab);
 
   return (
-    <main className="bg-nordic-ivory min-h-screen">
+    <main className="bg-ivory-background min-h-screen">
       {/* Navigation Component */}
       <Navigation />
 

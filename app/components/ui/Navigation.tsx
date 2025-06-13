@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { useLeadForm } from '../../contexts/LeadFormContext';
@@ -72,14 +73,21 @@ const Navigation = () => {
     <>
       {/* Sticky Header */}
       <header 
-        className={`fixed top-0 left-0 w-full py-6 px-8 flex justify-between items-center z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 w-full py-3 px-8 flex justify-between items-center z-50 transition-all duration-300 bg-ivory-background ${
           isScrolled 
             ? 'border-b border-onyx/10 shadow-sm' 
             : ''
         }`}
-        style={{ backgroundColor: pathname === '/' ? '#e8e9e5' : '#edebe9' }}
       >
-        <Link href="/" className="text-2xl font-bold">Zentric Digital</Link>
+        <Link href="/">
+          <Image
+            src="/images/logo-purple.png"
+            alt="Zentric Digital Logo"
+            width={60}
+            height={16}
+            priority
+          />
+        </Link>
         
         {/* Navigation Links - hidden on mobile */}
         <nav className="hidden md:flex items-center space-x-10">

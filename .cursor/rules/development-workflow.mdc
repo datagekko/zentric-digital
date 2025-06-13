@@ -7,17 +7,17 @@ alwaysApply: false
 
 ## Getting Started
 1. Clone the repository
-2. Install dependencies with `npm install`
-3. Run the development server with `npm run dev`
+2. Install dependencies with `pnpm install`
+3. Run the development server with `pnpm run dev`
 4. Access the site at http://localhost:3000
 
 ## Component Development
 1. Create new components in the appropriate directory:
-   - Section components in [app/components/sections/](mdc:app/components/sections)
-   - UI components in [app/components/ui/](mdc:app/components/ui)
+   - Section components in [app/components/sections/](mdc:zentric.digital_3/app/components/sections)
+   - UI components in [app/components/ui/](mdc:zentric.digital_3/app/components/ui)
 2. Follow existing component patterns and naming conventions
 3. Use Tailwind CSS for styling
-4. Import and use in [app/page.tsx](mdc:app/page.tsx)
+4. Import and use in [app/page.tsx](mdc:zentric.digital_3/app/page.tsx)
 
 ## Common Issues
 - If you see a CSS error about `duration-[120ms]` class, ensure you're using standard Tailwind duration classes (e.g., `duration-100`, `duration-200`)

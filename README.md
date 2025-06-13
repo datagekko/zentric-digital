@@ -56,9 +56,10 @@ The landing page follows a structured storytelling approach with these sections:
 ```bash
 # Install dependencies
 npm install
+nvm use 20
 
 # Run development server
-npm run dev
+pnpm run dev
 
 # Build for production
 npm run build

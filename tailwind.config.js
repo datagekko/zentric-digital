@@ -14,6 +14,7 @@ module.exports = {
         'mint-green': '#53DD6C',
         'mint-green-dark': '#38C958',
         'nordic-ivory': '#F5F0EA',
+        'ivory-background': '#e8e8e6',
         'onyx': '#262627',
         'deep-navy': '#0A2540',
       },

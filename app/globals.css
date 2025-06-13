@@ -8,7 +8,7 @@
   }
   
   body {
-    @apply bg-nordic-ivory text-onyx font-inter;
+    @apply bg-ivory-background text-onyx font-inter;
   }
 
   /* Glass effect utility */

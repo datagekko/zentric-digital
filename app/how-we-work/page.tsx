@@ -9,7 +9,7 @@ export default function HowWeWork() {
   const { openLeadForm } = useLeadForm();
 
   return (
-    <main className="overflow-x-hidden bg-nordic-ivory">
+    <main className="overflow-x-hidden bg-ivory-background">
       {/* Navigation Component */}
       <Navigation />
 
