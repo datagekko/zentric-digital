@@ -42,7 +42,7 @@ const SimpleSolutionSection = () => {
             <p className="text-xl text-white max-w-4xl mx-auto">
               A complete system to drive predictable revenue growth with a guaranteed
               <span className="font-bold bg-mint-green text-onyx px-2 py-0.5 rounded mx-1 inline-block">
-                3× blended ROAS
+                3x blended ROAS
               </span> 
               in 90 days or you don't pay.
             </p>
@@ -139,10 +139,10 @@ const Comparison = () => {
       }
     },
     {
-      traditional: "€8k+ monthly retainer regardless of results",
+      traditional: "+€8K+ monthly retainer regardless of results",
       zentric: {
         main: "Pay for results only ",
-        highlight: "- we cut the retainer until 3x ROAS hit"
+        highlight: "- no retainer after month 2 if targets unmet"
       }
     }
   ];
@@ -179,7 +179,7 @@ const Comparison = () => {
           {/* Headline and Subheadline */}
           <motion.div variants={fadeUp} className="text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white">
-              E-commerce Businesses Deserve Better
+            Stop Paying Agencies to Burn Your Budget
             </h2>
             <motion.p 
               className="text-xl text-white/80 max-w-4xl mx-auto"
@@ -187,24 +187,7 @@ const Comparison = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              For e-com businesses seeking predictable revenue with a minimum 
-              <motion.span 
-                className="font-bold text-mint-green mx-1 inline-block"
-                initial={{ opacity: 0 }}
-                animate={{ 
-                  opacity: 1,
-                  scale: [1, 1.15, 1],
-                  transition: { 
-                    delay: 0.7, 
-                    duration: 0.8,
-                    times: [0, 0.5, 1],
-                    ease: "easeInOut" 
-                  }
-                }}
-              >
-                3× blended ROAS
-              </motion.span> 
-              in 90 days.
+              Our revenue depends on yours. We make money when you make money. Period.
             </motion.p>
           </motion.div>
 

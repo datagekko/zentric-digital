@@ -72,24 +72,7 @@ const SolutionSection = () => {
               The Zentric Growth Engine
             </h2>
             <p className="text-xl text-white max-w-4xl mx-auto">
-              A complete system to drive predictable revenue growth with a guaranteed
-              <motion.span 
-                className="font-bold bg-mint-green text-onyx px-2 py-0.5 rounded mx-1 inline-block"
-                initial={{ opacity: 1 }}
-                animate={{ 
-                  scale: [1, 1.15, 1],
-                  transition: { 
-                    duration: 0.8,
-                    repeat: Infinity,
-                    repeatDelay: 5,
-                    times: [0, 0.5, 1],
-                    ease: "easeInOut" 
-                  }
-                }}
-              >
-                3× blended ROAS
-              </motion.span> 
-              in 90 days or you don't pay.
+            The growth engine that delivers: Increased traffic, streamlined funnels, better ads, higher ROAS.
             </p>
           </motion.div>
           

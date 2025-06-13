@@ -15,6 +15,7 @@ type FormData = {
   lastName: string;
   phone: string;
   referralSource: string;
+  otherReferralSource?: string;
   submissionId?: string; // Add submission ID for tracking the form
 }
 
@@ -30,8 +31,17 @@ const fullFormSchema = z.object({
   website: z.string().url({ message: "Please enter a valid website URL" }).or(z.string().min(1, { message: "Please enter your website URL" })),
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
-  phone: z.string().min(1, { message: "Phone number is required" }),
+  phone: z.string().optional(),
   referralSource: z.string().min(1, { message: "Please select how you heard about us" }),
+  otherReferralSource: z.string().optional(),
+}).refine(data => {
+    if (data.referralSource === 'Other') {
+        return !!data.otherReferralSource && data.otherReferralSource.length > 0;
+    }
+    return true;
+}, {
+    message: "Please specify how you heard about us",
+    path: ["otherReferralSource"],
 });
 
 type LeadFormProps = {
@@ -134,7 +144,8 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
         const formattedErrors: Record<string, string> = {};
         error.errors.forEach((err) => {
           if (err.path.length > 0) {
-            formattedErrors[err.path[0].toString()] = err.message;
+            const path = err.path.join('.');
+            formattedErrors[path] = err.message;
           }
         });
         setErrors(formattedErrors);
@@ -153,7 +164,8 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
         const formattedErrors: Record<string, string> = {};
         error.errors.forEach((err) => {
           if (err.path.length > 0) {
-            formattedErrors[err.path[0].toString()] = err.message;
+            const path = err.path.join('.');
+            formattedErrors[path] = err.message;
           }
         });
         setErrors(formattedErrors);
@@ -230,7 +242,12 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
         
         // Small delay to show the thank you message before closing
         setTimeout(() => {
-          onSubmit(formData);
+            const finalData = { ...formData };
+            if (finalData.referralSource === 'Other') {
+                finalData.referralSource = finalData.otherReferralSource || 'Other';
+            }
+            delete finalData.otherReferralSource;
+            onSubmit(finalData);
         }, 1500);
       } catch (error) {
         console.error('Error submitting form:', error);
@@ -443,7 +460,7 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
             type="tel"
             value={formData.phone}
             onChange={(e) => handleInputChange('phone', e.target.value)}
-            placeholder="Phone number"
+            placeholder="Phone number (Optional)"
             className="w-full p-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-iris-purple"
           />
           {errors.phone && <p className="text-red-400 text-sm mt-1">{errors.phone}</p>}
@@ -471,6 +488,18 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
             </button>
           ))}
         </div>
+        {formData.referralSource === 'Other' && (
+            <div className="mt-4">
+                <input
+                    type="text"
+                    value={formData.otherReferralSource || ''}
+                    onChange={(e) => handleInputChange('otherReferralSource', e.target.value)}
+                    placeholder="Please specify"
+                    className="w-full p-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-iris-purple"
+                />
+                {errors.otherReferralSource && <p className="text-red-400 text-sm mt-1">{errors.otherReferralSource}</p>}
+            </div>
+        )}
         {errors.referralSource && <p className="text-red-400 text-sm">{errors.referralSource}</p>}
       </div>
     </div>
@@ -603,7 +632,7 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
                         {step === 'email' ? 'Processing...' : 'Submitting...'}
                       </span>
                     ) : (
-                      step === 'email' ? 'Continue' : 'Submit Application'
+                      step === 'email' ? 'Continue' : 'Submit for a Free Discovery Call'
                     )}
                   </Button>
                 </div>

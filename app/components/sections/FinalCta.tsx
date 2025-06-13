@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useLeadForm } from '../../contexts/LeadFormContext';
 
-const RiskFreeCta = () => {
+const FinalCTA = () => {
   const [spotsLeft] = useState(5);
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -121,11 +121,10 @@ const RiskFreeCta = () => {
           <motion.div variants={fadeUp} className="w-full lg:w-1/2">
             <div className="text-center mb-6">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                Ready to Scale Your Brand Profitably?
+              Ready to Scale Your E-com Business Profitably?
               </h2>
               <p className="text-white/80 text-lg">
-                Limited spots available for this month. Apply now to secure your
-                growth strategy session.
+              Limited spots available for this month. Secure your growth strategy session now.
               </p>
             </div>
             
@@ -176,7 +175,7 @@ const RiskFreeCta = () => {
               </button>
               
               <p className="mt-4 text-white/60 text-sm text-center">
-                {isFormSubmitted ? "Check your email for confirmation details" : "We typically respond within 24 hours"}
+                {isFormSubmitted ? "Check your email for confirmation details" : "We typically respond within one business day"}
               </p>
             </motion.div>
           </motion.div>
@@ -186,4 +185,4 @@ const RiskFreeCta = () => {
   );
 };
 
-export default RiskFreeCta; 
+export default FinalCTA; 

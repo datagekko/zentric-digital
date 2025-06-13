@@ -42,8 +42,8 @@ const Footer = () => {
           />
           
           <p className="text-white/70 mb-8 max-w-md text-center">
-            Transform under-performing funnels into compounding profit engines in 30 days — or you don't pay.
-          </p>
+          Transform underperforming funnels into profit machines in just 90 days. We help e-commerce businesses scale rapidly with high-converting Meta Ads and proven CRO strategies.
+</p>
           
           {/* CTA Button */}
           <Link 
