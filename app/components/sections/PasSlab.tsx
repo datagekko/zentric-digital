@@ -134,7 +134,7 @@ const PasSlab = () => {
     {
       traditional: "20% commission on ad spend + monthly fees",
       zentric: {
-        main: "100% transparent revenue-share pricing ",
+        main: "100% transparent rev-share pricing ",
         highlight: "- we profit when you profit"
       }
     },
