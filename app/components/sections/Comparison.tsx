@@ -62,7 +62,7 @@ const Comparison = () => {
         >
           <motion.div variants={item} className="text-center">
             <h2 className="text-3xl md:text-5xl font-bold">
-              E-commerce Businesses Deserve Better
+            Stop Paying Agencies to Burn Your Budget
             </h2>
             <p className="text-muted-foreground text-lg max-w-3xl mx-auto mt-4">
               Tired of long contracts, poor communication, and misaligned incentives? We built Zentric to be the partner we wish we had.
@@ -73,10 +73,10 @@ const Comparison = () => {
             variants={item} 
             className="glass-card overflow-hidden"
           >
-            <div className="flex bg-black/10">
+            <div className="flex bg-black/10 text-center md:text-left">
               <div className="w-1/3 p-4 font-semibold text-foreground hidden md:block">Feature</div>
-              <div className="w-1/3 md:w-1/3 p-4 font-semibold text-muted-foreground">Traditional Agency</div>
-              <div className="w-2/3 md:w-1/3 p-4 font-semibold text-foreground bg-primary/10">Zentric Growth Engine</div>
+              <div className="w-1/2 md:w-1/3 p-4 font-semibold text-muted-foreground">Traditional Agency</div>
+              <div className="w-1/2 md:w-1/3 p-4 font-semibold text-foreground bg-primary/10">Zentric Growth Engine</div>
             </div>
             
             <div>

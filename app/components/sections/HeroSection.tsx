@@ -80,7 +80,7 @@ const HeroSection = () => {
             <Button variant="primary" size="lg" onClick={openLeadForm}>
                 Book a Free Discovery Call
             </Button>
-            <Button variant="secondaryBrand" size="lg" onClick={() => document.getElementById('challenge')?.scrollIntoView()}>
+            <Button variant="secondaryBrand" size="lg" onClick={() => document.getElementById('challenge')?.scrollIntoView()} className="hidden md:inline-flex">
                 Learn More
             </Button>
           </motion.div>
