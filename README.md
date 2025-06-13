@@ -6,6 +6,7 @@ A high-converting landing page for Zentric Digital, an ecommerce growth agency s
 
 - **Next.js 14** with App Router
 - **Tailwind CSS** for styling
+- **Shadcn UI** for customizable UI components
 - **Framer Motion** for animations
 - **TypeScript** for type safety
 
@@ -25,7 +26,8 @@ A high-converting landing page for Zentric Digital, an ecommerce growth agency s
   - `globals.css` - Global styles and Tailwind directives
 - `app/components/` - React components
   - `sections/` - Main page sections
-  - `ui/` - Reusable UI components
+  - `ui/` - Reusable UI components built with Shadcn UI
+- `app/shadcn-components/` - Shadcn UI component gallery and documentation
 - `public/` - Static assets
   - `fonts/` - Custom fonts
   - `images/` - Images and icons
@@ -87,7 +89,9 @@ npm start
 
 - Brand colors and typography defined in `tailwind.config.js`
 - Component styles follow consistent patterns
-- Section content can be easily modified in respective component files 
+- Section content can be easily modified in respective component files
+- Shadcn UI components can be customized in `app/components/ui/`
+- For detailed Shadcn UI usage guidelines, see `shadcn-usage-guide.md`
 ## Static Asset Caching
 
 Static assets with hashed filenames (e.g., `logo.abcd1234.png`) are served with long-term caching. The production server sets `Cache-Control: public, max-age=31536000, immutable` for files under `/_next/static` and any hashed files in `public/`.
