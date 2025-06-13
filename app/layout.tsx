@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Providers from './providers'
+import { Inter } from 'next/font/google'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Zentric Digital - Make Noise. Stay Zentric.',
@@ -34,8 +37,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className="bg-ivory-background pt-20">
+    <html lang="en" className="dark">
+      <body className={`${inter.className} bg-background antialiased`}>
         <Providers>
           {children}
         </Providers>

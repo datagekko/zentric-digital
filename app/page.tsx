@@ -5,7 +5,6 @@ import HeroSection from './components/sections/HeroSection';
 import Comparison from './components/sections/Comparison';
 import SolutionSection from './components/sections/SolutionSection';
 import Guarantees from './components/sections/Guarantees';
-import HowWeOperate from './components/sections/HowWeOperate';
 import FinalCTA from './components/sections/FinalCTA';
 import Footer from './components/sections/Footer';
 import Navigation from './components/ui/Navigation';
@@ -34,7 +33,6 @@ export default function Home() {
       <Comparison />
       <SolutionSection />
       <Guarantees />
-      <HowWeOperate />
       <FinalCTA />
       <Footer />
     </main>

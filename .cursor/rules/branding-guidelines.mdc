@@ -1,12 +1,14 @@
 ---
-description: Use this rule to ensure adherence to Zentric's brand guidelines when making design or UI changes, including colors, typography, and voice. Reference for any visual or messaging consistency questions.
+description: 
 globs: 
 alwaysApply: false
 ---
+Use this rule to ensure adherence to Zentric's brand guidelines when making design or UI changes, including colors, typography, and voice. Reference for any visual or messaging consistency questions.
+
 # Branding Guidelines
 
 ## Brand Colors
-Zentric Digital's brand colors are defined in [tailwind.config.js](mdc:tailwind.config.js):
+Zentric Digital's brand colors are defined in [tailwind.config.js](mdc:zentric.digital_3/tailwind.config.js):
 
 - **iris-purple** - Primary brand color
 - **mint-green** - Secondary brand color

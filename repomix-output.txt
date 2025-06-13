@@ -59,20 +59,12 @@ app/
     page.tsx
   components/
     sections/
-      CaseStudies.tsx
-      ComparisonSection.tsx
-      CredibilityBar.tsx
-      FinalCta.tsx
+      Comparison.tsx
+      FinalCTA.tsx
       Footer.tsx
       Guarantees.tsx
       HeroSection.tsx
-      HowWeOperate.tsx
-      OfferStack.tsx
-      PasSlab.tsx
       ProcessTimeline.tsx
-      ProofWall.tsx
-      RiskFreeCta.tsx
-      RiskReversal.tsx
       SolutionSection.tsx
     ui/
       button/
@@ -106,21 +98,23 @@ Files
 ================================================================
 
 ================
-File: app/components/sections/CaseStudies.tsx
+File: app/components/sections/FinalCTA.tsx
 ================
 'use client';
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useLeadForm } from '../../contexts/LeadFormContext';
 
-const CaseStudies = () => {
+const FinalCTA = () => {
+  const [spotsLeft] = useState(5);
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
-
-  const [expandedStudy, setExpandedStudy] = useState<number | null>(null);
+  
+  const { openLeadForm, isFormSubmitted } = useLeadForm();
 
   const fadeUp = {
     hidden: { opacity: 0, y: 20 },
@@ -134,303 +128,158 @@ const CaseStudies = () => {
     }
   };
 
-  // Case studies data - would be fetched from CMS in production
-  const caseStudies = [
-    {
-      id: 1,
-      title: "PureEssentials: 4.7x ROAS in 30 Days",
-      industry: "Skincare DTC",
-      challenge: "PureEssentials was struggling with rising CPAs and diminishing returns on their ad spend. Their previous agency had focused on vanity metrics while true profitability declined.",
-      solution: "We redesigned their acquisition funnel with our Velocity Stack, implementing pre-segmentation on landing pages, behavioral targeting, and AI-optimized email sequences.",
-      results: [
-        { label: "Conversion rate", value: "+173%" },
-        { label: "Customer acquisition cost", value: "-42%" },
-        { label: "ROAS", value: "4.7x" },
-        { label: "Additional monthly profit", value: "+€37K" }
-      ],
-      timeline: "30 days",
-      image: "/images/case-study-1.jpg"
-    },
-    {
-      id: 2,
-      title: "NordicVibes: Email Revenue Multiplied 4.2x",
-      industry: "Home Goods",
-      challenge: "NordicVibes had a large email list but minimal engagement. Despite regular newsletters, email contributed less than 5% of their total revenue.",
-      solution: "We implemented our precision segmentation system, creating behavioral triggers and a dynamic content strategy that delivered personalized messaging based on purchase history and site behavior.",
-      results: [
-        { label: "Email open rate", value: "+112%" },
-        { label: "Click-through rate", value: "+87%" },
-        { label: "Email revenue", value: "4.2x" },
-        { label: "List churn", value: "-38%" }
-      ],
-      timeline: "45 days",
-      image: "/images/case-study-2.jpg"
-    },
-    {
-      id: 3,
-      title: "Minimalista: +62% AOV Through Funnel Optimization",
-      industry: "Fashion",
-      challenge: "Minimalista had good traffic and conversion rates but a below-industry-average order value, limiting their ability to scale profitably with increasing ad costs.",
-      solution: "We rebuilt their product detail pages with dynamic upsell flows and implemented post-purchase upsell sequences that delivered personalized recommendations based on purchase behavior.",
-      results: [
-        { label: "Average order value", value: "+62%" },
-        { label: "Cart abandonment", value: "-24%" },
-        { label: "Customer lifetime value", value: "+41%" },
-        { label: "Profit margin", value: "+18%" }
-      ],
-      timeline: "60 days",
-      image: "/images/case-study-3.jpg"
-    }
-  ];
-
-  const toggleExpanded = (id: number) => {
-    if (expandedStudy === id) {
-      setExpandedStudy(null);
-    } else {
-      setExpandedStudy(id);
-    }
-  };
-
-  return (
-    <section className="py-20 bg-onyx text-white relative">
-      <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-7xl">
-        <motion.div
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          transition={{ staggerChildren: 0.2 }}
-          className="space-y-16"
-        >
-          <motion.div variants={fadeUp} className="text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Case Studies
-            </h2>
-            <p className="text-white/80 text-lg">
-              Real businesses, real challenges, real results. See how our approach transforms underperforming funnels into profit engines.
-            </p>
-          </motion.div>
-
-          {/* Case Studies Grid */}
-          <motion.div variants={fadeUp} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {caseStudies.map((study) => (
-              <motion.div 
-                key={study.id} 
-                className={`glass transition-all duration-300 ease-out overflow-hidden ${
-                  expandedStudy === study.id ? 'lg:col-span-3 lg:grid lg:grid-cols-3 lg:gap-6' : ''
-                }`}
-                layout
-              >
-                {/* Card Header - Always visible */}
-                <div className={`p-6 ${expandedStudy === study.id ? 'lg:col-span-1' : ''}`}>
-                  <div className="text-xs text-white/60 uppercase tracking-wider mb-2">{study.industry}</div>
-                  <h3 className="text-xl font-bold mb-3">{study.title}</h3>
-                  
-                  {expandedStudy !== study.id && (
-                    <>
-                      <p className="text-white/80 mb-6 line-clamp-3">
-                        {study.challenge}
-                      </p>
-                      <div className="grid grid-cols-2 gap-4 mb-6">
-                        {study.results.slice(0, 2).map((result, idx) => (
-                          <div key={idx}>
-                            <div className="text-mint-green font-bold text-xl">{result.value}</div>
-                            <div className="text-white/60 text-sm">{result.label}</div>
-                          </div>
-                        ))}
-                      </div>
-                    </>
-                  )}
-                  
-                  <button 
-                    onClick={() => toggleExpanded(study.id)}
-                    className="btn-tertiary text-iris-purple hover:text-mint-green transition-colors"
-                  >
-                    {expandedStudy === study.id ? 'View Less' : 'View Case Study'} →
-                  </button>
-                </div>
-                
-                {/* Expanded Content */}
-                {expandedStudy === study.id && (
-                  <div className="lg:col-span-2 p-6">
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <h4 className="text-lg font-semibold mb-2">Challenge</h4>
-                        <p className="text-white/80 mb-6">{study.challenge}</p>
-                        
-                        <h4 className="text-lg font-semibold mb-2">Solution</h4>
-                        <p className="text-white/80 mb-6">{study.solution}</p>
-                        
-                        <div className="text-sm text-white/60">
-                          <span className="text-mint-green font-bold">{study.timeline}</span> to implementation
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <h4 className="text-lg font-semibold mb-4">Results</h4>
-                        <div className="grid grid-cols-2 gap-6">
-                          {study.results.map((result, idx) => (
-                            <div key={idx} className="mb-4">
-                              <div className="text-mint-green font-bold text-2xl">{result.value}</div>
-                              <div className="text-white/60 text-sm">{result.label}</div>
-                            </div>
-                          ))}
-                        </div>
-                        
-                        <button className="btn-secondary mt-6">
-                          Get Similar Results
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </motion.div>
-          
-          <motion.div variants={fadeUp} className="text-center">
-            <button className="btn-primary">
-              Schedule Strategy Call
-            </button>
-            <p className="text-white/60 text-sm mt-4">
-              No commitment, 30-minute assessment of your current funnel
-            </p>
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-export default CaseStudies;
-
-================
-File: app/components/sections/ComparisonSection.tsx
-================
-'use client';
-
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-
-const ComparisonSection = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.4,
-        ease: [0.16, 1, 0.3, 1]
+  const container = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15
       }
     }
   };
 
-  const comparisonPoints = [
-    {
-      traditional: "Monthly retainer regardless of results",
-      zentric: "Performance-based fee structure"
-    },
-    {
-      traditional: "Quarterly campaign reviews",
-      zentric: "Weekly optimizations and reporting"
-    },
-    {
-      traditional: "Siloed teams (creative, ads, email)",
-      zentric: "Single integrated growth team"
-    },
-    {
-      traditional: "Basic A/B testing (if any)",
-      zentric: "Comprehensive multivariate testing"
-    },
-    {
-      traditional: '3-6 month "ramp-up" period',
-      zentric: "Results in 30 days or you don't pay"
-    }
-  ];
-
   return (
-    <section className="py-20 bg-deep-navy text-white relative overflow-hidden">
-      <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-7xl">
+    <section id="contact" className="py-20 bg-deep-navy text-white relative overflow-hidden">
+      {/* Background pattern/gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-iris-purple/20 to-deep-navy z-0"></div>
+      
+      <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-6xl">
         <motion.div
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          transition={{ staggerChildren: 0.2 }}
-          className="space-y-16"
+          variants={container}
+          className="flex flex-col lg:flex-row gap-8 items-center"
         >
-          <motion.div variants={fadeUp} className="text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              The Zentric Difference
-            </h2>
-            <p className="text-white/80 text-lg">
-              See how our data-driven, results-focused approach contrasts with traditional agency models.
-            </p>
-          </motion.div>
-
-          {/* Comparison Table */}
-          <motion.div variants={fadeUp} className="overflow-hidden rounded-2xl">
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              {/* Headers */}
-              <div className="bg-white/10 p-6 border-b border-white/10">
-                <h3 className="text-xl font-bold text-white/80">Traditional Agency</h3>
-              </div>
-              <div className="bg-iris-purple p-6 border-b border-iris-purple/30">
-                <h3 className="text-xl font-bold">Zentric System</h3>
+          {/* Left Card - Risk Guarantee */}
+          <motion.div variants={fadeUp} className="w-full lg:w-1/2">
+            <motion.div 
+              className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/10 shadow-glass relative h-full"
+              whileHover={{ 
+                scale: 1.01,
+                boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
+                transition: { duration: 0.3 }
+              }}
+            >
+              <div className="absolute -top-5 left-8 bg-mint-green text-deep-navy px-6 py-2 rounded-full font-semibold text-sm">
+                Our Zero-Risk Guarantee
               </div>
               
-              {/* Comparison Rows */}
-              {comparisonPoints.map((point, index) => (
-                <React.Fragment key={index}>
-                  <div className={`p-6 ${index % 2 === 0 ? 'bg-white/5' : 'bg-transparent'} flex items-center`}>
-                    <div className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center mt-0.5">
-                        <span className="text-xs text-white/50">✗</span>
-                      </div>
-                      <span className="text-white/80">{point.traditional}</span>
-                    </div>
+              <div className="flex items-start gap-4 mt-8 mb-6">
+                <div className="relative flex items-center justify-center w-16 h-16 rounded-full border-2 border-mint-green flex-shrink-0">
+                  <span className="text-mint-green text-xl font-bold">30</span>
+                  <span className="absolute -bottom-1 text-white/70 text-xs">Days</span>
+                </div>
+                <h3 className="text-2xl font-bold mt-2">No Results, No Fee</h3>
+              </div>
+              
+              <p className="text-white/70 mb-8">
+                If we don't deliver measurable improvements to your key metrics 
+                within the first 30 days, you don't pay a cent. And you keep all 
+                the strategy documents, customer insights, and optimization 
+                plans we've created.
+              </p>
+              
+              <div className="space-y-5">
+                <div className="flex items-start gap-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green flex-shrink-0 mt-1">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <div>
+                    <h4 className="font-semibold text-white">Minimum 20% improvement in primary KPI</h4>
                   </div>
-                  <div className={`p-6 ${index % 2 === 0 ? 'bg-iris-purple/20' : 'bg-transparent'} flex items-center`}>
-                    <div className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-mint-green/20 flex items-center justify-center mt-0.5">
-                        <span className="text-xs text-mint-green">✓</span>
-                      </div>
-                      <span>{point.zentric}</span>
-                    </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green flex-shrink-0 mt-1">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <div>
+                    <h4 className="font-semibold text-white">No long-term contracts—cancel anytime</h4>
                   </div>
-                </React.Fragment>
-              ))}
-            </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green flex-shrink-0 mt-1">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <div>
+                    <h4 className="font-semibold text-white">You own all deliverables and assets</h4>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green flex-shrink-0 mt-1">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <div>
+                    <h4 className="font-semibold text-white">Weekly metrics reports for full transparency</h4>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
-
-          {/* Key Advantage */}
-          <motion.div variants={fadeUp} className="bg-white/5 p-8 rounded-2xl border border-white/10">
-            <div className="flex flex-col md:flex-row gap-8 items-center">
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold mb-4">Your Key Advantage</h3>
-                <p className="text-white/80 mb-6">
-                  With Zentric, you're not just buying services—you're partnering with a team that's financially incentivized to maximize your success. We only win when you win.
-                </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-mint-green/10 flex items-center justify-center">
+          
+          {/* Right Card - CTA */}
+          <motion.div variants={fadeUp} className="w-full lg:w-1/2">
+            <div className="text-center mb-6">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+              Ready to Scale Your E-com Business Profitably?
+              </h2>
+              <p className="text-white/80 text-lg">
+              Limited spots available for this month. Secure your growth strategy session now.
+              </p>
+            </div>
+            
+            <motion.div 
+              className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/10 shadow-glass"
+              whileHover={{ 
+                scale: 1.01,
+                boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
+                transition: { duration: 0.3 }
+              }}
+            >
+              <div className="space-y-5 mb-8">
+                <div className="flex items-center gap-4 bg-white/5 rounded-lg p-4">
+                  <div className="w-12 h-12 rounded-full bg-iris-purple/20 flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green">
-                      <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"></path>
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
                     </svg>
                   </div>
                   <div>
-                    <div className="font-semibold">Aligned Incentives</div>
-                    <div className="text-white/60 text-sm">Pay for performance, not promises</div>
+                    <h4 className="font-bold text-white text-lg">30-Minute Discovery Call</h4>
+                    <p className="text-white/70 text-sm">
+                      Free, no-obligation strategy session
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4 bg-white/5 rounded-lg p-4">
+                  <div className="w-12 h-12 rounded-full bg-iris-purple/20 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white text-lg">Only {spotsLeft} Spots Left</h4>
+                    <p className="text-white/70 text-sm">
+                      We limit new clients to ensure quality
+                    </p>
                   </div>
                 </div>
               </div>
-              <div className="md:w-1/3 bg-iris-purple/20 rounded-xl p-6 text-center">
-                <div className="text-xs text-white/60 uppercase tracking-wider mb-2">CLIENT RETENTION</div>
-                <div className="text-5xl font-bold text-mint-green mb-2">97%</div>
-                <div className="text-white/70">After 6 months</div>
-              </div>
-            </div>
+              
+              <button 
+                onClick={openLeadForm}
+                className="w-full py-4 bg-gradient-to-r from-iris-purple to-mint-green text-white font-semibold rounded-lg hover:opacity-95 transition-all duration-300"
+              >
+                Book a Free Discovery Call
+              </button>
+              
+              <p className="mt-4 text-white/60 text-sm text-center">
+                {isFormSubmitted ? "Check your email for confirmation details" : "We typically respond within one business day"}
+              </p>
+            </motion.div>
           </motion.div>
         </motion.div>
       </div>
@@ -438,13 +287,7 @@ const ComparisonSection = () => {
   );
 };
 
-export default ComparisonSection;
-
-// reasoning: This comparison section directly addresses objections by contrasting
-// Zentric's approach with traditional agencies. The side-by-side format makes the
-// differences immediately apparent, and the visual cues (checkmarks vs X marks)
-// reinforce the positive/negative contrast. The retention metric adds social proof
-// and credibility, while highlighting the aligned incentives reduces perceived risk.
+export default FinalCTA;
 
 ================
 File: app/components/ui/button/index.tsx
@@ -922,162 +765,17 @@ export async function POST(request: NextRequest) {
 }
 
 ================
-File: app/api/leads/complete/route.ts
-================
-import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-import { getDb } from "@/app/lib/db";
-import { leadSubmissions } from "@/app/lib/db/schema";
-import { eq } from "drizzle-orm";
-import { ratelimit, getClientIp } from "@/app/lib/rate-limit";
-
-// Form completion validation schema
-const CompleteFormSchema = z.object({
-  submissionId: z.string().min(1, { message: "Submission ID is required" }),
-  email: z.string().email({ message: "Invalid email address" }),
-  revenue: z.string().min(1, { message: "Monthly revenue is required" }),
-  budget: z.string().min(1, { message: "Marketing budget is required" }),
-  website: z.string().min(1, { message: "Website URL is required" }),
-  firstName: z.string().min(1, { message: "First name is required" }),
-  lastName: z.string().min(1, { message: "Last name is required" }),
-  phone: z.string().min(1, { message: "Phone number is required" }),
-  referralSource: z.string().min(1, { message: "Referral source is required" }),
-});
-
-export async function POST(request: NextRequest) {
-  try {
-    const db = getDb();
-    // Apply rate limiting
-    const ip = getClientIp(request);
-    const { success, limit, reset, remaining } = await ratelimit.limit(`leads_ip_${ip}`);
-    
-    if (!success) {
-      return NextResponse.json(
-        { error: "Too many requests. Please try again later." },
-        { status: 429, headers: { 'X-RateLimit-Limit': limit.toString(), 'X-RateLimit-Remaining': remaining.toString(), 'X-RateLimit-Reset': reset.toString() } }
-      );
-    }
-
-    // Parse request body
-    const body = await request.json();
-    
-    // Validate form data using Zod
-    const result = CompleteFormSchema.safeParse(body);
-    if (!result.success) {
-      const errors = result.error.flatten().fieldErrors;
-      return NextResponse.json({ error: "Validation failed", details: errors }, { status: 400 });
-    }
-    
-    // Extract validated data
-    const { 
-      submissionId, 
-      email, 
-      revenue, 
-      budget, 
-      website, 
-      firstName, 
-      lastName, 
-      phone, 
-      referralSource 
-    } = result.data;
-    
-    // Check if the submission exists
-    const existingSubmission = await db.query.leadSubmissions.findFirst({
-      where: eq(leadSubmissions.id, submissionId)
-    });
-    
-    if (!existingSubmission) {
-      return NextResponse.json({ error: "Submission not found" }, { status: 404 });
-    }
-    
-    // Verify that the email matches what was initially captured
-    if (existingSubmission.email !== email) {
-      return NextResponse.json({ error: "Email mismatch" }, { status: 400 });
-    }
-    
-    // Update the submission with all form data
-    await db
-      .update(leadSubmissions)
-      .set({
-        revenue,
-        budget,
-        website,
-        firstName,
-        lastName,
-        phone,
-        referralSource,
-        status: "complete",
-        completedAt: new Date(),
-        updatedAt: new Date()
-      })
-      .where(eq(leadSubmissions.id, submissionId));
-    
-    // Return success response
-    return NextResponse.json({ 
-      success: true, 
-      message: "Form submission completed successfully" 
-    });
-  } catch (error) {
-    console.error("Error completing form submission:", error);
-    return NextResponse.json(
-      { error: "Failed to process your request" },
-      { status: 500 }
-    );
-  }
-}
-
-================
-File: app/components/sections/CredibilityBar.tsx
+File: app/components/sections/Comparison.tsx
 ================
 'use client';
 
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-
-const CredibilityBar = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const fadeIn = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1, 
-      transition: { duration: 0.6, ease: 'easeOut' }
-    }
-  };
-
-  return (
-    <section className="py-10 bg-nordic-ivory border-y border-deep-navy/10">
-      <div ref={ref} className="container mx-auto px-8">
-        <motion.div 
-          className="flex flex-col items-center"
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          variants={fadeIn}
-        >
-          {/* Content placeholder for future credibility elements */}
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-export default CredibilityBar;
-
-================
-File: app/components/sections/FinalCta.tsx
-================
-'use client';
-
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import CtaButton from '../ui/CtaButton';
 import { useLeadForm } from '../../contexts/LeadFormContext';
 
-const FinalCta = () => {
-  const { openLeadForm } = useLeadForm();
+// Define a simple SolutionSection component right here to avoid import issues
+const SimpleSolutionSection = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -1096,76 +794,325 @@ const FinalCta = () => {
   };
 
   return (
-    <section className="py-20 bg-deep-navy text-white relative overflow-hidden">
-      {/* Background pattern/gradient */}
+    <section id="solution" className="min-h-screen py-20 bg-onyx text-white relative scroll-mt-24 overflow-hidden flex items-center">
       <div className="absolute inset-0 bg-gradient-to-br from-iris-purple/20 to-deep-navy z-0"></div>
       
-      <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-6xl">
+      <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-7xl">
         <motion.div
           initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          variants={fadeUp}
-          className="bg-white/10 backdrop-blur-sm p-10 md:p-16 rounded-3xl border border-white/10 shadow-glass"
+          animate="visible"
+          transition={{ staggerChildren: 0.2 }}
+          className="space-y-16"
         >
-          <div className="flex flex-col items-center text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Ready to Scale Your Brand Profitably?
+          <motion.div variants={fadeUp} className="text-center">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white">
+              The Zentric Growth Engine
             </h2>
-            
-            <p className="text-white/80 text-lg md:text-xl max-w-3xl mb-10">
-              Take the first step toward predictable, data-driven growth. Book your free discovery call now—no commitment, just clarity on what's possible for your business.
+            <p className="text-xl text-white max-w-4xl mx-auto">
+              A complete system to drive predictable revenue growth with a guaranteed
+              <span className="font-bold bg-mint-green text-onyx px-2 py-0.5 rounded mx-1 inline-block">
+                3x blended ROAS
+              </span> 
+              in 90 days or you don't pay.
             </p>
-            
-            <div className="flex flex-col md:flex-row items-center gap-6 mb-12">
-              <CtaButton 
-                text="Book Free Discovery Call" 
-                onClick={openLeadForm}
-                isSecondary={false}
-              />
-              
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                  </svg>
-                </div>
-                <div className="text-white/80">
-                  <span className="font-semibold">30-minute call</span> · No pitch, just strategy
-                </div>
-              </div>
-            </div>
-            
-            {/* Trust factors */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-              <div className="flex flex-col items-center p-6 bg-white/5 rounded-xl border border-white/10">
-                <div className="text-4xl font-bold text-mint-green mb-2">97%</div>
-                <div className="text-white/70 text-center">Client retention rate after 6 months</div>
-              </div>
-              
-              <div className="flex flex-col items-center p-6 bg-white/5 rounded-xl border border-white/10">
-                <div className="text-4xl font-bold text-mint-green mb-2">48h</div>
-                <div className="text-white/70 text-center">Average implementation time for changes</div>
-              </div>
-              
-              <div className="flex flex-col items-center p-6 bg-white/5 rounded-xl border border-white/10">
-                <div className="text-4xl font-bold text-mint-green mb-2">173+</div>
-                <div className="text-white/70 text-center">DTC brands successfully scaled</div>
-              </div>
-            </div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
   );
 };
 
-export default FinalCta;
+const Comparison = () => {
+  const { openLeadForm } = useLeadForm();
+  const [ref, inView] = useInView({
+    triggerOnce: false,
+    threshold: 0.1,
+  });
 
-// reasoning: The final CTA concentrates all previous persuasion elements (results,
-// urgency, social proof) into one final push. The "no pitch, just strategy" text
-// removes resistance, while the trust metrics reinforce the agency's credibility.
-// The glass card design creates visual prominence and helps the section stand out.
+  // State for animations
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.4,
+        ease: [0.16, 1, 0.3, 1]
+      }
+    }
+  };
+
+  // Checkmark animation
+  const checkmarkAnimation = {
+    initial: { scale: 1, opacity: 0.7 },
+    animate: { 
+      scale: [1, 1.3, 1],
+      opacity: 1,
+      transition: { 
+        duration: 0.5,
+        times: [0, 0.5, 1],
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  // Row slide animation
+  const rightSlideAnimation = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+  
+  const leftSlideAnimation = {
+    hidden: { opacity: 0, x: 20 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+
+  // Structure the comparison points with main text and highlight parts
+  const comparisonPoints = [
+    {
+      traditional: "12-month binding contracts",
+      zentric: {
+        main: "No lock-in contracts ",
+        highlight: "- leave after 90 days"
+      }
+    },
+    {
+      traditional: "Siloed teams (creative, ads, email)",
+      zentric: {
+        main: "Founder-level strategists ",
+        highlight: "+ AI creative engine"
+      }
+    },
+    {
+      traditional: "Account manager as primary contact point",
+      zentric: {
+        main: "Text the founders directly ",
+        highlight: "- weekly strategy calls"
+      }
+    },
+    {
+      traditional: "20% commission on ad spend + monthly fees",
+      zentric: {
+        main: "100% transparent rev-share pricing ",
+        highlight: "- we profit when you profit"
+      }
+    },
+    {
+      traditional: "+€8K+ monthly retainer regardless of results",
+      zentric: {
+        main: "Pay for results only ",
+        highlight: "- no retainer after month 2 if targets unmet"
+      }
+    }
+  ];
+
+  return (
+    <>
+    {/* Challenge Section */}
+    <section id="challenge" className="py-20 bg-deep-navy text-white relative scroll-mt-24 overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-5 z-0"></div>
+      
+      {/* Animated gradient accent */}
+      <motion.div 
+        className="absolute top-0 right-0 w-1/3 h-40 bg-gradient-to-r from-iris-purple/30 to-mint-green/30 blur-3xl rounded-full"
+        animate={{
+          x: [50, 0, 50],
+          y: [0, 30, 0],
+          opacity: [0.4, 0.6, 0.4],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          repeatType: "reverse"
+        }}
+      />
+      
+      <div ref={ref} className="container mx-auto px-4 sm:px-6 md:px-12 relative z-10 max-w-7xl">
+        <motion.div
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          transition={{ staggerChildren: 0.2 }}
+          className="space-y-16"
+        >
+          {/* Headline and Subheadline */}
+          <motion.div variants={fadeUp} className="text-center">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white">
+            Stop Paying Agencies to Burn Your Budget
+            </h2>
+            <motion.p 
+              className="text-xl text-white/80 max-w-4xl mx-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              Our revenue depends on yours. We make money when you make money. Period.
+            </motion.p>
+          </motion.div>
+
+          {/* Comparison Table - New Mobile-Friendly Design */}
+          <motion.div 
+            variants={fadeUp} 
+            className="overflow-hidden rounded-2xl shadow-lg bg-deep-navy/50 backdrop-blur-sm border border-white/10"
+          >
+            {/* Table Headers - Visible on desktop, hidden on smallest screens */}
+            <div className="hidden sm:grid grid-cols-2">
+              <div className="bg-white/10 p-6 border-b border-white/10">
+                <h3 className="text-xl font-bold text-white/80">Traditional Agency</h3>
+              </div>
+              <motion.div 
+                className="bg-iris-purple p-6 border-b border-iris-purple/30"
+                initial={{ backgroundColor: "rgba(99, 91, 255, 0.4)" }}
+                animate={{ 
+                  backgroundColor: ["rgba(99, 91, 255, 0.4)", "rgba(99, 91, 255, 0.6)", "rgba(99, 91, 255, 0.4)"]
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                <h3 className="text-xl font-bold">Zentric Growth Engine</h3>
+              </motion.div>
+            </div>
+            
+            {/* Mobile Header - Visible only on smallest screens */}
+            <div className="sm:hidden flex">
+              <div className="w-1/2 bg-white/10 py-4 px-3 border-b border-white/10 flex items-center justify-center">
+                <h3 className="text-base font-bold text-white/80 text-center">Traditional Agency</h3>
+              </div>
+              <motion.div 
+                className="w-1/2 bg-iris-purple py-4 px-3 border-b border-iris-purple/30 flex items-center justify-center"
+                initial={{ backgroundColor: "rgba(99, 91, 255, 0.4)" }}
+                animate={{ 
+                  backgroundColor: ["rgba(99, 91, 255, 0.4)", "rgba(99, 91, 255, 0.6)", "rgba(99, 91, 255, 0.4)"]
+                }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                <h3 className="text-base font-bold text-center">Zentric Growth</h3>
+              </motion.div>
+            </div>
+            
+            {/* Comparison Rows - Optimized for both mobile and desktop */}
+            {comparisonPoints.map((point, index) => (
+              <div key={index} className="grid grid-cols-2 relative">
+                {/* Traditional Agency Column */}
+                <motion.div 
+                  className={`px-3 py-4 sm:p-6 ${index % 2 === 0 ? 'bg-white/5' : 'bg-transparent'} transition-all duration-300 opacity-60 relative`}
+                  variants={rightSlideAnimation}
+                  onMouseEnter={() => setActiveIndex(index)}
+                  onMouseLeave={() => setActiveIndex(null)}
+                  animate={activeIndex === index ? { opacity: 0.3 } : { opacity: 0.6 }}
+                >
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <div className="min-w-5 w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center mt-0.5 shadow-sm">
+                      <span className="text-xs font-bold text-red-500">✕</span>
+                    </div>
+                    <span className="text-sm sm:text-base text-white/80">{point.traditional}</span>
+                  </div>
+                </motion.div>
+                
+                {/* Zentric Column */}
+                <motion.div 
+                  className={`px-3 py-4 sm:p-6 ${index % 2 === 0 ? 'bg-iris-purple/10' : 'bg-iris-purple/5'} transition-all duration-300 relative`}
+                  variants={leftSlideAnimation}
+                  onMouseEnter={() => setActiveIndex(index)}
+                  onMouseLeave={() => setActiveIndex(null)}
+                  whileHover={{ 
+                    backgroundColor: "rgba(99, 91, 255, 0.2)",
+                    transition: { duration: 0.2 }
+                  }}
+                >
+                  {/* Highlight effect on hover */}
+                  <AnimatePresence>
+                    {activeIndex === index && (
+                      <motion.div 
+                        className="absolute inset-0 bg-gradient-to-r from-iris-purple/10 to-mint-green/10"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    )}
+                  </AnimatePresence>
+                  
+                  <div className="flex items-start gap-2 sm:gap-3 relative z-10">
+                    <motion.div 
+                      className="min-w-5 w-5 h-5 rounded-full bg-mint-green/20 flex items-center justify-center mt-0.5 shadow-sm"
+                      variants={checkmarkAnimation}
+                      initial="initial"
+                      animate={activeIndex === index ? "animate" : "initial"}
+                    >
+                      <span className="text-xs font-bold text-mint-green">✓</span>
+                    </motion.div>
+                    <span className="flex flex-col sm:flex-row">
+                      <motion.span 
+                        className="bg-clip-text text-transparent bg-gradient-to-br from-iris-purple to-mint-green font-medium text-sm sm:text-base"
+                        initial={{ opacity: 0.9 }}
+                        animate={activeIndex === index ? 
+                          { opacity: 1, scale: 1.02 } : 
+                          { opacity: 0.9, scale: 1 }
+                        }
+                        transition={{ duration: 0.3 }}
+                      >
+                        {point.zentric.main}
+                      </motion.span>
+                      <span className="text-sm sm:text-base text-white">
+                        <span className="inline-block">&nbsp;{point.zentric.highlight}</span>
+                      </span>
+                    </span>
+                  </div>
+                </motion.div>
+                
+                {/* Mobile separator line */}
+                {index < comparisonPoints.length - 1 && (
+                  <div className="col-span-2 h-px bg-white/10 sm:hidden"></div>
+                )}
+              </div>
+            ))}
+
+            {/* Mobile CTA to open lead form */}
+            <div 
+              onClick={openLeadForm}
+              className="sm:hidden p-4 bg-gradient-to-r from-iris-purple/20 to-mint-green/20 text-center cursor-pointer hover:from-iris-purple/30 hover:to-mint-green/30 transition-all duration-300"
+            >
+              <div className="w-full py-3 px-4 text-white font-medium text-sm">
+                Book a Free Discovery Call
+              </div>
+            </div>
+            
+            {/* Desktop CTA to open lead form */}
+            <div 
+              onClick={openLeadForm}
+              className="hidden sm:block p-5 bg-gradient-to-r from-iris-purple/20 to-mint-green/20 text-center border-t border-white/10 cursor-pointer hover:from-iris-purple/30 hover:to-mint-green/30 transition-all duration-300"
+            >
+              <div className="px-8 py-4 text-white font-medium">
+                Book a Free Discovery Call
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+
+    {/* Render the SimpleSolutionSection to ensure it's part of the page */}
+    {/* <SimpleSolutionSection /> */}
+    </>
+  );
+};
+
+export default Comparison;
+
+// reasoning: This section follows the Problem-Agitation-Solution copywriting framework.
+// It establishes clear pain points, agitates them by contrasting with typical agency behavior,
+// then presents Zentric's solution. The contrast box with specific metrics (3× ROAS)
+// provides quantifiable proof, building credibility and desire.
 
 ================
 File: app/components/sections/Guarantees.tsx
@@ -1468,135 +1415,350 @@ export default ProcessTimeline;
 // reinforces the speed and efficacy of the process.
 
 ================
-File: app/components/sections/RiskReversal.tsx
+File: app/lib/db/index.ts
+================
+import { neon, neonConfig } from '@neondatabase/serverless';
+import { drizzle, NeonHttpDatabase } from 'drizzle-orm/neon-http';
+import * as schema from './schema';
+
+// Optional: Disable usage of WebSockets in environments that don't allow them
+neonConfig.fetchConnectionCache = true;
+
+let db: NeonHttpDatabase<typeof schema> | null = null;
+
+export const getDb = () => {
+  if (db) {
+    return db;
+  }
+
+  const databaseUrl = process.env.NEON_DATABASE_URL || process.env.DATABASE_URL;
+
+  // Log connection status for debugging (only in development)
+  if (process.env.NODE_ENV === 'development') {
+    if (!databaseUrl) {
+      console.warn('⚠️ No database URL found. Please set NEON_DATABASE_URL or DATABASE_URL in your .env.local file.');
+    } else {
+      console.log('✅ Database URL found. Connecting to PostgreSQL.');
+    }
+  }
+
+  if (!databaseUrl) {
+    throw new Error("Database URL is not defined in environment variables. Set NEON_DATABASE_URL or DATABASE_URL.");
+  }
+  
+  const sql = neon(databaseUrl);
+  
+  db = drizzle(sql, { schema });
+  
+  return db;
+};
+
+// Export a type for the database client
+export type DbClient = NeonHttpDatabase<typeof schema>;
+
+================
+File: app/providers.tsx
 ================
 'use client';
 
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import CtaButton from '../ui/CtaButton';
-import { useLeadForm } from '../../contexts/LeadFormContext';
+import React from 'react';
+import { LeadFormProvider } from './contexts/LeadFormContext';
 
-const RiskReversal = () => {
-  const { openLeadForm } = useLeadForm();
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+export default function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <LeadFormProvider>
+      {children}
+    </LeadFormProvider>
+  );
+}
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.4,
-        ease: [0.16, 1, 0.3, 1]
-      }
+================
+File: app/api/leads/complete/route.ts
+================
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { getDb } from "@/app/lib/db";
+import { leadSubmissions } from "@/app/lib/db/schema";
+import { eq } from "drizzle-orm";
+import { ratelimit, getClientIp } from "@/app/lib/rate-limit";
+
+// Form completion validation schema
+const CompleteFormSchema = z.object({
+  submissionId: z.string().min(1, { message: "Submission ID is required" }),
+  email: z.string().email({ message: "Invalid email address" }),
+  revenue: z.string().min(1, { message: "Monthly revenue is required" }),
+  budget: z.string().min(1, { message: "Marketing budget is required" }),
+  website: z.string().min(1, { message: "Website URL is required" }),
+  firstName: z.string().min(1, { message: "First name is required" }),
+  lastName: z.string().min(1, { message: "Last name is required" }),
+  phone: z.string().optional(),
+  referralSource: z.string().min(1, { message: "Referral source is required" }),
+});
+
+export async function POST(request: NextRequest) {
+  try {
+    const db = getDb();
+    // Apply rate limiting
+    const ip = getClientIp(request);
+    const { success, limit, reset, remaining } = await ratelimit.limit(`leads_ip_${ip}`);
+    
+    if (!success) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429, headers: { 'X-RateLimit-Limit': limit.toString(), 'X-RateLimit-Remaining': remaining.toString(), 'X-RateLimit-Reset': reset.toString() } }
+      );
     }
-  };
+
+    // Parse request body
+    const body = await request.json();
+    
+    // Validate form data using Zod
+    const result = CompleteFormSchema.safeParse(body);
+    if (!result.success) {
+      const errors = result.error.flatten().fieldErrors;
+      return NextResponse.json({ error: "Validation failed", details: errors }, { status: 400 });
+    }
+    
+    // Extract validated data
+    const { 
+      submissionId, 
+      email, 
+      revenue, 
+      budget, 
+      website, 
+      firstName, 
+      lastName, 
+      phone, 
+      referralSource 
+    } = result.data;
+    
+    // Check if the submission exists
+    const existingSubmission = await db.query.leadSubmissions.findFirst({
+      where: eq(leadSubmissions.id, submissionId)
+    });
+    
+    if (!existingSubmission) {
+      return NextResponse.json({ error: "Submission not found" }, { status: 404 });
+    }
+    
+    // Verify that the email matches what was initially captured
+    if (existingSubmission.email !== email) {
+      return NextResponse.json({ error: "Email mismatch" }, { status: 400 });
+    }
+    
+    // Update the submission with all form data
+    await db
+      .update(leadSubmissions)
+      .set({
+        revenue,
+        budget,
+        website,
+        firstName,
+        lastName,
+        phone,
+        referralSource,
+        status: "complete",
+        completedAt: new Date(),
+        updatedAt: new Date()
+      })
+      .where(eq(leadSubmissions.id, submissionId));
+    
+    // Return success response
+    return NextResponse.json({ 
+      success: true, 
+      message: "Form submission completed successfully" 
+    });
+  } catch (error) {
+    console.error("Error completing form submission:", error);
+    return NextResponse.json(
+      { error: "Failed to process your request" },
+      { status: 500 }
+    );
+  }
+}
+
+================
+File: app/cases/page.tsx
+================
+'use client';
+
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import Footer from '../components/sections/Footer';
+import Navigation from '../components/ui/Navigation';
+import { useLeadForm } from '../contexts/LeadFormContext';
+
+export default function Cases() {
+  const [activeTab, setActiveTab] = useState('all');
+  const [isGridView, setIsGridView] = useState(true);
+  const { openLeadForm } = useLeadForm();
+
+  const tabs = [
+    { id: 'all', label: 'All Cases' },
+    { id: 'ecommerce', label: 'E-commerce' },
+    { id: 'saas', label: 'SaaS' },
+    { id: 'subscription', label: 'Subscription' }
+  ];
+
+  const caseStudies = [
+    {
+      id: 1,
+      title: 'FashionBrand: 324% ROAS Increase in 60 Days',
+      category: 'ecommerce',
+      metrics: [
+        { label: 'ROAS Increase', value: '324%' },
+        { label: 'CPA Reduction', value: '42%' },
+        { label: 'Revenue Growth', value: '2.8x' }
+      ],
+      description: 'How we transformed an underperforming ad account into a high-ROAS machine for this fashion e-commerce brand.'
+    },
+    {
+      id: 2,
+      title: 'SaaS Platform: Customer Acquisition Cost Cut by 38%',
+      category: 'saas',
+      metrics: [
+        { label: 'CAC Reduction', value: '38%' },
+        { label: 'Demo Requests', value: '+156%' },
+        { label: 'LTV:CAC Ratio', value: '4.2:1' }
+      ],
+      description: 'Strategic funnel optimization and targeted audience refinement for a B2B SaaS platform.'
+    },
+    {
+      id: 3,
+      title: 'Subscription Box: From $50K to $250K MRR in 90 Days',
+      category: 'subscription',
+      metrics: [
+        { label: 'Revenue Growth', value: '5x' },
+        { label: 'Retention Rate', value: '+28%' },
+        { label: 'Acquisition Cost', value: '-32%' }
+      ],
+      description: 'Scaling a niche subscription box service with multi-channel acquisition and retention strategies.'
+    },
+    {
+      id: 4,
+      title: 'BeautyBrand: Scaling to 7-Figures with Meta Ads',
+      category: 'ecommerce',
+      metrics: [
+        { label: 'Ad Spend', value: '$150K' },
+        { label: 'Revenue', value: '$720K' },
+        { label: 'ROAS', value: '4.8x' }
+      ],
+      description: 'How we helped a beauty brand break through the 7-figure revenue mark with optimized Meta advertising.'
+    }
+  ];
+
+  const filteredCases = activeTab === 'all' 
+    ? caseStudies 
+    : caseStudies.filter(item => item.category === activeTab);
 
   return (
-    <section className="py-20 bg-nordic-ivory relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-iris-purple/5 to-mint-green/5 z-0"></div>
-      
-      <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-7xl">
-        <motion.div
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          transition={{ staggerChildren: 0.2 }}
-          className="space-y-16"
-        >
-          <motion.div variants={fadeUp} className="text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Zero-Risk Guarantee
-            </h2>
-            <p className="text-deep-navy/80 text-lg">
-              We're so confident in our ability to drive results that we've completely reversed the risk.
-            </p>
-          </motion.div>
+    <main className="bg-ivory-background min-h-screen">
+      {/* Navigation Component */}
+      <Navigation />
 
-          <motion.div variants={fadeUp} className="bg-white p-10 rounded-3xl shadow-sm border border-deep-navy/5 max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row gap-8 items-center">
-              <div className="md:w-1/3 flex justify-center">
-                <div className="w-56 h-56 rounded-full bg-gradient-to-br from-iris-purple to-mint-green flex items-center justify-center p-1">
-                  <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-iris-purple text-5xl font-bold mb-2">30</div>
-                      <div className="text-deep-navy font-semibold">Day Guarantee</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold mb-4">No Results, No Fee</h3>
-                <p className="text-deep-navy/80 mb-6">
-                  If we don't deliver measurable improvements to your key metrics within the first 30 days, you don't pay a cent. And you keep all the strategy documents, customer insights, and optimization plans we've created.
-                </p>
-                
-                <div className="space-y-4 mb-8">
-                  <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-mint-green/20 flex items-center justify-center mt-0.5">
-                      <span className="text-xs text-mint-green">✓</span>
-                    </div>
-                    <span className="text-deep-navy/80">Minimum 20% improvement in primary KPI</span>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-mint-green/20 flex items-center justify-center mt-0.5">
-                      <span className="text-xs text-mint-green">✓</span>
-                    </div>
-                    <span className="text-deep-navy/80">No long-term contracts—cancel anytime</span>
-                  </div>
-                  
-                  <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-mint-green/20 flex items-center justify-center mt-0.5">
-                      <span className="text-xs text-mint-green">✓</span>
-                    </div>
-                    <span className="text-deep-navy/80">You own all deliverables and assets</span>
-                  </div>
-                </div>
-                
-                <div className="pt-6 border-t border-deep-navy/10">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-deep-navy/5 flex items-center justify-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-deep-navy">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="font-semibold">Full Transparency</div>
-                      <div className="text-deep-navy/60 text-sm">Weekly metrics reports—you always know where you stand</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+      {/* Main Content */}
+      <div className="pt-32 pb-20 px-6 md:px-8 max-w-7xl mx-auto">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-10">Case Studies</h1>
+        
+        {/* Filters and View Toggle */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 space-y-4 md:space-y-0">
+          {/* Category Tabs */}
+          <div className="flex flex-wrap gap-2">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                  activeTab === tab.id 
+                    ? 'bg-iris-purple text-white' 
+                    : 'bg-white hover:bg-iris-purple/10 text-deep-navy'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
           
-          <motion.div variants={fadeUp} className="text-center">
-            <CtaButton 
-              text="Book Free Discovery Call" 
+          {/* View Toggle */}
+          <div className="bg-white rounded-full p-1 flex">
+            <button
+              onClick={() => setIsGridView(true)}
+              className={`p-2 rounded-full ${
+                isGridView ? 'bg-iris-purple text-white' : 'text-deep-navy'
+              }`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+              </svg>
+            </button>
+            <button
+              onClick={() => setIsGridView(false)}
+              className={`p-2 rounded-full ${
+                !isGridView ? 'bg-iris-purple text-white' : 'text-deep-navy'
+              }`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        {/* Case Studies Grid/List */}
+        <div className={`grid ${isGridView ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'} gap-8`}>
+          {filteredCases.map((caseStudy) => (
+            <motion.div
+              key={caseStudy.id}
+              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <div className="p-6 md:p-8">
+                <h3 className="text-xl md:text-2xl font-bold mb-4">{caseStudy.title}</h3>
+                
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  {caseStudy.metrics.map((metric, index) => (
+                    <div key={index} className="bg-nordic-ivory/50 p-3 rounded-lg text-center">
+                      <div className="text-iris-purple font-bold text-xl md:text-2xl">{metric.value}</div>
+                      <div className="text-xs md:text-sm text-onyx/70">{metric.label}</div>
+                    </div>
+                  ))}
+                </div>
+                
+                <p className="text-onyx/80 mb-6">{caseStudy.description}</p>
+                
+                <button className="text-iris-purple font-medium flex items-center">
+                  Read Case Study
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        
+        {/* CTA Section */}
+        <div className="mt-16 bg-deep-navy text-white rounded-3xl p-8 md:p-12">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-2xl md:text-3xl font-semibold mb-6">Want Similar Results?</h2>
+            <p className="text-xl text-white/80 mb-8">Book a discovery call to see how we can transform your marketing performance.</p>
+            <button 
               onClick={openLeadForm}
-              isSecondary={false}
-            />
-            <p className="mt-4 text-deep-navy/60 text-sm">
-              Limited availability: We only take on 5 new clients per month
-            </p>
-          </motion.div>
-        </motion.div>
+              className="bg-iris-purple hover:bg-iris-purple-light text-white py-4 px-8 rounded-full font-semibold transition-colors duration-300"
+            >
+              Book Free Discovery Call
+            </button>
+          </div>
+        </div>
       </div>
-    </section>
+
+      <Footer />
+    </main>
   );
-};
-
-export default RiskReversal;
-
-// reasoning: This section addresses the biggest objection (risk) by turning it into
-// a benefit. The 30-day guarantee with a clear "No Results, No Fee" policy removes
-// the perceived risk of engaging with Zentric. The addition of scarcity ("only take
-// on 5 new clients per month") creates urgency and increases conversion probability.
+}
 
 ================
 File: app/components/sections/SolutionSection.tsx
@@ -1675,24 +1837,7 @@ const SolutionSection = () => {
               The Zentric Growth Engine
             </h2>
             <p className="text-xl text-white max-w-4xl mx-auto">
-              A complete system to drive predictable revenue growth with a guaranteed
-              <motion.span 
-                className="font-bold bg-mint-green text-onyx px-2 py-0.5 rounded mx-1 inline-block"
-                initial={{ opacity: 1 }}
-                animate={{ 
-                  scale: [1, 1.15, 1],
-                  transition: { 
-                    duration: 0.8,
-                    repeat: Infinity,
-                    repeatDelay: 5,
-                    times: [0, 0.5, 1],
-                    ease: "easeInOut" 
-                  }
-                }}
-              >
-                3× blended ROAS
-              </motion.span> 
-              in 90 days or you don't pay.
+            The growth engine that delivers: Increased traffic, streamlined funnels, better ads, higher ROAS.
             </p>
           </motion.div>
           
@@ -1905,6 +2050,7 @@ type FormData = {
   lastName: string;
   phone: string;
   referralSource: string;
+  otherReferralSource?: string;
   submissionId?: string; // Add submission ID for tracking the form
 }
 
@@ -1920,8 +2066,17 @@ const fullFormSchema = z.object({
   website: z.string().url({ message: "Please enter a valid website URL" }).or(z.string().min(1, { message: "Please enter your website URL" })),
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
-  phone: z.string().min(1, { message: "Phone number is required" }),
+  phone: z.string().optional(),
   referralSource: z.string().min(1, { message: "Please select how you heard about us" }),
+  otherReferralSource: z.string().optional(),
+}).refine(data => {
+    if (data.referralSource === 'Other') {
+        return !!data.otherReferralSource && data.otherReferralSource.length > 0;
+    }
+    return true;
+}, {
+    message: "Please specify how you heard about us",
+    path: ["otherReferralSource"],
 });
 
 type LeadFormProps = {
@@ -2024,7 +2179,8 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
         const formattedErrors: Record<string, string> = {};
         error.errors.forEach((err) => {
           if (err.path.length > 0) {
-            formattedErrors[err.path[0].toString()] = err.message;
+            const path = err.path.join('.');
+            formattedErrors[path] = err.message;
           }
         });
         setErrors(formattedErrors);
@@ -2043,7 +2199,8 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
         const formattedErrors: Record<string, string> = {};
         error.errors.forEach((err) => {
           if (err.path.length > 0) {
-            formattedErrors[err.path[0].toString()] = err.message;
+            const path = err.path.join('.');
+            formattedErrors[path] = err.message;
           }
         });
         setErrors(formattedErrors);
@@ -2120,7 +2277,12 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
         
         // Small delay to show the thank you message before closing
         setTimeout(() => {
-          onSubmit(formData);
+            const finalData = { ...formData };
+            if (finalData.referralSource === 'Other') {
+                finalData.referralSource = finalData.otherReferralSource || 'Other';
+            }
+            delete finalData.otherReferralSource;
+            onSubmit(finalData);
         }, 1500);
       } catch (error) {
         console.error('Error submitting form:', error);
@@ -2333,7 +2495,7 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
             type="tel"
             value={formData.phone}
             onChange={(e) => handleInputChange('phone', e.target.value)}
-            placeholder="Phone number"
+            placeholder="Phone number (Optional)"
             className="w-full p-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-iris-purple"
           />
           {errors.phone && <p className="text-red-400 text-sm mt-1">{errors.phone}</p>}
@@ -2361,6 +2523,18 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
             </button>
           ))}
         </div>
+        {formData.referralSource === 'Other' && (
+            <div className="mt-4">
+                <input
+                    type="text"
+                    value={formData.otherReferralSource || ''}
+                    onChange={(e) => handleInputChange('otherReferralSource', e.target.value)}
+                    placeholder="Please specify"
+                    className="w-full p-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-iris-purple"
+                />
+                {errors.otherReferralSource && <p className="text-red-400 text-sm mt-1">{errors.otherReferralSource}</p>}
+            </div>
+        )}
         {errors.referralSource && <p className="text-red-400 text-sm">{errors.referralSource}</p>}
       </div>
     </div>
@@ -2493,7 +2667,7 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
                         {step === 'email' ? 'Processing...' : 'Submitting...'}
                       </span>
                     ) : (
-                      step === 'email' ? 'Continue' : 'Submit Application'
+                      step === 'email' ? 'Continue' : 'Submit for a Free Discovery Call'
                     )}
                   </Button>
                 </div>
@@ -2507,645 +2681,6 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
 };
 
 export default LeadForm;
-
-================
-File: app/lib/db/index.ts
-================
-import { neon, neonConfig } from '@neondatabase/serverless';
-import { drizzle, NeonHttpDatabase } from 'drizzle-orm/neon-http';
-import * as schema from './schema';
-
-// Optional: Disable usage of WebSockets in environments that don't allow them
-neonConfig.fetchConnectionCache = true;
-
-let db: NeonHttpDatabase<typeof schema> | null = null;
-
-export const getDb = () => {
-  if (db) {
-    return db;
-  }
-
-  const databaseUrl = process.env.NEON_DATABASE_URL || process.env.DATABASE_URL;
-
-  // Log connection status for debugging (only in development)
-  if (process.env.NODE_ENV === 'development') {
-    if (!databaseUrl) {
-      console.warn('⚠️ No database URL found. Please set NEON_DATABASE_URL or DATABASE_URL in your .env.local file.');
-    } else {
-      console.log('✅ Database URL found. Connecting to PostgreSQL.');
-    }
-  }
-
-  if (!databaseUrl) {
-    throw new Error("Database URL is not defined in environment variables. Set NEON_DATABASE_URL or DATABASE_URL.");
-  }
-  
-  const sql = neon(databaseUrl);
-  
-  db = drizzle(sql, { schema });
-  
-  return db;
-};
-
-// Export a type for the database client
-export type DbClient = NeonHttpDatabase<typeof schema>;
-
-================
-File: app/providers.tsx
-================
-'use client';
-
-import React from 'react';
-import { LeadFormProvider } from './contexts/LeadFormContext';
-
-export default function Providers({ children }: { children: React.ReactNode }) {
-  return (
-    <LeadFormProvider>
-      {children}
-    </LeadFormProvider>
-  );
-}
-
-================
-File: app/cases/page.tsx
-================
-'use client';
-
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import Footer from '../components/sections/Footer';
-import Navigation from '../components/ui/Navigation';
-import { useLeadForm } from '../contexts/LeadFormContext';
-
-export default function Cases() {
-  const [activeTab, setActiveTab] = useState('all');
-  const [isGridView, setIsGridView] = useState(true);
-  const { openLeadForm } = useLeadForm();
-
-  const tabs = [
-    { id: 'all', label: 'All Cases' },
-    { id: 'ecommerce', label: 'E-commerce' },
-    { id: 'saas', label: 'SaaS' },
-    { id: 'subscription', label: 'Subscription' }
-  ];
-
-  const caseStudies = [
-    {
-      id: 1,
-      title: 'FashionBrand: 324% ROAS Increase in 60 Days',
-      category: 'ecommerce',
-      metrics: [
-        { label: 'ROAS Increase', value: '324%' },
-        { label: 'CPA Reduction', value: '42%' },
-        { label: 'Revenue Growth', value: '2.8x' }
-      ],
-      description: 'How we transformed an underperforming ad account into a high-ROAS machine for this fashion e-commerce brand.'
-    },
-    {
-      id: 2,
-      title: 'SaaS Platform: Customer Acquisition Cost Cut by 38%',
-      category: 'saas',
-      metrics: [
-        { label: 'CAC Reduction', value: '38%' },
-        { label: 'Demo Requests', value: '+156%' },
-        { label: 'LTV:CAC Ratio', value: '4.2:1' }
-      ],
-      description: 'Strategic funnel optimization and targeted audience refinement for a B2B SaaS platform.'
-    },
-    {
-      id: 3,
-      title: 'Subscription Box: From $50K to $250K MRR in 90 Days',
-      category: 'subscription',
-      metrics: [
-        { label: 'Revenue Growth', value: '5x' },
-        { label: 'Retention Rate', value: '+28%' },
-        { label: 'Acquisition Cost', value: '-32%' }
-      ],
-      description: 'Scaling a niche subscription box service with multi-channel acquisition and retention strategies.'
-    },
-    {
-      id: 4,
-      title: 'BeautyBrand: Scaling to 7-Figures with Meta Ads',
-      category: 'ecommerce',
-      metrics: [
-        { label: 'Ad Spend', value: '$150K' },
-        { label: 'Revenue', value: '$720K' },
-        { label: 'ROAS', value: '4.8x' }
-      ],
-      description: 'How we helped a beauty brand break through the 7-figure revenue mark with optimized Meta advertising.'
-    }
-  ];
-
-  const filteredCases = activeTab === 'all' 
-    ? caseStudies 
-    : caseStudies.filter(item => item.category === activeTab);
-
-  return (
-    <main className="bg-ivory-background min-h-screen">
-      {/* Navigation Component */}
-      <Navigation />
-
-      {/* Main Content */}
-      <div className="pt-32 pb-20 px-6 md:px-8 max-w-7xl mx-auto">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-10">Case Studies</h1>
-        
-        {/* Filters and View Toggle */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 space-y-4 md:space-y-0">
-          {/* Category Tabs */}
-          <div className="flex flex-wrap gap-2">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                  activeTab === tab.id 
-                    ? 'bg-iris-purple text-white' 
-                    : 'bg-white hover:bg-iris-purple/10 text-deep-navy'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-          
-          {/* View Toggle */}
-          <div className="bg-white rounded-full p-1 flex">
-            <button
-              onClick={() => setIsGridView(true)}
-              className={`p-2 rounded-full ${
-                isGridView ? 'bg-iris-purple text-white' : 'text-deep-navy'
-              }`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-              </svg>
-            </button>
-            <button
-              onClick={() => setIsGridView(false)}
-              className={`p-2 rounded-full ${
-                !isGridView ? 'bg-iris-purple text-white' : 'text-deep-navy'
-              }`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
-        </div>
-        
-        {/* Case Studies Grid/List */}
-        <div className={`grid ${isGridView ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'} gap-8`}>
-          {filteredCases.map((caseStudy) => (
-            <motion.div
-              key={caseStudy.id}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <div className="p-6 md:p-8">
-                <h3 className="text-xl md:text-2xl font-bold mb-4">{caseStudy.title}</h3>
-                
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  {caseStudy.metrics.map((metric, index) => (
-                    <div key={index} className="bg-nordic-ivory/50 p-3 rounded-lg text-center">
-                      <div className="text-iris-purple font-bold text-xl md:text-2xl">{metric.value}</div>
-                      <div className="text-xs md:text-sm text-onyx/70">{metric.label}</div>
-                    </div>
-                  ))}
-                </div>
-                
-                <p className="text-onyx/80 mb-6">{caseStudy.description}</p>
-                
-                <button className="text-iris-purple font-medium flex items-center">
-                  Read Case Study
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </button>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        
-        {/* CTA Section */}
-        <div className="mt-16 bg-deep-navy text-white rounded-3xl p-8 md:p-12">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-semibold mb-6">Want Similar Results?</h2>
-            <p className="text-xl text-white/80 mb-8">Book a discovery call to see how we can transform your marketing performance.</p>
-            <button 
-              onClick={openLeadForm}
-              className="bg-iris-purple hover:bg-iris-purple-light text-white py-4 px-8 rounded-full font-semibold transition-colors duration-300"
-            >
-              Book Free Discovery Call
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <Footer />
-    </main>
-  );
-}
-
-================
-File: app/components/sections/Footer.tsx
-================
-'use client';
-
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import Image from 'next/image';
-import Link from 'next/link';
-
-const Footer = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.4,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
-
-  return (
-    <footer className="bg-onyx text-white py-16 relative">
-      <div ref={ref} className="container mx-auto px-6 md:px-12">
-        <motion.div
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          variants={fadeUp}
-          className="flex flex-col items-center text-center"
-        >
-          {/* Logo and value proposition */}
-          <Image
-            src="/images/logo-grey.png"
-            alt="Zentric Digital Logo"
-            width={80}
-            height={21}
-            className="mb-6"
-          />
-          
-          <p className="text-white/70 mb-8 max-w-md text-center">
-            Transform under-performing funnels into compounding profit engines in 30 days — or you don't pay.
-          </p>
-          
-          {/* CTA Button */}
-          <Link 
-            href="/contact"
-            className="bg-iris-purple hover:bg-iris-purple/90 text-white font-medium px-8 py-3 rounded-md transition-all duration-300 hover:shadow-lg mb-16"
-          >
-            Book Your Strategy Call
-          </Link>
-          
-          {/* Minimal bottom section */}
-          <div className="w-full pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center">
-            <div className="text-white/50 text-sm mb-4 md:mb-0">
-              © {new Date().getFullYear()} Zentric Digital. All rights reserved.
-            </div>
-            <div className="flex space-x-6">
-              <a href="/privacy" className="text-white/50 hover:text-mint-green text-sm transition-colors">Privacy Policy</a>
-              <a href="/terms" className="text-white/50 hover:text-mint-green text-sm transition-colors">Terms of Service</a>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </footer>
-  );
-};
-
-export default Footer;
-
-// reasoning: The footer completes the landing page with important navigational elements
-// and legal links, while reinforcing the brand message one last time. The layout
-// follows a conventional pattern that users expect, improving usability. Social media
-// links add credibility and additional contact points.
-
-================
-File: app/components/sections/OfferStack.tsx
-================
-'use client';
-
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import CtaButton from '../ui/CtaButton';
-import { useLeadForm } from '../../contexts/LeadFormContext';
-
-const OfferStack = () => {
-  const { openLeadForm } = useLeadForm();
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.4,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
-
-  return (
-    <section className="py-24 bg-nordic-ivory text-onyx relative overflow-hidden" id="offer-layout-1">
-      <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-6xl">
-        <motion.div
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          transition={{ staggerChildren: 0.2 }}
-          className="space-y-16"
-        >
-          {/* Header */}
-          <motion.div variants={fadeUp} className="text-center max-w-3xl mx-auto">
-            <span className="text-iris-purple font-medium uppercase tracking-wider text-sm">Zero Setup Fee</span>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 mt-3">
-              Precision-Driven Growth Engine
-            </h2>
-            <p className="text-deep-navy/80 text-xl">
-              For lifestyle brands seeking predictable revenue with a <span className="font-bold">minimum 3× blended ROAS in 90 days</span>.
-            </p>
-          </motion.div>
-
-          {/* Main Offer Card */}
-          <motion.div variants={fadeUp} className="bg-white rounded-3xl shadow-lg p-1 overflow-hidden">
-            <div className="p-8 md:p-10">
-              <div className="flex flex-col md:flex-row gap-10">
-                {/* Left Column - What You Get */}
-                <div className="flex-1 space-y-8">
-                  <h3 className="text-2xl font-bold text-deep-navy">What You Get</h3>
-                  
-                  <div className="space-y-5">
-                    {/* Service 1 */}
-                    <div className="flex gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-iris-purple/10 flex items-center justify-center flex-shrink-0">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M20 6L9 17L4 12" stroke="#635BFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-lg">Meta & TikTok Paid Media</h4>
-                        <p className="text-deep-navy/70">Strategic campaign management to maximize ROAS</p>
-                      </div>
-                    </div>
-                    
-                    {/* Service 2 */}
-                    <div className="flex gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-iris-purple/10 flex items-center justify-center flex-shrink-0">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M20 6L9 17L4 12" stroke="#635BFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-lg">CRO Optimization Sprints</h4>
-                        <p className="text-deep-navy/70">On-site copy, layout and offer-sequencing tests</p>
-                      </div>
-                    </div>
-                    
-                    {/* Service 3 */}
-                    <div className="flex gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-iris-purple/10 flex items-center justify-center flex-shrink-0">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M20 6L9 17L4 12" stroke="#635BFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-lg">AI-Powered Creative Engine</h4>
-                        <p className="text-deep-navy/70">Rapid ad variants in less than 48 hours</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Right Column - Bonuses & Guarantee */}
-                <div className="flex-1 space-y-8">
-                  <h3 className="text-2xl font-bold text-deep-navy">Included Bonuses</h3>
-                  
-                  <div className="space-y-5">
-                    {/* Bonus 1 */}
-                    <div className="flex gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-mint-green/10 flex items-center justify-center flex-shrink-0">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="#53DD6C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-lg">Landing-Page Copy Polish</h4>
-                        <p className="text-deep-navy/70">Hero section rewritten for clarity & conversion</p>
-                      </div>
-                    </div>
-                    
-                    {/* Bonus 2 */}
-                    <div className="flex gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-mint-green/10 flex items-center justify-center flex-shrink-0">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="#53DD6C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-lg">Rapid-Win CRO Checklist</h4>
-                        <p className="text-deep-navy/70">25-point friction-killer punch list, prioritized</p>
-                      </div>
-                    </div>
-                    
-                    {/* Bonus 3 */}
-                    <div className="flex gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-mint-green/10 flex items-center justify-center flex-shrink-0">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="#53DD6C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-lg">48-Hour Creative Blast</h4>
-                        <p className="text-deep-navy/70">Three ad concepts shipped in the first two days</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Guarantees */}
-              <div className="mt-12 border-t border-gray-200 pt-10">
-                <h3 className="text-2xl font-bold text-deep-navy mb-6">Our Guarantees</h3>
-                
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {/* Guarantee 1 */}
-                  <div className="bg-nordic-ivory rounded-xl p-4">
-                    <h4 className="font-bold text-iris-purple">Creative Blast SLA</h4>
-                    <p className="text-sm text-deep-navy/80 mt-1">Testing ad set live within 48 hours</p>
-                  </div>
-                  
-                  {/* Guarantee 2 */}
-                  <div className="bg-nordic-ivory rounded-xl p-4">
-                    <h4 className="font-bold text-iris-purple">3× ROAS Pledge</h4>
-                    <p className="text-sm text-deep-navy/80 mt-1">Or we work free until target is achieved</p>
-                  </div>
-                  
-                  {/* Guarantee 3 */}
-                  <div className="bg-nordic-ivory rounded-xl p-4">
-                    <h4 className="font-bold text-iris-purple">No-Lock-In Exit</h4>
-                    <p className="text-sm text-deep-navy/80 mt-1">Leave with 15-day notice after 90 days</p>
-                  </div>
-                  
-                  {/* Guarantee 4 */}
-                  <div className="bg-nordic-ivory rounded-xl p-4">
-                    <h4 className="font-bold text-iris-purple">Zero-Spend Mark-Up</h4>
-                    <p className="text-sm text-deep-navy/80 mt-1">We never skim ad budget, guaranteed</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* CTA */}
-              <div className="mt-12 text-center">
-                <CtaButton 
-                  text="Book Free Discovery Call" 
-                  onClick={openLeadForm}
-                  isSecondary={false}
-                />
-                <p className="mt-4 text-deep-navy/60 text-sm">No obligation. 30-minute fit check call.</p>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-export default OfferStack;
-
-// reasoning: This section uses value-based pricing and the Goldilocks principle
-// with three options, highlighting the middle one as "most popular" to guide choice.
-// The inclusion of a performance-based fee structure (% of revenue over baseline)
-// creates incentive alignment and reduces perceived risk for the client.
-
-================
-File: app/components/sections/ProofWall.tsx
-================
-'use client';
-
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import Image from 'next/image';
-
-const ProofWall = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.4,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
-
-  const metrics = [
-    { value: "+42%", label: "Average ROAS improvement" },
-    { value: "-28%", label: "CPA reduction" },
-    { value: "4.2x", label: "Email revenue boost" }
-  ];
-
-  return (
-    <section className="py-20 bg-nordic-ivory relative">
-      <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-7xl">
-        <motion.div
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          transition={{ staggerChildren: 0.2 }}
-          className="space-y-16"
-        >
-          <motion.div variants={fadeUp} className="text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Results, Not Promises
-            </h2>
-            <p className="text-deep-navy/80 text-lg">
-              We let our clients' outcomes speak for us. Here's what happens when you replace agency theater with data-driven execution.
-            </p>
-          </motion.div>
-
-          {/* Metrics highlights */}
-          <motion.div variants={fadeUp} className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-            {metrics.map((metric, index) => (
-              <div key={index} className="p-8 bg-white rounded-2xl shadow-sm border border-deep-navy/5 text-center">
-                <div className="text-iris-purple text-4xl md:text-5xl font-bold mb-2">
-                  {metric.value}
-                </div>
-                <p className="text-deep-navy/70">{metric.label}</p>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Case study snapshot */}
-          <motion.div variants={fadeUp} className="mt-16 bg-white p-8 rounded-2xl shadow-sm border border-deep-navy/5">
-            <div className="flex flex-col md:flex-row gap-8">
-              <div className="flex-1">
-                <div className="text-xs text-deep-navy/60 uppercase tracking-wider mb-2">CASE STUDY</div>
-                <h3 className="text-2xl font-bold mb-4">How we helped PureEssentials achieve 4.7x ROAS in 30 days</h3>
-                <p className="text-deep-navy/70 mb-6">
-                  PureEssentials was struggling with rising CPAs and stagnant conversion rates. We implemented our 3-part growth system and saw immediate results.
-                </p>
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                  <div>
-                    <div className="text-iris-purple font-bold text-2xl">+173%</div>
-                    <div className="text-deep-navy/70 text-sm">Conversion rate</div>
-                  </div>
-                  <div>
-                    <div className="text-iris-purple font-bold text-2xl">-42%</div>
-                    <div className="text-deep-navy/70 text-sm">Customer acquisition cost</div>
-                  </div>
-                  <div>
-                    <div className="text-iris-purple font-bold text-2xl">4.7x</div>
-                    <div className="text-deep-navy/70 text-sm">ROAS (from 1.8x)</div>
-                  </div>
-                  <div>
-                    <div className="text-iris-purple font-bold text-2xl">+€37K</div>
-                    <div className="text-deep-navy/70 text-sm">Additional monthly profit</div>
-                  </div>
-                </div>
-                <button className="btn-tertiary text-iris-purple">
-                  Read full case study →
-                </button>
-              </div>
-              <Image
-                src="/images/proof-wall-case-study.svg"
-                alt="Screenshot from PureEssentials case study"
-                width={600}
-                height={400}
-                className="md:w-1/2 lg:w-2/5 rounded-xl object-cover"
-              />
-            </div>
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-export default ProofWall;
-
-// reasoning: This section uses concrete metrics and specific testimonials to establish
-// credibility and create desire. The metrics are displayed prominently, and the case study
-// provides a detailed example of the results Zentric has achieved. This reduces perceived
-// risk and makes the value proposition more tangible.
 
 ================
 File: app/how-we-work/page.tsx
@@ -3494,16 +3029,16 @@ export default function AboutUs() {
 }
 
 ================
-File: app/components/sections/HowWeOperate.tsx
+File: app/components/sections/Footer.tsx
 ================
 'use client';
 
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { useLeadForm } from '../../contexts/LeadFormContext';
+import Image from 'next/image';
+import Link from 'next/link';
 
-const HowWeOperate = () => {
-  const { openLeadForm } = useLeadForm();
+const Footer = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -3521,304 +3056,58 @@ const HowWeOperate = () => {
     }
   };
 
-  const doneForYouItems = [
-    "Predictable net-new revenue (minimum 3× blended ROAS in 90 days)",
-    "Meta & TikTok paid media campaigns with zero setup fee",
-    "On-site copy, layout and offer-sequencing optimization",
-    "Senior operators run growth end-to-end — no account manager hand-offs",
-    "AI-powered creative pipeline for rapid ad variants",
-    "Weekly performance reviews and optimization"
-  ];
-
-  const doneWithYouItems = [
-    "4-hour response SLA on WhatsApp Business / Microsoft Teams",
-    "Quarterly Zentric Review of performance, CRO roadmap and creative themes",
-    "First-party dashboard with real-time spend, revenue, ROAS metrics",
-    "Performance guarantees with creative SLA and 3× ROAS pledge",
-    "No lock-in exit after 90 days with full creative and data ownership"
-  ];
-
   return (
-    <section id="process" className="py-20 bg-deep-navy text-white relative overflow-hidden">
-      <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-7xl">
+    <footer className="bg-onyx text-white py-16 relative">
+      <div ref={ref} className="container mx-auto px-6 md:px-12">
         <motion.div
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          transition={{ staggerChildren: 0.2 }}
-          className="space-y-16"
+          variants={fadeUp}
+          className="flex flex-col items-center text-center"
         >
-          <motion.div variants={fadeUp} className="text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              How We Operate
-            </h2>
-            <p className="text-white/80 text-lg max-w-3xl mx-auto">
-              Precision-Driven Growth Engine: Paid Acquisition + Conversion-Rate Optimisation for Lifestyle Brands
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {/* Done For You Column */}
-            <motion.div 
-              variants={fadeUp}
-              className="space-y-8"
-            >
-              <h3 className="text-2xl md:text-3xl font-bold mb-8">
-                Done For You
-              </h3>
-              <div className="space-y-4">
-                {doneForYouItems.map((item, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-mint-green/20 flex items-center justify-center mt-0.5 flex-shrink-0">
-                      <span className="text-mint-green">✓</span>
-                    </div>
-                    <span className="text-white/90">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Done With You Column */}
-            <motion.div 
-              variants={fadeUp}
-              className="space-y-8"
-            >
-              <h3 className="text-2xl md:text-3xl font-bold mb-8">
-                Done With You
-              </h3>
-              <div className="space-y-6">
-                {doneWithYouItems.map((item, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-mint-green/20 flex items-center justify-center mt-0.5 flex-shrink-0">
-                      <span className="text-mint-green">✓</span>
-                    </div>
-                    <span className="text-white/90">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-
-          <motion.div variants={fadeUp} className="mt-16">
-            <div className="bg-white/5 p-8 rounded-2xl border border-white/10">
-              <h3 className="text-2xl font-bold mb-6">
-                Progressive Revenue-Share Model
-              </h3>
-              <p className="text-white/80 text-lg mb-8">
-                We only win when you win. Our pricing scales with your success, with progressive tiers based on revenue performance.
-              </p>
-              <div className="flex justify-center">
-                <button 
-                  onClick={openLeadForm}
-                  className="inline-flex items-center px-8 py-3 bg-iris-purple hover:bg-iris-purple-light rounded-full text-white font-medium transition-all"
-                >
-                  Book A Free Consultation
-                  <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-export default HowWeOperate;
-
-================
-File: app/components/sections/RiskFreeCta.tsx
-================
-'use client';
-
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { useLeadForm } from '../../contexts/LeadFormContext';
-
-const RiskFreeCta = () => {
-  const [spotsLeft] = useState(5);
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-  
-  const { openLeadForm, isFormSubmitted } = useLeadForm();
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.4,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
-
-  const container = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15
-      }
-    }
-  };
-
-  return (
-    <section id="contact" className="py-20 bg-deep-navy text-white relative overflow-hidden">
-      {/* Background pattern/gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-iris-purple/20 to-deep-navy z-0"></div>
-      
-      <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-6xl">
-        <motion.div
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          variants={container}
-          className="flex flex-col lg:flex-row gap-8 items-center"
-        >
-          {/* Left Card - Risk Guarantee */}
-          <motion.div variants={fadeUp} className="w-full lg:w-1/2">
-            <motion.div 
-              className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/10 shadow-glass relative h-full"
-              whileHover={{ 
-                scale: 1.01,
-                boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
-                transition: { duration: 0.3 }
-              }}
-            >
-              <div className="absolute -top-5 left-8 bg-mint-green text-deep-navy px-6 py-2 rounded-full font-semibold text-sm">
-                Our Zero-Risk Guarantee
-              </div>
-              
-              <div className="flex items-start gap-4 mt-8 mb-6">
-                <div className="relative flex items-center justify-center w-16 h-16 rounded-full border-2 border-mint-green flex-shrink-0">
-                  <span className="text-mint-green text-xl font-bold">30</span>
-                  <span className="absolute -bottom-1 text-white/70 text-xs">Days</span>
-                </div>
-                <h3 className="text-2xl font-bold mt-2">No Results, No Fee</h3>
-              </div>
-              
-              <p className="text-white/70 mb-8">
-                If we don't deliver measurable improvements to your key metrics 
-                within the first 30 days, you don't pay a cent. And you keep all 
-                the strategy documents, customer insights, and optimization 
-                plans we've created.
-              </p>
-              
-              <div className="space-y-5">
-                <div className="flex items-start gap-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green flex-shrink-0 mt-1">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                  <div>
-                    <h4 className="font-semibold text-white">Minimum 20% improvement in primary KPI</h4>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green flex-shrink-0 mt-1">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                  <div>
-                    <h4 className="font-semibold text-white">No long-term contracts—cancel anytime</h4>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green flex-shrink-0 mt-1">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                  <div>
-                    <h4 className="font-semibold text-white">You own all deliverables and assets</h4>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green flex-shrink-0 mt-1">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                  <div>
-                    <h4 className="font-semibold text-white">Weekly metrics reports for full transparency</h4>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
+          {/* Logo and value proposition */}
+          <Image
+            src="/images/logo-grey.png"
+            alt="Zentric Digital Logo"
+            width={80}
+            height={21}
+            className="mb-6"
+          />
           
-          {/* Right Card - CTA */}
-          <motion.div variants={fadeUp} className="w-full lg:w-1/2">
-            <div className="text-center mb-6">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                Ready to Scale Your Brand Profitably?
-              </h2>
-              <p className="text-white/80 text-lg">
-                Limited spots available for this month. Apply now to secure your
-                growth strategy session.
-              </p>
+          <p className="text-white/70 mb-8 max-w-md text-center">
+          Transform underperforming funnels into profit machines in just 90 days. We help e-commerce businesses scale rapidly with high-converting Meta Ads and proven CRO strategies.
+</p>
+          
+          {/* CTA Button */}
+          <Link 
+            href="/contact"
+            className="bg-iris-purple hover:bg-iris-purple/90 text-white font-medium px-8 py-3 rounded-md transition-all duration-300 hover:shadow-lg mb-16"
+          >
+            Book Your Strategy Call
+          </Link>
+          
+          {/* Minimal bottom section */}
+          <div className="w-full pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center">
+            <div className="text-white/50 text-sm mb-4 md:mb-0">
+              © {new Date().getFullYear()} Zentric Digital. All rights reserved.
             </div>
-            
-            <motion.div 
-              className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/10 shadow-glass"
-              whileHover={{ 
-                scale: 1.01,
-                boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
-                transition: { duration: 0.3 }
-              }}
-            >
-              <div className="space-y-5 mb-8">
-                <div className="flex items-center gap-4 bg-white/5 rounded-lg p-4">
-                  <div className="w-12 h-12 rounded-full bg-iris-purple/20 flex items-center justify-center flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-white text-lg">30-Minute Discovery Call</h4>
-                    <p className="text-white/70 text-sm">
-                      Free, no-obligation strategy session
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-4 bg-white/5 rounded-lg p-4">
-                  <div className="w-12 h-12 rounded-full bg-iris-purple/20 flex items-center justify-center flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green">
-                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-white text-lg">Only {spotsLeft} Spots Left</h4>
-                    <p className="text-white/70 text-sm">
-                      We limit new clients to ensure quality
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <button 
-                onClick={openLeadForm}
-                className="w-full py-4 bg-gradient-to-r from-iris-purple to-mint-green text-white font-semibold rounded-lg hover:opacity-95 transition-all duration-300"
-              >
-                Book a Free Discovery Call
-              </button>
-              
-              <p className="mt-4 text-white/60 text-sm text-center">
-                {isFormSubmitted ? "Check your email for confirmation details" : "We typically respond within 24 hours"}
-              </p>
-            </motion.div>
-          </motion.div>
+            <div className="flex space-x-6">
+              <a href="/privacy" className="text-white/50 hover:text-mint-green text-sm transition-colors">Privacy Policy</a>
+              <a href="/terms" className="text-white/50 hover:text-mint-green text-sm transition-colors">Terms of Service</a>
+            </div>
+          </div>
         </motion.div>
       </div>
-    </section>
+    </footer>
   );
 };
 
-export default RiskFreeCta;
+export default Footer;
+
+// reasoning: The footer completes the landing page with important navigational elements
+// and legal links, while reinforcing the brand message one last time. The layout
+// follows a conventional pattern that users expect, improving usability. Social media
+// links add credibility and additional contact points.
 
 ================
 File: app/components/ui/Navigation.tsx
@@ -4782,7 +4071,7 @@ const HeroSection = () => {
               variants={fadeUp} 
               className="text-sm md:text-lg lg:text-xl text-deep-navy/80 max-w-3xl mt-0"
             >
-              Transform underperforming funnels into profit machines in just 30 days. We help e-commerce businesses scale rapidly with high-converting Meta Ads and proven CRO strategies.
+              Transform underperforming funnels into profit machines in just 90 days. We help e-commerce businesses scale rapidly with high-converting Meta Ads and proven CRO strategies.
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-col md:flex-row gap-4 pt-2">
@@ -4801,7 +4090,7 @@ const HeroSection = () => {
               <div className="flex justify-center md:justify-start md:flex-row items-center gap-3 mt-2 md:mt-0 md:ml-8 w-full md:w-auto">
                 <div className="w-12 h-px bg-deep-navy/20 hidden md:block"></div>
                 <p className="text-deep-navy/70 font-medium text-sm md:text-base text-center md:text-left">
-                  At least <span className="text-iris-purple font-bold">3x</span> ROAS in 90 days
+                  At least <span className="text-iris-purple font-bold">3×</span> ROAS in 90 days
                 </p>
               </div>
             </motion.div>
@@ -4945,11 +4234,10 @@ File: app/page.tsx
 
 import { useEffect } from 'react';
 import HeroSection from './components/sections/HeroSection';
-import PasSlab from './components/sections/PasSlab';
+import Comparison from './components/sections/Comparison';
 import SolutionSection from './components/sections/SolutionSection';
 import Guarantees from './components/sections/Guarantees';
-import HowWeOperate from './components/sections/HowWeOperate';
-import RiskFreeCta from './components/sections/RiskFreeCta';
+import FinalCTA from './components/sections/FinalCTA';
 import Footer from './components/sections/Footer';
 import Navigation from './components/ui/Navigation';
 
@@ -4974,379 +4262,14 @@ export default function Home() {
     <main className="overflow-x-hidden">
       <Navigation />
       <HeroSection />
-      <PasSlab />
+      <Comparison />
       <SolutionSection />
       <Guarantees />
-      <HowWeOperate />
-      <RiskFreeCta />
+      <FinalCTA />
       <Footer />
     </main>
   );
 }
-
-================
-File: app/components/sections/PasSlab.tsx
-================
-'use client';
-
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { useLeadForm } from '../../contexts/LeadFormContext';
-
-// Define a simple SolutionSection component right here to avoid import issues
-const SimpleSolutionSection = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.4,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
-
-  return (
-    <section id="solution" className="min-h-screen py-20 bg-onyx text-white relative scroll-mt-24 overflow-hidden flex items-center">
-      <div className="absolute inset-0 bg-gradient-to-br from-iris-purple/20 to-deep-navy z-0"></div>
-      
-      <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-7xl">
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          transition={{ staggerChildren: 0.2 }}
-          className="space-y-16"
-        >
-          <motion.div variants={fadeUp} className="text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white">
-              The Zentric Growth Engine
-            </h2>
-            <p className="text-xl text-white max-w-4xl mx-auto">
-              A complete system to drive predictable revenue growth with a guaranteed
-              <span className="font-bold bg-mint-green text-onyx px-2 py-0.5 rounded mx-1 inline-block">
-                3× blended ROAS
-              </span> 
-              in 90 days or you don't pay.
-            </p>
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
-
-const PasSlab = () => {
-  const { openLeadForm } = useLeadForm();
-  const [ref, inView] = useInView({
-    triggerOnce: false,
-    threshold: 0.1,
-  });
-
-  // State for animations
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.4,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
-  };
-
-  // Checkmark animation
-  const checkmarkAnimation = {
-    initial: { scale: 1, opacity: 0.7 },
-    animate: { 
-      scale: [1, 1.3, 1],
-      opacity: 1,
-      transition: { 
-        duration: 0.5,
-        times: [0, 0.5, 1],
-        ease: "easeInOut"
-      }
-    }
-  };
-
-  // Row slide animation
-  const rightSlideAnimation = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: { duration: 0.5 }
-    }
-  };
-  
-  const leftSlideAnimation = {
-    hidden: { opacity: 0, x: 20 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: { duration: 0.5 }
-    }
-  };
-
-  // Structure the comparison points with main text and highlight parts
-  const comparisonPoints = [
-    {
-      traditional: "12-month binding contracts",
-      zentric: {
-        main: "No lock-in contracts ",
-        highlight: "- leave after 90 days"
-      }
-    },
-    {
-      traditional: "Siloed teams (creative, ads, email)",
-      zentric: {
-        main: "Founder-level strategists ",
-        highlight: "+ AI creative engine"
-      }
-    },
-    {
-      traditional: "Account manager as primary contact point",
-      zentric: {
-        main: "Text the founders directly ",
-        highlight: "- weekly strategy calls"
-      }
-    },
-    {
-      traditional: "20% commission on ad spend + monthly fees",
-      zentric: {
-        main: "100% transparent rev-share pricing ",
-        highlight: "- we profit when you profit"
-      }
-    },
-    {
-      traditional: "€8k+ monthly retainer regardless of results",
-      zentric: {
-        main: "Pay for results only ",
-        highlight: "- we cut the retainer until 3x ROAS hit"
-      }
-    }
-  ];
-
-  return (
-    <>
-    {/* Challenge Section */}
-    <section id="challenge" className="py-20 bg-deep-navy text-white relative scroll-mt-24 overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-5 z-0"></div>
-      
-      {/* Animated gradient accent */}
-      <motion.div 
-        className="absolute top-0 right-0 w-1/3 h-40 bg-gradient-to-r from-iris-purple/30 to-mint-green/30 blur-3xl rounded-full"
-        animate={{
-          x: [50, 0, 50],
-          y: [0, 30, 0],
-          opacity: [0.4, 0.6, 0.4],
-        }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          repeatType: "reverse"
-        }}
-      />
-      
-      <div ref={ref} className="container mx-auto px-4 sm:px-6 md:px-12 relative z-10 max-w-7xl">
-        <motion.div
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          transition={{ staggerChildren: 0.2 }}
-          className="space-y-16"
-        >
-          {/* Headline and Subheadline */}
-          <motion.div variants={fadeUp} className="text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white">
-              E-commerce Businesses Deserve Better
-            </h2>
-            <motion.p 
-              className="text-xl text-white/80 max-w-4xl mx-auto"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-            >
-              For e-com businesses seeking predictable revenue with a minimum 
-              <motion.span 
-                className="font-bold text-mint-green mx-1 inline-block"
-                initial={{ opacity: 0 }}
-                animate={{ 
-                  opacity: 1,
-                  scale: [1, 1.15, 1],
-                  transition: { 
-                    delay: 0.7, 
-                    duration: 0.8,
-                    times: [0, 0.5, 1],
-                    ease: "easeInOut" 
-                  }
-                }}
-              >
-                3× blended ROAS
-              </motion.span> 
-              in 90 days.
-            </motion.p>
-          </motion.div>
-
-          {/* Comparison Table - New Mobile-Friendly Design */}
-          <motion.div 
-            variants={fadeUp} 
-            className="overflow-hidden rounded-2xl shadow-lg bg-deep-navy/50 backdrop-blur-sm border border-white/10"
-          >
-            {/* Table Headers - Visible on desktop, hidden on smallest screens */}
-            <div className="hidden sm:grid grid-cols-2">
-              <div className="bg-white/10 p-6 border-b border-white/10">
-                <h3 className="text-xl font-bold text-white/80">Traditional Agency</h3>
-              </div>
-              <motion.div 
-                className="bg-iris-purple p-6 border-b border-iris-purple/30"
-                initial={{ backgroundColor: "rgba(99, 91, 255, 0.4)" }}
-                animate={{ 
-                  backgroundColor: ["rgba(99, 91, 255, 0.4)", "rgba(99, 91, 255, 0.6)", "rgba(99, 91, 255, 0.4)"]
-                }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                <h3 className="text-xl font-bold">Zentric Growth Engine</h3>
-              </motion.div>
-            </div>
-            
-            {/* Mobile Header - Visible only on smallest screens */}
-            <div className="sm:hidden flex">
-              <div className="w-1/2 bg-white/10 py-4 px-3 border-b border-white/10 flex items-center justify-center">
-                <h3 className="text-base font-bold text-white/80 text-center">Traditional Agency</h3>
-              </div>
-              <motion.div 
-                className="w-1/2 bg-iris-purple py-4 px-3 border-b border-iris-purple/30 flex items-center justify-center"
-                initial={{ backgroundColor: "rgba(99, 91, 255, 0.4)" }}
-                animate={{ 
-                  backgroundColor: ["rgba(99, 91, 255, 0.4)", "rgba(99, 91, 255, 0.6)", "rgba(99, 91, 255, 0.4)"]
-                }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                <h3 className="text-base font-bold text-center">Zentric Growth</h3>
-              </motion.div>
-            </div>
-            
-            {/* Comparison Rows - Optimized for both mobile and desktop */}
-            {comparisonPoints.map((point, index) => (
-              <div key={index} className="grid grid-cols-2 relative">
-                {/* Traditional Agency Column */}
-                <motion.div 
-                  className={`px-3 py-4 sm:p-6 ${index % 2 === 0 ? 'bg-white/5' : 'bg-transparent'} transition-all duration-300 opacity-60 relative`}
-                  variants={rightSlideAnimation}
-                  onMouseEnter={() => setActiveIndex(index)}
-                  onMouseLeave={() => setActiveIndex(null)}
-                  animate={activeIndex === index ? { opacity: 0.3 } : { opacity: 0.6 }}
-                >
-                  <div className="flex items-start gap-2 sm:gap-3">
-                    <div className="min-w-5 w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center mt-0.5 shadow-sm">
-                      <span className="text-xs font-bold text-red-500">✕</span>
-                    </div>
-                    <span className="text-sm sm:text-base text-white/80">{point.traditional}</span>
-                  </div>
-                </motion.div>
-                
-                {/* Zentric Column */}
-                <motion.div 
-                  className={`px-3 py-4 sm:p-6 ${index % 2 === 0 ? 'bg-iris-purple/10' : 'bg-iris-purple/5'} transition-all duration-300 relative`}
-                  variants={leftSlideAnimation}
-                  onMouseEnter={() => setActiveIndex(index)}
-                  onMouseLeave={() => setActiveIndex(null)}
-                  whileHover={{ 
-                    backgroundColor: "rgba(99, 91, 255, 0.2)",
-                    transition: { duration: 0.2 }
-                  }}
-                >
-                  {/* Highlight effect on hover */}
-                  <AnimatePresence>
-                    {activeIndex === index && (
-                      <motion.div 
-                        className="absolute inset-0 bg-gradient-to-r from-iris-purple/10 to-mint-green/10"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                      />
-                    )}
-                  </AnimatePresence>
-                  
-                  <div className="flex items-start gap-2 sm:gap-3 relative z-10">
-                    <motion.div 
-                      className="min-w-5 w-5 h-5 rounded-full bg-mint-green/20 flex items-center justify-center mt-0.5 shadow-sm"
-                      variants={checkmarkAnimation}
-                      initial="initial"
-                      animate={activeIndex === index ? "animate" : "initial"}
-                    >
-                      <span className="text-xs font-bold text-mint-green">✓</span>
-                    </motion.div>
-                    <span className="flex flex-col sm:flex-row">
-                      <motion.span 
-                        className="bg-clip-text text-transparent bg-gradient-to-br from-iris-purple to-mint-green font-medium text-sm sm:text-base"
-                        initial={{ opacity: 0.9 }}
-                        animate={activeIndex === index ? 
-                          { opacity: 1, scale: 1.02 } : 
-                          { opacity: 0.9, scale: 1 }
-                        }
-                        transition={{ duration: 0.3 }}
-                      >
-                        {point.zentric.main}
-                      </motion.span>
-                      <span className="text-sm sm:text-base text-white">
-                        <span className="inline-block">&nbsp;{point.zentric.highlight}</span>
-                      </span>
-                    </span>
-                  </div>
-                </motion.div>
-                
-                {/* Mobile separator line */}
-                {index < comparisonPoints.length - 1 && (
-                  <div className="col-span-2 h-px bg-white/10 sm:hidden"></div>
-                )}
-              </div>
-            ))}
-
-            {/* Mobile CTA to open lead form */}
-            <div 
-              onClick={openLeadForm}
-              className="sm:hidden p-4 bg-gradient-to-r from-iris-purple/20 to-mint-green/20 text-center cursor-pointer hover:from-iris-purple/30 hover:to-mint-green/30 transition-all duration-300"
-            >
-              <div className="w-full py-3 px-4 text-white font-medium text-sm">
-                Book a Free Discovery Call
-              </div>
-            </div>
-            
-            {/* Desktop CTA to open lead form */}
-            <div 
-              onClick={openLeadForm}
-              className="hidden sm:block p-5 bg-gradient-to-r from-iris-purple/20 to-mint-green/20 text-center border-t border-white/10 cursor-pointer hover:from-iris-purple/30 hover:to-mint-green/30 transition-all duration-300"
-            >
-              <div className="px-8 py-4 text-white font-medium">
-                Book a Free Discovery Call
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
-    </>
-  );
-};
-
-export default PasSlab;
-
-// reasoning: This section follows the Problem-Agitation-Solution copywriting framework.
-// It establishes clear pain points, agitates them by contrasting with typical agency behavior,
-// then presents Zentric's solution. The contrast box with specific metrics (3× ROAS)
-// provides quantifiable proof, building credibility and desire.
 
 
 

@@ -6,310 +6,140 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { useLeadForm } from '../../contexts/LeadFormContext';
+import { Button } from './button';
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isQuickStartOpen, setIsQuickStartOpen] = useState(false);
-  const quickStartRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { openLeadForm } = useLeadForm();
 
-  // Handle scroll effect for sticky header
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 50);
+      setIsScrolled(window.scrollY > 10);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Handle click outside for dropdown
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (quickStartRef.current && !quickStartRef.current.contains(event.target as Node)) {
-        setIsQuickStartOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
     }
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
   }, [isMobileMenuOpen]);
 
-  const quickStartSections = [
-    { label: 'The Challenge', href: '#challenge' },
-    { label: 'Our Solution', href: '#solution' },
-    { label: 'The Zentric Way', href: '#process' },
-    { label: 'Let\'s Talk', href: '#contact' },
+  const navLinks = [
+    { href: '/how-we-work', label: 'How We Work' },
+    { href: '/about-us', label: 'About Us' },
+    { href: '/cases', label: 'Cases' },
+    { href: '#contact', label: 'Contact' }
   ];
 
-  const dropdownVariants = {
-    hidden: { opacity: 0, y: -5, transition: { duration: 0.2 } },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-    exit: { opacity: 0, y: -5, transition: { duration: 0.2 } },
-  };
-
-  const ctaButtonVariants = {
-    rest: { scale: 1 },
-    hover: { scale: 1.05, boxShadow: '0 10px 20px rgba(99, 91, 255, 0.2)' },
-    tap: { scale: 0.95 }
-  };
-
   return (
-    <>
-      {/* Sticky Header */}
-      <header 
-        className={`fixed top-0 left-0 w-full py-3 px-8 flex justify-between items-center z-50 transition-all duration-300 bg-ivory-background ${
-          isScrolled 
-            ? 'border-b border-onyx/10 shadow-sm' 
-            : ''
-        }`}
-      >
+    <header 
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        isScrolled ? 'py-3 bg-background/70 backdrop-blur-lg border-b border-white/5' : 'py-6 bg-transparent'
+      }`}
+    >
+      <div className="container mx-auto px-6 flex justify-between items-center">
         <Link href="/">
-          <Image
-            src="/images/logo-purple.png"
-            alt="Zentric Digital Logo"
-            width={60}
-            height={16}
-            priority
-          />
+            <Image
+              src="/images/logo-grey.png" // Using a light logo for the dark theme
+              alt="Zentric Digital Logo"
+              width={50}
+              height={50}
+              priority
+              className="h-auto"
+            />
         </Link>
         
-        {/* Navigation Links - hidden on mobile */}
-        <nav className="hidden md:flex items-center space-x-10">
-          {/* Quick Start Dropdown */}
-          <div 
-            ref={quickStartRef} 
-            className="relative"
-            onMouseEnter={() => setIsQuickStartOpen(true)}
-            onMouseLeave={() => setIsQuickStartOpen(false)}
-          >
-            <button 
-              className="flex items-center text-onyx hover:text-iris-purple transition-colors duration-200 font-medium text-base relative group"
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map(link => (
+            <Link 
+              key={link.href}
+              href={link.href}
+              className={`text-base font-medium transition-colors hover:text-foreground ${
+                pathname === link.href ? 'text-foreground' : 'text-muted-foreground'
+              }`}
             >
-              <span>Quick Start</span>
-              <motion.svg 
-                className="ml-1 w-4 h-4"
-                animate={{ rotate: isQuickStartOpen ? 180 : 0 }}
-                transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24" 
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </motion.svg>
-              
-              {/* Hover gradient underline */}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-iris-purple to-mint-green group-hover:w-full transition-all duration-200 ease-out"></span>
-            </button>
-            
-            <AnimatePresence>
-              {isQuickStartOpen && (
-                <motion.div
-                  variants={dropdownVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  className="absolute top-full left-0 mt-2 w-[280px] z-50"
-                >
-                  <div className="bg-deep-navy backdrop-blur-2xl bg-opacity-75 rounded-3xl border border-white/16 shadow-[0_4px_24px_rgba(0,0,0,0.18)] overflow-hidden">
-                    <ul className="py-2">
-                      {quickStartSections.map((section, index) => (
-                        <motion.li 
-                          key={index}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.2, delay: index * 0.05 }}
-                        >
-                          <a 
-                            href={section.href}
-                            onClick={() => setIsQuickStartOpen(false)}
-                            className="flex px-5 py-3 text-nordic-ivory hover:bg-iris-purple/15 transition-all duration-100 ease-out group relative"
-                          >
-                            <span className="absolute left-0 top-0 bottom-0 w-0 bg-mint-green group-hover:w-[3px] transition-all duration-100"></span>
-                            <span>{section.label}</span>
-                          </a>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          <Link 
-            href="/how-we-work" 
-            className={`text-onyx hover:text-iris-purple transition-colors duration-200 font-medium text-base relative group ${
-              pathname === '/how-we-work' ? 'text-iris-purple' : ''
-            }`}
-          >
-            How We Work
-            <span className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-iris-purple to-mint-green transition-all duration-200 ease-out ${
-              pathname === '/how-we-work' ? 'w-full' : 'w-0 group-hover:w-full'
-            }`}></span>
-          </Link>
-          <Link 
-            href="/about-us" 
-            className={`text-onyx hover:text-iris-purple transition-colors duration-200 font-medium text-base relative group ${
-              pathname === '/about-us' ? 'text-iris-purple' : ''
-            }`}
-          >
-            About Us
-            <span className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-iris-purple to-mint-green transition-all duration-200 ease-out ${
-              pathname === '/about-us' ? 'w-full' : 'w-0 group-hover:w-full'
-            }`}></span>
-          </Link>
-          <Link 
-            href="/cases" 
-            className={`text-onyx hover:text-iris-purple transition-colors duration-200 font-medium text-base relative group ${
-              pathname === '/cases' ? 'text-iris-purple' : ''
-            }`}
-          >
-            Cases
-            <span className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-iris-purple to-mint-green transition-all duration-200 ease-out ${
-              pathname === '/cases' ? 'w-full' : 'w-0 group-hover:w-full'
-            }`}></span>
-          </Link>
+              {link.label}
+            </Link>
+          ))}
         </nav>
         
-        {/* CTA Button with improved hover effect */}
         <div className="hidden md:block">
-          <motion.button 
-            onClick={openLeadForm}
-            variants={ctaButtonVariants}
-            initial="rest"
-            whileHover="hover"
-            whileTap="tap"
-            className="py-3 px-8 text-white font-semibold rounded-full relative z-10 bg-gradient-to-r from-[#635BFF] to-[#7A6CFF] will-change-transform"
-          >
-            Book Free Discovery Call
-          </motion.button>
+          <Button variant="primary" size="brand" onClick={openLeadForm}>
+            Book a Call
+          </Button>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden p-2"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle mobile menu"
-        >
-          <div className="w-6 flex flex-col items-end space-y-1.5">
-            <span 
-              className={`block h-0.5 bg-onyx transition-all duration-300 ${
-                isMobileMenuOpen ? 'w-6 translate-y-2 rotate-45' : 'w-6'
-              }`}
-            ></span>
-            <span 
-              className={`block h-0.5 bg-onyx transition-all duration-300 ${
-                isMobileMenuOpen ? 'opacity-0' : 'w-4'
-              }`}
-            ></span>
-            <span 
-              className={`block h-0.5 bg-onyx transition-all duration-300 ${
-                isMobileMenuOpen ? 'w-6 -translate-y-2 -rotate-45' : 'w-5'
-              }`}
-            ></span>
-          </div>
-        </button>
-      </header>
-
-      {/* Mobile Menu */}
+        <div className="md:hidden">
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Toggle menu">
+            <motion.div
+                animate={isMobileMenuOpen ? "open" : "closed"}
+                className="w-6 h-6 flex flex-col justify-around"
+            >
+                <motion.span 
+                    className="block h-0.5 w-full bg-foreground rounded-full"
+                    variants={{
+                        closed: { rotate: 0, y: 0 },
+                        open: { rotate: 45, y: 5 }
+                    }}
+                ></motion.span>
+                <motion.span 
+                    className="block h-0.5 w-2/3 bg-foreground rounded-full"
+                    variants={{
+                        closed: { opacity: 1, x: 0 },
+                        open: { opacity: 0, x: -10 }
+                    }}
+                ></motion.span>
+                <motion.span 
+                    className="block h-0.5 w-full bg-foreground rounded-full"
+                    variants={{
+                        closed: { rotate: 0, y: 0 },
+                        open: { rotate: -45, y: -5 }
+                    }}
+                ></motion.span>
+            </motion.div>
+          </button>
+        </div>
+      </div>
+      
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="fixed top-[72px] left-0 right-0 z-40 md:hidden shadow-lg border-b border-onyx/10 backdrop-blur-md"
-            style={{ backgroundColor: 'rgba(245, 240, 234, 0.9)' }}
+            exit={{ opacity: 0 }}
+            className="md:hidden absolute top-full left-0 w-full mt-2"
           >
-            <div className="container mx-auto px-8 py-6 flex flex-col space-y-4">
-              {/* Quick Start Dropdown in mobile menu */}
-              <div className="border-b border-onyx/10 pb-4">
-                <div className="font-medium mb-2 text-onyx">Quick Start</div>
-                <ul className="pl-4 space-y-2">
-                  {quickStartSections.map((section, index) => (
-                    <motion.li 
-                      key={index}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.2, delay: 0.1 + index * 0.05 }}
-                    >
-                      <a 
-                        href={section.href}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="block py-2 text-sm text-onyx/80 hover:text-iris-purple transition-colors duration-200"
-                      >
-                        {section.label}
-                      </a>
-                    </motion.li>
-                  ))}
-                </ul>
-              </div>
-              
-              <Link
-                href="/how-we-work"
-                className={`block py-3 ${
-                  pathname === '/how-we-work' ? 'text-iris-purple' : 'text-onyx hover:text-iris-purple'
-                } transition-colors duration-200`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                How We Work
-              </Link>
-              <Link
-                href="/about-us"
-                className={`block py-3 ${
-                  pathname === '/about-us' ? 'text-iris-purple' : 'text-onyx hover:text-iris-purple'
-                } transition-colors duration-200`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                About Us
-              </Link>
-              <Link
-                href="/cases"
-                className={`block py-3 ${
-                  pathname === '/cases' ? 'text-iris-purple' : 'text-onyx hover:text-iris-purple'
-                } transition-colors duration-200`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Cases
-              </Link>
-              <div className="pt-2">
-                <motion.button 
-                  onClick={() => {
-                    openLeadForm();
-                    setIsMobileMenuOpen(false);
-                  }}
-                  variants={ctaButtonVariants}
-                  initial="rest"
-                  whileHover="hover"
-                  whileTap="tap"
-                  className="w-full py-3 px-8 text-white font-semibold rounded-full bg-gradient-to-r from-[#635BFF] to-[#7A6CFF] will-change-transform"
+            <div className="container mx-auto px-6 py-4 bg-background/95 backdrop-blur-xl border-y border-white/5 rounded-2xl">
+              <nav className="flex flex-col items-center gap-6">
+                {navLinks.map(link => (
+                  <Link 
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-lg font-medium text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                <Button 
+                    variant="primary" 
+                    className="w-full mt-4" 
+                    onClick={() => { openLeadForm(); setIsMobileMenuOpen(false); }}
                 >
-                  Book Free Discovery Call
-                </motion.button>
-              </div>
+                    Book a Call
+                </Button>
+              </nav>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </header>
   );
 };
 
