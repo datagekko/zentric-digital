@@ -37,12 +37,17 @@ const FinalCTA = () => {
               <div className="absolute -top-4 left-8 bg-primary text-primary-foreground px-5 py-1.5 rounded-full font-semibold text-sm">
                 Our Zero-Risk Guarantee
               </div>
-              <h3 className="text-2xl font-bold mt-8 mb-2 text-foreground">No Results, No Fee</h3>
+              <h3 className="text-2xl font-bold mt-8 mb-2 text-foreground">Pay for Results, Not Promises</h3>
               <p className="text-muted-foreground mb-6">
-                If we don't deliver measurable improvements within 30 days, you don't pay a cent. You keep all strategy docs, insights, and plans.
+                Our success is tied directly to yours. We're so confident in our ability to drive growth that we offer a unique performance-based model.
               </p>
               <div className="space-y-4 mt-auto">
-                {['Minimum 20% KPI improvement', 'No long-term contracts', 'You own all deliverables', 'Weekly metrics reports'].map((guarantee) => (
+                {[
+                  'Starts from €1,500/month',
+                  'No markup on ad spend - ever',
+                  'Revenue-share only on the new revenue we generate',
+                  'If after 2 months we don\'t hit 3x ROAS, we cut the retainer until we do.',
+                ].map((guarantee) => (
                   <div key={guarantee} className="flex items-center gap-3">
                     <div className="w-5 h-5 flex-shrink-0 bg-primary/20 rounded-full flex items-center justify-center">
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
