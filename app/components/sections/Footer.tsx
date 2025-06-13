@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import Image from 'next/image';
 
 const Footer = () => {
   const [ref, inView] = useInView({
@@ -59,7 +60,13 @@ const Footer = () => {
           <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
             {/* Brand column */}
             <div className="md:col-span-2">
-              <div className="text-2xl font-bold mb-4">Zentric Digital</div>
+              <Image
+                src="/images/logo-grey.png"
+                alt="Zentric Digital Logo"
+                width={60}
+                height={16}
+                className="mb-4"
+              />
               <p className="text-white/70 mb-6 max-w-xs">
                 Transform under-performing funnels into compounding profit engines in 30 days — or you don't pay.
               </p>

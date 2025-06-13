@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   description: "Transform under-performing funnels into compounding profit engines in 30 days — or you don't pay. DTC ecommerce growth through CRO, Meta Ads, and Lifecycle Email.",
   keywords: 'ecommerce growth, CRO, conversion rate optimization, Meta ads, DTC brands, lifecycle email',
   metadataBase: new URL('https://zentric.digital'),
+  icons: {
+    icon: '/images/favicon.png',
+  },
   openGraph: {
     title: 'Zentric Digital - Make Noise. Stay Zentric.',
     description: "Transform under-performing funnels into compounding profit engines in 30 days — or you don't pay.",
@@ -32,7 +35,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-ivory-background pt-20">
         <Providers>
           {children}
         </Providers>
