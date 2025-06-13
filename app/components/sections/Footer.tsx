@@ -51,8 +51,8 @@ const Footer = () => {
           <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground">
             <p>&copy; {new Date().getFullYear()} Zentric Digital. All rights reserved.</p>
             <div className="flex gap-6 mt-4 sm:mt-0">
-              <Link href="/privacy-policy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
-              <Link href="/terms-of-service" className="hover:text-foreground transition-colors">Terms of Service</Link>
+              <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
             </div>
           </div>
         </motion.div>
