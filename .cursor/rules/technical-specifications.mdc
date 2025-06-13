@@ -9,7 +9,7 @@ alwaysApply: false
 - **Framework**: Next.js 14
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **Deployment**: TBD (Vercel recommended)
+- **Deployment**: Vercel
 
 ## Performance Requirements
 - Lighthouse score target: 90+ for all categories
