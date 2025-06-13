@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { z } from 'zod';
 import { Button } from './button';
+import { cn } from '../../lib/utils';
+import { Check, ChevronDown, ChevronLeft, Loader, X, AlertCircle } from 'lucide-react';
 
 // Define the form data structure
 type FormData = {
@@ -15,6 +17,7 @@ type FormData = {
   lastName: string;
   phone: string;
   referralSource: string;
+  otherReferral: string;
   submissionId?: string; // Add submission ID for tracking the form
 }
 
@@ -30,8 +33,17 @@ const fullFormSchema = z.object({
   website: z.string().url({ message: "Please enter a valid website URL" }).or(z.string().min(1, { message: "Please enter your website URL" })),
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
-  phone: z.string().min(1, { message: "Phone number is required" }),
+  phone: z.string().optional(),
   referralSource: z.string().min(1, { message: "Please select how you heard about us" }),
+  otherReferral: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.referralSource === 'other' && (!data.otherReferral || data.otherReferral.trim() === '')) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Please specify",
+      path: ["otherReferral"],
+    });
+  }
 });
 
 type LeadFormProps = {
@@ -48,10 +60,7 @@ const FORM_STORAGE_KEY = 'zentric_lead_form_data';
 
 // Loading spinner component
 const LoadingSpinner = () => (
-  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-  </svg>
+  <Loader className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" />
 );
 
 const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
@@ -65,6 +74,7 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
     lastName: '',
     phone: '',
     referralSource: '',
+    otherReferral: '',
   });
   
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -231,6 +241,7 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
         // Small delay to show the thank you message before closing
         setTimeout(() => {
           onSubmit(formData);
+          onClose();
         }, 1500);
       } catch (error) {
         console.error('Error submitting form:', error);
@@ -254,235 +265,198 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
     }
   };
 
-  // If not open, don't render anything
-  if (!isOpen) return null;
+  const inputClasses = (field: keyof FormData) =>
+    cn(
+      "w-full bg-card/50 border border-border rounded-lg p-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors duration-300",
+      errors[field] && "border-red-500/50 ring-2 ring-red-500/20"
+    );
+    
+  const selectClasses = (field: keyof FormData) =>
+    cn(
+        "appearance-none",
+        inputClasses(field)
+    );
 
-  // Animation variants
-  const overlayVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 }
-  };
-
-  const popupVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0.95 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      scale: 1,
-      transition: { 
-        duration: 0.3,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    },
-    exit: { 
-      opacity: 0, 
-      y: 20, 
-      scale: 0.95,
-      transition: { 
-        duration: 0.2
-      }
-    }
-  };
-
-  const contentVariants = {
-    enter: { 
-      x: 20, 
-      opacity: 0 
-    },
-    center: { 
-      x: 0, 
-      opacity: 1,
-      transition: { 
-        duration: 0.3,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    },
-    exit: { 
-      x: -20, 
-      opacity: 0,
-      transition: { 
-        duration: 0.2
-      }
-    }
-  };
-
-  // Render email step with loading indicator
   const renderEmailStep = () => (
-    <div className="space-y-6">
-      <div className="space-y-2">
-        <h3 className="text-2xl font-semibold text-white">
-          Get your free growth assessment
-        </h3>
-        <p className="text-white/70">
-          Enter your email to get started. We'll send you personalized growth strategies based on your business details.
-        </p>
-      </div>
-      <div className="space-y-2">
-        <label htmlFor="email" className="text-sm font-medium text-white">
-          Email address <span className="text-mint-green">*</span>
-        </label>
+    <div className="flex flex-col items-center justify-center text-center py-8">
+      <h2 className="text-3xl font-bold text-foreground">Let's Start with Your Email</h2>
+      <p className="text-lg text-muted-foreground mt-2 mb-8">We'll use this to create your growth profile.</p>
+      
+      <div className="relative w-full max-w-sm mx-auto">
         <input
-          id="email"
-          type="email"
-          value={formData.email}
-          onChange={(e) => handleInputChange('email', e.target.value)}
-          placeholder="you@company.com"
-          className="w-full p-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-iris-purple"
-          disabled={isSubmitting}
+            type="email"
+            placeholder="e.g., you@company.com"
+            value={formData.email}
+            onChange={(e) => handleInputChange('email', e.target.value)}
+            className={cn(inputClasses('email'), "p-4 text-base")}
+            disabled={isSubmitting}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' && !isSubmitting) {
+                    e.preventDefault();
+                    handleEmailStep();
+                }
+            }}
         />
-        {errors.email && <p className="text-red-400 text-sm">{errors.email}</p>}
+        {errors.email && <p className="text-red-400 text-sm mt-2 ml-1 text-left">{errors.email}</p>}
       </div>
-      {errorMessage && <p className="text-red-400 text-sm">{errorMessage}</p>}
+
+      <div className="mt-8 w-full max-w-sm mx-auto">
+        <Button variant="primary" size="lg" className="w-full py-3" onClick={handleEmailStep} disabled={isSubmitting}>
+          {isSubmitting ? <LoadingSpinner /> : 'Continue'}
+        </Button>
+        <p className="text-center text-xs text-muted-foreground mt-3">Takes less than 1 minute.</p>
+      </div>
     </div>
   );
-  
+
   const renderDetailsStep = () => (
-    <div className="space-y-6">
-      <div className="space-y-2">
-        <h3 className="text-2xl font-semibold text-white">
-          Help us understand your business
-        </h3>
-        <p className="text-white/70">
-          We need these details to create a tailored growth strategy for your specific business needs.
-        </p>
+    <div>
+      <div className="flex-shrink-0">
+        <button onClick={() => setStep('email')} className="absolute top-6 left-6 text-muted-foreground hover:text-foreground transition-colors">
+          <ChevronLeft size={20} />
+        </button>
+        <h2 className="text-2xl font-bold text-foreground text-center">Tell Us About Your Business</h2>
+        <p className="text-muted-foreground text-center mt-2 mb-8">This helps us tailor the strategy session for you.</p>
       </div>
-      
-      {/* Revenue Selection */}
-      <div className="space-y-3">
-        <label className="text-sm font-medium text-white">
-          What is your brand's monthly revenue? <span className="text-mint-green">*</span>
-        </label>
-        <div className="grid grid-cols-2 gap-4">
-          {['€0 – €25 k', '€25 k – €50 k', '€50 k – €150 k', '> €150 k'].map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => handleInputChange('revenue', option)}
-              className={`p-4 rounded-2xl text-left transition-all ${
-                formData.revenue === option 
-                  ? 'bg-iris-purple text-white' 
-                  : 'bg-white/10 hover:bg-white/20 text-white/80'
-              }`}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-        {errors.revenue && <p className="text-red-400 text-sm">{errors.revenue}</p>}
-      </div>
-      
-      {/* Budget Selection */}
-      <div className="space-y-3">
-        <label className="text-sm font-medium text-white">
-          What is your marketing budget? <span className="text-mint-green">*</span>
-        </label>
-        <div className="grid grid-cols-2 gap-4">
-          {['€0 – €1 k', '€1 k – €2 k', '€2 k – €4 k', '> €4 k'].map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => handleInputChange('budget', option)}
-              className={`p-4 rounded-2xl text-left transition-all ${
-                formData.budget === option 
-                  ? 'bg-iris-purple text-white' 
-                  : 'bg-white/10 hover:bg-white/20 text-white/80'
-              }`}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-        {errors.budget && <p className="text-red-400 text-sm">{errors.budget}</p>}
-      </div>
-      
-      {/* Website */}
-      <div className="space-y-2">
-        <label htmlFor="website" className="text-sm font-medium text-white">
-          What's your website URL? <span className="text-mint-green">*</span>
-        </label>
-        <input
-          id="website"
-          type="text"
-          value={formData.website}
-          onChange={(e) => handleInputChange('website', e.target.value)}
-          placeholder="https://yourbrand.com"
-          className="w-full p-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-iris-purple"
-        />
-        {errors.website && <p className="text-red-400 text-sm">{errors.website}</p>}
-      </div>
-      
-      {/* Contact Information */}
-      <div className="space-y-3">
-        <label className="text-sm font-medium text-white">
-          Your contact information <span className="text-mint-green">*</span>
-        </label>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
+
+      <div className="max-h-[50vh] overflow-y-auto pr-4 -mr-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* First Name */}
+          <div className="md:col-span-1">
             <input
               type="text"
+              placeholder="First Name"
               value={formData.firstName}
               onChange={(e) => handleInputChange('firstName', e.target.value)}
-              placeholder="First name"
-              className="w-full p-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-iris-purple"
+              className={inputClasses('firstName')}
             />
-            {errors.firstName && <p className="text-red-400 text-sm mt-1">{errors.firstName}</p>}
+            {errors.firstName && <p className="text-red-400 text-xs mt-1.5 ml-1">{errors.firstName}</p>}
           </div>
-          <div>
+
+          {/* Last Name */}
+          <div className="md:col-span-1">
             <input
               type="text"
+              placeholder="Last Name"
               value={formData.lastName}
               onChange={(e) => handleInputChange('lastName', e.target.value)}
-              placeholder="Last name"
-              className="w-full p-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-iris-purple"
+              className={inputClasses('lastName')}
             />
-            {errors.lastName && <p className="text-red-400 text-sm mt-1">{errors.lastName}</p>}
+            {errors.lastName && <p className="text-red-400 text-xs mt-1.5 ml-1">{errors.lastName}</p>}
           </div>
-        </div>
-        <div>
-          <input
-            type="tel"
-            value={formData.phone}
-            onChange={(e) => handleInputChange('phone', e.target.value)}
-            placeholder="Phone number"
-            className="w-full p-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-iris-purple"
-          />
-          {errors.phone && <p className="text-red-400 text-sm mt-1">{errors.phone}</p>}
+
+          {/* Phone Number */}
+          <div className="md:col-span-2">
+            <input
+              type="tel"
+              placeholder="Phone Number (Optional)"
+              value={formData.phone}
+              onChange={(e) => handleInputChange('phone', e.target.value)}
+              className={inputClasses('phone')}
+            />
+            {errors.phone && <p className="text-red-400 text-xs mt-1.5 ml-1">{errors.phone}</p>}
+          </div>
+
+          {/* Website */}
+          <div className="md:col-span-2">
+            <input
+              type="text"
+              placeholder="Your Website URL"
+              value={formData.website}
+              onChange={(e) => handleInputChange('website', e.target.value)}
+              className={inputClasses('website')}
+            />
+            {errors.website && <p className="text-red-400 text-xs mt-1.5 ml-1">{errors.website}</p>}
+          </div>
+
+          {/* Monthly Revenue */}
+          <div className="relative md:col-span-1">
+            <select
+              value={formData.revenue}
+              onChange={(e) => handleInputChange('revenue', e.target.value)}
+              className={selectClasses('revenue')}
+            >
+              <option value="" disabled>Monthly Revenue</option>
+              <option value="<10k">Less than $10k</option>
+              <option value="10k-50k">$10k - $50k</option>
+              <option value="50k-100k">$50k - $100k</option>
+              <option value=">100k">More than $100k</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+            {errors.revenue && <p className="text-red-400 text-xs mt-1.5 ml-1">{errors.revenue}</p>}
+          </div>
+
+          {/* Marketing Budget */}
+          <div className="relative md:col-span-1">
+            <select
+              value={formData.budget}
+              onChange={(e) => handleInputChange('budget', e.target.value)}
+              className={selectClasses('budget')}
+            >
+              <option value="" disabled>Marketing Budget</option>
+              <option value="<1k">Less than $1k</option>
+              <option value="1k-5k">$1k - $5k</option>
+              <option value="5k-10k">$5k - $10k</option>
+              <option value=">10k">More than $10k</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+            {errors.budget && <p className="text-red-400 text-xs mt-1.5 ml-1">{errors.budget}</p>}
+          </div>
+          
+          {/* Referral Source */}
+          <div className="relative md:col-span-2">
+              <select
+                  value={formData.referralSource}
+                  onChange={(e) => handleInputChange('referralSource', e.target.value)}
+                  className={selectClasses('referralSource')}
+              >
+                  <option value="" disabled>How did you hear about us?</option>
+                  <option value="google">Google</option>
+                  <option value="linkedin">LinkedIn</option>
+                  <option value="twitter">Twitter / X</option>
+                  <option value="referral">Referral</option>
+                  <option value="other">Other</option>
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+              {errors.referralSource && <p className="text-red-400 text-xs mt-1.5 ml-1">{errors.referralSource}</p>}
+          </div>
+
+          {/* Other Referral Source Input */}
+          {formData.referralSource === 'other' && (
+            <div className="md:col-span-2">
+                <input
+                    type="text"
+                    placeholder="Please specify"
+                    value={formData.otherReferral}
+                    onChange={(e) => handleInputChange('otherReferral', e.target.value)}
+                    className={inputClasses('otherReferral')}
+                />
+                {errors.otherReferral && <p className="text-red-400 text-xs mt-1.5 ml-1">{errors.otherReferral}</p>}
+            </div>
+          )}
         </div>
       </div>
-      
-      {/* Referral Source */}
-      <div className="space-y-3">
-        <label className="text-sm font-medium text-white">
-          How did you hear about us? <span className="text-mint-green">*</span>
-        </label>
-        <div className="grid grid-cols-2 gap-4">
-          {['LinkedIn', 'E-mail', 'Word of Mouth', 'Other'].map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => handleInputChange('referralSource', option)}
-              className={`p-4 rounded-2xl text-left transition-all ${
-                formData.referralSource === option 
-                  ? 'bg-iris-purple text-white' 
-                  : 'bg-white/10 hover:bg-white/20 text-white/80'
-              }`}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-        {errors.referralSource && <p className="text-red-400 text-sm">{errors.referralSource}</p>}
+
+      <div className="pt-6">
+        <Button variant="primary" size="lg" className="w-full" onClick={handleSubmit} disabled={isSubmitting}>
+            {isSubmitting ? <LoadingSpinner /> : 'Submit & Book Call'}
+        </Button>
       </div>
     </div>
   );
-  
+
   const renderThankYouStep = () => (
-    <div className="space-y-6 text-center">
-      <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-24 w-24 text-mint-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <h3 className="text-2xl font-semibold text-white">Thank you for applying!</h3>
-      <p className="text-white/80">We'll be in touch within 24 hours to schedule your discovery call.</p>
+    <div className="text-center flex flex-col items-center justify-center h-full">
+      <motion.div
+        initial={{ scale: 0.5, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+        className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center"
+      >
+        <Check size={32} className="text-green-400" />
+      </motion.div>
+      <h2 className="text-2xl font-bold text-foreground mt-6">Thank You!</h2>
+      <p className="text-muted-foreground mt-2">Your request has been sent.<br/>We'll be in touch shortly.</p>
     </div>
   );
 
@@ -500,117 +474,84 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
   };
 
   const getProgressPercentage = () => {
-    switch (step) {
-      case 'email':
-        return 33;
-      case 'details':
-        return 66;
-      case 'thanks':
-        return 100;
-      default:
-        return 0;
-    }
+    if (step === 'email') return 33;
+    if (step === 'details') return 66;
+    if (step === 'thanks') return 100;
+    return 0;
+  };
+  
+  const backdropVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 }
+  };
+
+  const modalVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    visible: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 260, damping: 25 } },
+    exit: { opacity: 0, y: 30, scale: 0.98, transition: { duration: 0.2 } }
   };
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
-          <motion.div 
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm"
-            variants={overlayVariants}
+        <motion.div
+          key="backdrop"
+          variants={backdropVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={onClose}
+        >
+          <motion.div
+            key="modal"
+            variants={modalVariants}
             initial="hidden"
             animate="visible"
-            exit="hidden"
-            onClick={onClose}
-          />
-          
-          <div className="flex items-center justify-center min-h-screen px-4 py-12">
-            <motion.div 
-              className="relative bg-deep-navy w-full max-w-2xl rounded-3xl border border-white/10 shadow-lg overflow-hidden"
-              variants={popupVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Progress bar with time estimate */}
-              {step !== 'thanks' && (
-                <div className="relative pt-4 px-8">
-                  <div className="flex justify-between text-xs text-white/60 mb-2">
-                    <span>
-                      {step === 'email' ? 'Step 1 of 2' : 'Step 2 of 2'}
-                    </span>
-                    <span>Takes less than 2 minutes</span>
-                  </div>
-                  <div className="h-2 bg-white/10 w-full rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-iris-purple transition-all duration-500 ease-out rounded-full"
-                      style={{ width: `${getProgressPercentage()}%` }}
-                    />
-                  </div>
-                </div>
-              )}
-              
-              {/* Close button */}
-              <button 
-                onClick={onClose}
-                className="absolute top-4 right-4 text-white/60 hover:text-white p-2 rounded-full transition-colors"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-              
-              {/* Content */}
-              <div className="p-8">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={step}
-                    variants={contentVariants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                  >
-                    {renderStep()}
-                  </motion.div>
-                </AnimatePresence>
+            exit="exit"
+            className="glass-card w-full max-w-2xl p-8 md:p-12 relative"
+            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+          >
+            <button onClick={onClose} className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors">
+              <X size={20} />
+            </button>
+            
+            {/* Progress Bar */}
+            {step !== 'thanks' && (
+              <div className="w-full bg-card/70 rounded-full h-1.5 mb-8">
+                <motion.div
+                  className="bg-primary h-1.5 rounded-full"
+                  initial={{ width: '0%' }}
+                  animate={{ width: `${getProgressPercentage()}%` }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                />
               </div>
-              
-              {/* Navigation buttons */}
-              {step !== 'thanks' && (
-                <div className="p-6 bg-black/20 flex justify-between">
-                  {step === 'email' ? (
-                    <div /> // Empty div to maintain flex spacing
-                  ) : (
-                    <Button
-                      variant="secondaryBrand"
-                      onClick={() => setStep('email')}
-                      disabled={isSubmitting}
-                    >
-                      Back
-                    </Button>
-                  )}
-                  
-                  <Button
-                    variant="primary"
-                    onClick={step === 'email' ? handleEmailStep : handleSubmit}
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? (
-                      <span className="flex items-center">
-                        <LoadingSpinner />
-                        {step === 'email' ? 'Processing...' : 'Submitting...'}
-                      </span>
-                    ) : (
-                      step === 'email' ? 'Continue' : 'Submit Application'
-                    )}
-                  </Button>
+            )}
+            
+            {errorMessage && (
+                <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-lg p-3 mb-6 flex items-center gap-3">
+                    <AlertCircle size={18} />
+                    <span>{errorMessage}</span>
                 </div>
-              )}
-            </motion.div>
-          </div>
-        </div>
+            )}
+            
+            <div className="relative">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={step}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="w-full"
+                >
+                  {renderStep()}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+          </motion.div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

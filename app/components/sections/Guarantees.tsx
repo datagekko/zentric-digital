@@ -9,53 +9,47 @@ const Guarantees = () => {
     threshold: 0.1,
   });
 
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.4,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
+  const container = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } }
   };
 
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+  };
+
+  const guarantees = [
+      { title: "Creative Blast SLA", description: "Testing ad set live within 48 hours" },
+      { title: "3× ROAS Pledge", description: "Or we work free until target is achieved" },
+      { title: "No-Lock-In Exit", description: "Leave with 15-day notice after 90 days" },
+      { title: "Zero-Spend Mark-Up", description: "We never skim ad budget, guaranteed" }
+  ]
+
   return (
-    <section className="py-12 bg-nordic-ivory text-onyx relative overflow-hidden" id="guarantees">
-      <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-6xl">
+    <section className="py-20" id="guarantees">
+      <div ref={ref} className="container mx-auto px-6 max-w-7xl">
         <motion.div
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          transition={{ staggerChildren: 0.1 }}
+          variants={container}
         >
-          <motion.div variants={fadeUp}>
-            <h3 className="text-2xl font-bold text-deep-navy mb-6 text-center">Our Guarantees</h3>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {/* Guarantee 1 */}
-              <div className="bg-white shadow-sm rounded-xl p-4">
-                <h4 className="font-bold text-iris-purple">Creative Blast SLA</h4>
-                <p className="text-sm text-deep-navy/80 mt-1">Testing ad set live within 48 hours</p>
-              </div>
-              
-              {/* Guarantee 2 */}
-              <div className="bg-white shadow-sm rounded-xl p-4">
-                <h4 className="font-bold text-iris-purple">3× ROAS Pledge</h4>
-                <p className="text-sm text-deep-navy/80 mt-1">Or we work free until target is achieved</p>
-              </div>
-              
-              {/* Guarantee 3 */}
-              <div className="bg-white shadow-sm rounded-xl p-4">
-                <h4 className="font-bold text-iris-purple">No-Lock-In Exit</h4>
-                <p className="text-sm text-deep-navy/80 mt-1">Leave with 15-day notice after 90 days</p>
-              </div>
-              
-              {/* Guarantee 4 */}
-              <div className="bg-white shadow-sm rounded-xl p-4">
-                <h4 className="font-bold text-iris-purple">Zero-Spend Mark-Up</h4>
-                <p className="text-sm text-deep-navy/80 mt-1">We never skim ad budget, guaranteed</p>
-              </div>
+          <motion.div variants={item} className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+              Our Ironclad Guarantees
+            </h2>
+            <p className="text-muted-foreground text-lg mt-2 max-w-2xl mx-auto">
+              We believe in accountability and tangible results. That's why every partnership is backed by these promises.
+            </p>
+          </motion.div>
+          <motion.div variants={item} className="glass-card">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 rounded-3xl overflow-hidden">
+              {guarantees.map((guarantee, index) => (
+                  <div key={index} className="p-6 text-center bg-card/80 hover:bg-card/90 transition-colors">
+                    <h4 className="font-bold text-lg text-primary">{guarantee.title}</h4>
+                    <p className="text-sm text-muted-foreground mt-1">{guarantee.description}</p>
+                  </div>
+              ))}
             </div>
           </motion.div>
         </motion.div>

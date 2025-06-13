@@ -1,97 +1,110 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import CtaButton from '../ui/CtaButton';
 import { useLeadForm } from '../../contexts/LeadFormContext';
+import { Button } from '../ui/button';
 
-const FinalCta = () => {
-  const { openLeadForm } = useLeadForm();
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+const FinalCTA = () => {
+  const [spotsLeft] = useState(5);
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  const { openLeadForm, isFormSubmitted } = useLeadForm();
 
-  const fadeUp = {
+  const container = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.2 } }
+  };
+
+  const item = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        duration: 0.4,
-        ease: [0.16, 1, 0.3, 1]
-      }
-    }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
   };
 
   return (
-    <section className="py-20 bg-deep-navy text-white relative overflow-hidden">
-      {/* Background pattern/gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-iris-purple/20 to-deep-navy z-0"></div>
-      
-      <div ref={ref} className="container mx-auto px-6 md:px-12 relative z-10 max-w-6xl">
+    <section id="contact" className="py-20 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-black/30 z-0" />
+      <div ref={ref} className="container mx-auto px-6 max-w-6xl relative z-10">
         <motion.div
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          variants={fadeUp}
-          className="bg-white/10 backdrop-blur-sm p-10 md:p-16 rounded-3xl border border-white/10 shadow-glass"
+          variants={container}
+          className="flex flex-col lg:flex-row gap-8 items-stretch"
         >
-          <div className="flex flex-col items-center text-center">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Ready to Scale Your Brand Profitably?
-            </h2>
-            
-            <p className="text-white/80 text-lg md:text-xl max-w-3xl mb-10">
-              Take the first step toward predictable, data-driven growth. Book your free discovery call now—no commitment, just clarity on what's possible for your business.
-            </p>
-            
-            <div className="flex flex-col md:flex-row items-center gap-6 mb-12">
-              <CtaButton 
-                text="Book Free Discovery Call" 
-                onClick={openLeadForm}
-                isSecondary={false}
-              />
-              
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mint-green">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                  </svg>
-                </div>
-                <div className="text-white/80">
-                  <span className="font-semibold">30-minute call</span> · No pitch, just strategy
-                </div>
+          {/* Left Card - Risk Guarantee */}
+          <motion.div variants={item} className="w-full lg:w-1/2 flex">
+            <div className="glass-card p-8 w-full h-full flex flex-col">
+              <div className="absolute -top-4 left-8 bg-primary text-primary-foreground px-5 py-1.5 rounded-full font-semibold text-sm">
+                Our Zero-Risk Guarantee
+              </div>
+              <h3 className="text-2xl font-bold mt-8 mb-2 text-foreground">Pay for Results, Not Promises</h3>
+              <p className="text-muted-foreground mb-6">
+                Our success is tied directly to yours. We're so confident in our ability to drive growth that we offer a unique performance-based model.
+              </p>
+              <div className="space-y-4 mt-auto">
+                {[
+                  'Starts from €1,500/month',
+                  'No markup on ad spend - ever',
+                  'Revenue-share only on the new revenue we generate',
+                  'If after 2 months we don\'t hit 3x ROAS, we cut the retainer until we do.',
+                ].map((guarantee) => (
+                  <div key={guarantee} className="flex items-center gap-3">
+                    <div className="w-5 h-5 flex-shrink-0 bg-primary/20 rounded-full flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                    <span className="font-medium text-foreground">{guarantee}</span>
+                  </div>
+                ))}
               </div>
             </div>
+          </motion.div>
+          
+          {/* Right Card - CTA */}
+          <motion.div variants={item} className="w-full lg:w-1/2 flex flex-col">
+            <div className="text-center mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground">Ready to Scale Profitably?</h2>
+              <p className="text-muted-foreground text-lg">
+                Limited spots available. Secure your growth strategy session now.
+              </p>
+            </div>
             
-            {/* Trust factors */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-              <div className="flex flex-col items-center p-6 bg-white/5 rounded-xl border border-white/10">
-                <div className="text-4xl font-bold text-mint-green mb-2">97%</div>
-                <div className="text-white/70 text-center">Client retention rate after 6 months</div>
+            <div className="glass-card p-8 flex-grow flex flex-col justify-between h-full">
+              <div className="space-y-4 mb-8">
+                {[
+                    { icon: 'clock', title: `30-Min Discovery Call`, subtitle: 'Free, no-obligation strategy session' },
+                    { icon: 'shield', title: `Only ${spotsLeft} Spots Left`, subtitle: 'We limit clients to ensure quality' }
+                ].map((point, i) => (
+                    <div key={i} className="flex items-center gap-4 bg-black/20 rounded-xl p-4">
+                        <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 text-primary">
+                           {point.icon === 'clock' ? 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> :
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                           }
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-foreground text-lg">{point.title}</h4>
+                            <p className="text-muted-foreground text-sm">{point.subtitle}</p>
+                        </div>
+                    </div>
+                ))}
               </div>
               
-              <div className="flex flex-col items-center p-6 bg-white/5 rounded-xl border border-white/10">
-                <div className="text-4xl font-bold text-mint-green mb-2">48h</div>
-                <div className="text-white/70 text-center">Average implementation time for changes</div>
-              </div>
-              
-              <div className="flex flex-col items-center p-6 bg-white/5 rounded-xl border border-white/10">
-                <div className="text-4xl font-bold text-mint-green mb-2">173+</div>
-                <div className="text-white/70 text-center">DTC brands successfully scaled</div>
+              <div className="mt-auto">
+                <Button variant="primary" size="lg" className="w-full" onClick={openLeadForm}>
+                    Book a Free Discovery Call
+                </Button>
+                <p className="mt-4 text-muted-foreground text-sm text-center">
+                  {isFormSubmitted ? "Check your email for confirmation details." : "We typically respond within one business day."}
+                </p>
               </div>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
   );
 };
 
-export default FinalCta;
-
-// reasoning: The final CTA concentrates all previous persuasion elements (results,
-// urgency, social proof) into one final push. The "no pitch, just strategy" text
-// removes resistance, while the trust metrics reinforce the agency's credibility.
-// The glass card design creates visual prominence and helps the section stand out. 
+export default FinalCTA;

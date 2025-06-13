@@ -6,6 +6,8 @@ import Link from 'next/link';
 import Footer from '../components/sections/Footer';
 import Navigation from '../components/ui/Navigation';
 import { useLeadForm } from '../contexts/LeadFormContext';
+import { Button } from '../components/ui/button';
+import { Grid, List } from 'lucide-react';
 
 export default function Cases() {
   const [activeTab, setActiveTab] = useState('all');
@@ -71,55 +73,45 @@ export default function Cases() {
     : caseStudies.filter(item => item.category === activeTab);
 
   return (
-    <main className="bg-ivory-background min-h-screen">
+    <main className="min-h-screen">
       {/* Navigation Component */}
       <Navigation />
 
       {/* Main Content */}
       <div className="pt-32 pb-20 px-6 md:px-8 max-w-7xl mx-auto">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-10">Case Studies</h1>
+        <h1 className="text-5xl md:text-6xl font-bold mb-10 text-center">Case Studies</h1>
         
         {/* Filters and View Toggle */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 space-y-4 md:space-y-0">
           {/* Category Tabs */}
           <div className="flex flex-wrap gap-2">
             {tabs.map((tab) => (
-              <button
+              <Button
                 key={tab.id}
+                variant={activeTab === tab.id ? "primary" : "secondaryBrand"}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                  activeTab === tab.id 
-                    ? 'bg-iris-purple text-white' 
-                    : 'bg-white hover:bg-iris-purple/10 text-deep-navy'
-                }`}
               >
                 {tab.label}
-              </button>
+              </Button>
             ))}
           </div>
           
           {/* View Toggle */}
-          <div className="bg-white rounded-full p-1 flex">
-            <button
+          <div className="flex items-center gap-2 rounded-full p-1">
+            <Button
               onClick={() => setIsGridView(true)}
-              className={`p-2 rounded-full ${
-                isGridView ? 'bg-iris-purple text-white' : 'text-deep-navy'
-              }`}
+              variant={isGridView ? 'primary' : 'ghost'}
+              size="icon"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-              </svg>
-            </button>
-            <button
+              <Grid className="h-5 w-5" />
+            </Button>
+            <Button
               onClick={() => setIsGridView(false)}
-              className={`p-2 rounded-full ${
-                !isGridView ? 'bg-iris-purple text-white' : 'text-deep-navy'
-              }`}
+              variant={!isGridView ? 'primary' : 'ghost'}
+              size="icon"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
+              <List className="h-5 w-5" />
+            </Button>
           </div>
         </div>
         
@@ -128,7 +120,7 @@ export default function Cases() {
           {filteredCases.map((caseStudy) => (
             <motion.div
               key={caseStudy.id}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+              className="glass-card overflow-hidden"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
@@ -138,37 +130,31 @@ export default function Cases() {
                 
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   {caseStudy.metrics.map((metric, index) => (
-                    <div key={index} className="bg-nordic-ivory/50 p-3 rounded-lg text-center">
-                      <div className="text-iris-purple font-bold text-xl md:text-2xl">{metric.value}</div>
-                      <div className="text-xs md:text-sm text-onyx/70">{metric.label}</div>
+                    <div key={index} className="bg-primary/10 p-3 rounded-lg text-center">
+                      <div className="text-primary font-bold text-xl md:text-2xl">{metric.value}</div>
+                      <div className="text-xs md:text-sm text-muted-foreground">{metric.label}</div>
                     </div>
                   ))}
                 </div>
                 
-                <p className="text-onyx/80 mb-6">{caseStudy.description}</p>
+                <p className="text-muted-foreground mb-6">{caseStudy.description}</p>
                 
-                <button className="text-iris-purple font-medium flex items-center">
+                <Button variant="link" className="px-0">
                   Read Case Study
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </button>
+                </Button>
               </div>
             </motion.div>
           ))}
         </div>
         
         {/* CTA Section */}
-        <div className="mt-16 bg-deep-navy text-white rounded-3xl p-8 md:p-12">
+        <div className="mt-16 glass-card p-8 md:p-12">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-semibold mb-6">Want Similar Results?</h2>
-            <p className="text-xl text-white/80 mb-8">Book a discovery call to see how we can transform your marketing performance.</p>
-            <button 
-              onClick={openLeadForm}
-              className="bg-iris-purple hover:bg-iris-purple-light text-white py-4 px-8 rounded-full font-semibold transition-colors duration-300"
-            >
+            <h2 className="text-3xl font-semibold mb-6">Want Similar Results?</h2>
+            <p className="text-xl text-muted-foreground mb-8">Book a discovery call to see how we can transform your marketing performance.</p>
+            <Button onClick={openLeadForm} variant="primary" size="lg">
               Book Free Discovery Call
-            </button>
+            </Button>
           </div>
         </div>
       </div>
