@@ -53,7 +53,7 @@ const SimpleSolutionSection = () => {
   );
 };
 
-const PasSlab = () => {
+const Comparison = () => {
   const { openLeadForm } = useLeadForm();
   const [ref, inView] = useInView({
     triggerOnce: false,
@@ -348,11 +348,14 @@ const PasSlab = () => {
         </motion.div>
       </div>
     </section>
+
+    {/* Render the SimpleSolutionSection to ensure it's part of the page */}
+    {/* <SimpleSolutionSection /> */}
     </>
   );
 };
 
-export default PasSlab;
+export default Comparison;
 
 // reasoning: This section follows the Problem-Agitation-Solution copywriting framework.
 // It establishes clear pain points, agitates them by contrasting with typical agency behavior,
