@@ -15,6 +15,7 @@ type FormData = {
   lastName: string;
   phone: string;
   referralSource: string;
+  submissionId?: string; // Add submission ID for tracking the form
 }
 
 // Form validation schema using Zod
@@ -42,6 +43,17 @@ type LeadFormProps = {
 // Steps in the form
 type FormStep = 'email' | 'details' | 'thanks';
 
+// Local storage key for form data
+const FORM_STORAGE_KEY = 'zentric_lead_form_data';
+
+// Loading spinner component
+const LoadingSpinner = () => (
+  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+  </svg>
+);
+
 const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
   const [step, setStep] = useState<FormStep>('email');
   const [formData, setFormData] = useState<FormData>({
@@ -57,6 +69,36 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
   
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Load saved form data from localStorage when the component mounts
+  useEffect(() => {
+    try {
+      const savedData = localStorage.getItem(FORM_STORAGE_KEY);
+      if (savedData) {
+        const parsedData = JSON.parse(savedData);
+        setFormData(parsedData);
+        
+        // If we have a submission ID, it means the user already completed step 1
+        if (parsedData.submissionId) {
+          setEmailSubmitted(true);
+          setStep('details');
+        }
+      }
+    } catch (error) {
+      console.error('Error loading saved form data:', error);
+    }
+  }, []);
+
+  // Save form data to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(formData));
+    } catch (error) {
+      console.error('Error saving form data:', error);
+    }
+  }, [formData]);
 
   // Reset form when closed
   useEffect(() => {
@@ -65,24 +107,7 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
         setStep('email');
         setErrors({});
         setEmailSubmitted(false);
-      }, 300);
-    }
-  }, [isOpen]);
-
-  // Reset form data when popup is closed
-  useEffect(() => {
-    if (!isOpen) {
-      setTimeout(() => {
-        setFormData({
-          email: '',
-          revenue: '',
-          budget: '',
-          website: '',
-          firstName: '',
-          lastName: '',
-          phone: '',
-          referralSource: '',
-        });
+        setErrorMessage(null);
       }, 300);
     }
   }, [isOpen]);
@@ -105,7 +130,14 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
       return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setErrors(error.formErrors.fieldErrors);
+        // Convert the ZodError format to our format
+        const formattedErrors: Record<string, string> = {};
+        error.errors.forEach((err) => {
+          if (err.path.length > 0) {
+            formattedErrors[err.path[0].toString()] = err.message;
+          }
+        });
+        setErrors(formattedErrors);
       }
       return false;
     }
@@ -117,7 +149,14 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
       return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setErrors(error.formErrors.fieldErrors);
+        // Convert the ZodError format to our format
+        const formattedErrors: Record<string, string> = {};
+        error.errors.forEach((err) => {
+          if (err.path.length > 0) {
+            formattedErrors[err.path[0].toString()] = err.message;
+          }
+        });
+        setErrors(formattedErrors);
       }
       return false;
     }
@@ -125,23 +164,80 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
 
   const handleEmailStep = async () => {
     if (validateEmail()) {
-      // Here we would typically send the email to the backend
-      setEmailSubmitted(true);
-      setStep('details');
+      setIsSubmitting(true);
+      setErrorMessage(null);
       
-      // Clear any errors
-      setErrors({});
+      try {
+        // Call API to capture email
+        const response = await fetch('/api/leads/capture-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: formData.email }),
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to submit email');
+        }
+        
+        // Save the submission ID in the form data
+        setFormData(prev => ({
+          ...prev,
+          submissionId: data.submissionId
+        }));
+        
+        // Update UI state
+        setEmailSubmitted(true);
+        setStep('details');
+        setErrors({});
+      } catch (error) {
+        console.error('Error submitting email:', error);
+        setErrorMessage(error instanceof Error ? error.message : 'An unexpected error occurred');
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
   const handleSubmit = async () => {
-    if (validateFullForm()) {
-      setStep('thanks');
+    if (validateFullForm() && formData.submissionId) {
+      setIsSubmitting(true);
+      setErrorMessage(null);
       
-      // Small delay to show the thank you message before closing
-      setTimeout(() => {
-        onSubmit(formData);
-      }, 1500);
+      try {
+        // Call API to complete the form submission
+        const response = await fetch('/api/leads/complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...formData,
+            submissionId: formData.submissionId
+          }),
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to submit form');
+        }
+        
+        // Update UI state
+        setStep('thanks');
+        
+        // Clear localStorage after successful submission
+        localStorage.removeItem(FORM_STORAGE_KEY);
+        
+        // Small delay to show the thank you message before closing
+        setTimeout(() => {
+          onSubmit(formData);
+        }, 1500);
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        setErrorMessage(error instanceof Error ? error.message : 'An unexpected error occurred');
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -210,6 +306,7 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
     }
   };
 
+  // Render email step with loading indicator
   const renderEmailStep = () => (
     <div className="space-y-6">
       <div className="space-y-2">
@@ -231,9 +328,11 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
           onChange={(e) => handleInputChange('email', e.target.value)}
           placeholder="you@company.com"
           className="w-full p-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-iris-purple"
+          disabled={isSubmitting}
         />
         {errors.email && <p className="text-red-400 text-sm">{errors.email}</p>}
       </div>
+      {errorMessage && <p className="text-red-400 text-sm">{errorMessage}</p>}
     </div>
   );
   
@@ -487,6 +586,7 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
                     <Button
                       variant="secondaryBrand"
                       onClick={() => setStep('email')}
+                      disabled={isSubmitting}
                     >
                       Back
                     </Button>
@@ -495,8 +595,16 @@ const LeadForm = ({ isOpen, onClose, onSubmit }: LeadFormProps) => {
                   <Button
                     variant="primary"
                     onClick={step === 'email' ? handleEmailStep : handleSubmit}
+                    disabled={isSubmitting}
                   >
-                    {step === 'email' ? 'Continue' : 'Submit Application'}
+                    {isSubmitting ? (
+                      <span className="flex items-center">
+                        <LoadingSpinner />
+                        {step === 'email' ? 'Processing...' : 'Submitting...'}
+                      </span>
+                    ) : (
+                      step === 'email' ? 'Continue' : 'Submit Application'
+                    )}
                   </Button>
                 </div>
               )}
