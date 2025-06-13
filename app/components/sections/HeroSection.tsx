@@ -67,10 +67,13 @@ const HeroSection = () => {
           animate={inView ? "visible" : "hidden"}
           className="max-w-4xl mx-auto text-center"
         >
-          <motion.h1 variants={item} className="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-b from-foreground to-muted-foreground bg-clip-text text-transparent">
+          <motion.p variants={item} className="mb-2 text-sm font-semibold uppercase tracking-wider text-primary">
+            Digital Growth Agency
+          </motion.p>
+          <motion.h1 variants={item} className="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-b from-foreground to-muted-foreground bg-clip-text text-transparent py-4">
             Make Noise. Stay Zentric.
           </motion.h1>
-          <motion.p variants={item} className="mt-6 text-lg md:text-xl max-w-2xl mx-auto text-muted-foreground">
+          <motion.p variants={item} className="mt-6 text-lg md:text-xl max-w-4xl mx-auto text-muted-foreground">
             Transform underperforming funnels into profit machines in 90 days. We scale e-commerce brands with high-converting ads and proven CRO.
           </motion.p>
           <motion.div variants={item} className="mt-8 flex justify-center gap-4">
