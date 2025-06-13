@@ -67,9 +67,9 @@ const ProcessTimeline = () => {
                 <motion.div 
                   key={index} 
                   variants={item}
-                  className="flex items-start md:items-center md:gap-8 flex-col md:flex-row"
+                  className="relative flex items-start md:items-center flex-col md:flex-row"
                 >
-                  <div className={`md:w-1/2 ${index % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8 md:order-3 md:text-left'}`}>
+                  <div className={`md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12 md:order-1 md:text-left'} ml-12 md:ml-0`}>
                      <div className="glass-card p-6 inline-block">
                         <div className="font-mono text-primary mb-2">{step.duration}</div>
                         <h3 className="text-xl font-bold mb-2 text-foreground">{step.title}</h3>
@@ -77,8 +77,7 @@ const ProcessTimeline = () => {
                       </div>
                   </div>
                   
-                  <div className={`w-9 h-9 rounded-full bg-primary/90 flex items-center justify-center text-primary-foreground font-bold z-10 flex-shrink-0
-                    ${index % 2 === 0 ? 'self-start md:order-2' : 'self-start md:order-2'}`}>
+                  <div className="absolute left-4 top-5 -translate-x-1/2 md:left-1/2 md:top-1/2 md:-translate-y-1/2 w-9 h-9 rounded-full bg-primary/90 flex items-center justify-center text-primary-foreground font-bold z-10 flex-shrink-0">
                     {step.number}
                   </div>
                   
