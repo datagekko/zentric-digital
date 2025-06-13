@@ -32,8 +32,8 @@ export default function Home() {
       <HeroSection />
       <Comparison />
       <SolutionSection />
-      <Guarantees />
       <FinalCta />
+      <Guarantees />
       <Footer />
     </main>
   );

@@ -46,8 +46,8 @@ const Comparison = () => {
     },
     {
       feature: 'Performance Guarantee',
-      traditional: "€8k+ monthly retainer regardless of results",
-      zentric: "Pay for results only—we cut the retainer until 3x ROAS is hit"
+      traditional: "+€8K monthly retainer regardless of results",
+      zentric: "Pay for results only - no retainer after month 2 if targets unmet."
     }
   ];
 

@@ -23,6 +23,34 @@ const SolutionSection = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
   };
 
+  const advantages = [
+    {
+      icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"/></svg>,
+      title: "Aligned Incentives",
+      description: "Pay for performance, not promises."
+    },
+    {
+      icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18.27-1.45-1.45-2.2-2.2a1 1 0 0 0-1.41 0l-1.42 1.42a1 1 0 0 0 0 1.41l2.2 2.2 1.45 1.45a1 1 0 0 0 1.41 0l1.42-1.42a1 1 0 0 0 0-1.41z"/><path d="m14 7 3 3-6 6-4-4 6-6"/><path d="m7 11-3 3 3 3"/></svg>,
+      title: "Full Creative & Data Ownership",
+      description: "You own all ad creatives and data, no strings attached."
+    },
+    {
+      icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+      title: "4-Hour Response Time",
+      description: "Guaranteed fast communication during business hours."
+    },
+    {
+      icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10h12"/><path d="M4 14h9"/><path d="M19 6a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2"/></svg>,
+      title: "Transparent Pricing",
+      description: "From €1,500/mo, rev-share on new revenue, no ad spend markup."
+    },
+    {
+      icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>,
+      title: "Real-Time Analytics Dashboard",
+      description: "Track spend, revenue, and ROAS with our proprietary dashboard."
+    }
+  ];
+
   const services = [
     {
       icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-6"/></svg>,
@@ -54,10 +82,8 @@ const SolutionSection = () => {
             <h2 className="text-3xl md:text-5xl font-bold">
               The Zentric Growth Engine
             </h2>
-            <p className="text-muted-foreground text-lg max-w-3xl mx-auto mt-4">
-              A complete system to drive predictable revenue growth with a guaranteed
-              <span className="font-bold text-primary mx-1.5">3× blended ROAS</span> 
-              in 90 days or you don't pay.
+            <p className="text-muted-foreground text-lg max-w-3xl mx-auto mt-4 md:whitespace-nowrap">
+            The growth engine that delivers: Increased traffic, streamlined funnels, better ads, higher ROAS.
             </p>
           </motion.div>
           
@@ -85,16 +111,20 @@ const SolutionSection = () => {
               <div className="flex-1">
                 <h3 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">Our Unfair Advantage</h3>
                 <p className="text-muted-foreground mb-6 text-lg">
-                  With Zentric, you're not just buying services—you're partnering with a team financially incentivized to maximize your success. If we don't lift your blended ROAS in 90 days, you stop paying until we do.
+                  With Zentric, you're not just buying services - you're partnering with a team financially incentivized to maximize your success. If we don't lift your blended ROAS in 90 days, you stop paying until we do.
                 </p>
-                <div className="flex items-center gap-4 bg-black/20 rounded-xl p-4">
-                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 text-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"/></svg>
-                  </div>
-                  <div>
-                    <div className="font-bold text-foreground text-lg">Aligned Incentives</div>
-                    <div className="text-muted-foreground text-sm">Pay for performance, not promises</div>
-                  </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
+                  {advantages.map((advantage, index) => (
+                    <div key={index} className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 text-primary mt-1">
+                        {advantage.icon}
+                      </div>
+                      <div>
+                        <div className="font-bold text-foreground text-md">{advantage.title}</div>
+                        <div className="text-muted-foreground text-sm">{advantage.description}</div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div className="md:w-1/3 text-center mt-8 md:mt-0">
