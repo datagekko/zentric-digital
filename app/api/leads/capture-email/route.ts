@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { db } from "@/app/lib/db";
+import { getDb } from "@/app/lib/db";
 import { leadSubmissions } from "@/app/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { ratelimit, getClientIp } from "@/app/lib/rate-limit";
@@ -12,6 +12,7 @@ const EmailSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    const db = getDb();
     // Apply rate limiting
     const ip = getClientIp(request);
     const { success, limit, reset, remaining } = await ratelimit.limit(`leads_ip_${ip}`);
