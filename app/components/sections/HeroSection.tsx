@@ -6,6 +6,7 @@ import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useLeadForm } from '../../contexts/LeadFormContext';
 import { Button } from '../ui/button';
+import { ChevronDown } from 'lucide-react';
 
 const HeroSection = () => {
   const { openLeadForm } = useLeadForm();
@@ -88,7 +89,10 @@ const HeroSection = () => {
              <div className="glass-card p-6 md:p-8">
                 <div className="flex justify-between items-center mb-4">
                   <div className="font-semibold">Performance Dashboard</div>
-                  <div className="text-sm text-primary font-mono">+38% ROAS</div>
+                  <div className="flex items-baseline">
+                    <span className="text-sm text-primary font-mono">+38% ROAS</span>
+                    <span className="ml-2 text-xs text-muted-foreground">(last 7 days)</span>
+                  </div>
                 </div>
                 <div className="w-full bg-black/20 h-2 rounded-full mb-6">
                   <motion.div 
@@ -113,9 +117,19 @@ const HeroSection = () => {
                   </div>
                 </div>
               </div>
+              <motion.div variants={item} className="text-xs text-muted-foreground mt-4">
+                No fluff, no false promises - just real, measurable results.
+              </motion.div>
           </motion.div>
         </motion.div>
       </div>
+      <motion.div 
+        className="absolute bottom-10 left-1/2 -translate-x-1/2"
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <ChevronDown className="w-6 h-6 text-muted-foreground/50"/>
+      </motion.div>
     </section>
   );
 };
