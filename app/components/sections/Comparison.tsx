@@ -65,7 +65,9 @@ const Comparison = () => {
             Stop Paying Agencies to Burn Your Budget
             </h2>
             <p className="text-muted-foreground text-lg max-w-3xl mx-auto mt-4">
-              Tired of long contracts, poor communication, and misaligned incentives? We built Zentric to be the partner we wish we had.
+              Tired of long contracts, poor communication, and misaligned incentives? 
+              <br />
+              We built Zentric to be the partner we wish we had.
             </p>
           </motion.div>
 

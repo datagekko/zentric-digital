@@ -4,10 +4,10 @@ import { useEffect } from 'react';
 import HeroSection from './components/sections/HeroSection';
 import Comparison from './components/sections/Comparison';
 import SolutionSection from './components/sections/SolutionSection';
-import Guarantees from './components/sections/Guarantees';
 import FinalCta from './components/sections/FinalCta';
 import Footer from './components/sections/Footer';
 import Navigation from './components/ui/Navigation';
+import { LeadFormProvider } from './contexts/LeadFormContext';
 
 export default function Home() {
   // Track scroll depth for analytics
@@ -27,14 +27,15 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="overflow-x-hidden">
-      <Navigation />
-      <HeroSection />
-      <Comparison />
-      <SolutionSection />
-      <FinalCta />
-      <Guarantees />
-      <Footer />
-    </main>
+    <LeadFormProvider>
+      <main className="overflow-x-hidden">
+        <Navigation />
+        <HeroSection />
+        <Comparison />
+        <SolutionSection />
+        <FinalCta />
+        <Footer />
+      </main>
+    </LeadFormProvider>
   );
 }
