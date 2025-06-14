@@ -49,9 +49,8 @@ The landing page is composed of the following sections in order:
 1. **Hero** - Main value proposition and primary CTA. The "Learn More" button is hidden on mobile to focus on the main call-to-action.
 2. **Comparison** - Differentiates Zentric from traditional agencies, with a responsive layout for clear mobile viewing.
 3. **SolutionSection** - Details the "Zentric Growth Engine" and its core benefits.
-4. **FinalCta** - A final, compelling call-to-action to book a discovery call.
-5. **Guarantees** - Outlines the risk-reversal and performance guarantees.
-6. **Footer** - Contact information and supplementary links.
+4. **FinalCta** - A final, compelling call-to-action that includes merged risk-reversal and performance guarantees to build trust.
+5. **Footer** - Contact information and supplementary links.
 
 ## Getting Started
 
@@ -122,4 +121,8 @@ The two-step lead form captures emails immediately in step 1, then collects addi
 ## Static Asset Caching
 
 Static assets with hashed filenames (e.g., `logo.abcd1234.png`) are served with long-term caching. The production server sets `Cache-Control: public, max-age=31536000, immutable` for files under `/_next/static` and any hashed files in `public/`.
+
+## Changelog
+
+- **2024-07-26 (e9916e2):** feat(cta): Enhanced the `FinalCta` section by merging the `Guarantees` component directly into it. This refactor consolidates the final call to action with powerful trust-building elements, including both pricing and service-level guarantees with unique iconography. The standalone `Guarantees` component was removed to streamline the codebase.
 
