@@ -3,3 +3,188 @@ description:
 globs:
 alwaysApply: false
 ---
+# Zentric Digital - Development Workflow
+
+This document outlines the standardized development process for the Zentric Digital landing page project, from initial setup to deployment.
+
+## Local Development Setup
+
+### 1. Initial Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/zentric/zentric.digital.git
+cd zentric.digital
+
+# Install dependencies
+pnpm install
+
+# Use correct Node.js version
+nvm use 20
+
+# Create local environment file
+cp .env.example .env.local
+```
+
+### 2. Environment Configuration
+
+Edit `.env.local` to include the following:
+
+```
+# Database (Neon PostgreSQL)
+NEON_DATABASE_URL=your_database_connection_string
+
+# Cron Job Secret (for reminder emails)
+CRON_SECRET=your_secure_random_string
+
+# Optional: Redis for rate limiting
+UPSTASH_REDIS_REST_URL=your_redis_url
+UPSTASH_REDIS_REST_TOKEN=your_redis_token
+```
+
+### 3. Database Setup
+
+For local development, you have two options:
+
+#### Option A: Use Vercel's Neon integration
+
+1. Go to Vercel → Your Project → Storage → Connect a Database → Neon PostgreSQL
+2. Vercel will automatically add the `DATABASE_URL` to your project
+3. Copy this URL to your `.env.local` as `NEON_DATABASE_URL`
+
+#### Option B: Set up your own PostgreSQL instance
+
+1. Create a PostgreSQL database (locally or using a cloud provider)
+2. Add the connection string to your `.env.local` as `NEON_DATABASE_URL`
+
+#### Run database migrations
+
+After setting up your database connection:
+
+```bash
+# Run migration to create the lead_submissions table
+node run-migration.js
+```
+
+### 4. Start Development Server
+
+```bash
+pnpm dev
+```
+
+The site will be available at [http://localhost:3000](http://localhost:3000)
+
+## Development Process
+
+### 1. Feature Branches
+
+Create feature branches from `main` for all new work:
+
+```bash
+git checkout main
+git pull
+git checkout -b feature/your-feature-name
+```
+
+### 2. Code Style and Standards
+
+- Use TypeScript for all new code
+- Follow the existing project structure
+- Use React Hooks for state management
+- Implement proper error handling and loading states
+- Write self-documenting code with appropriate comments
+
+### 3. Database Operations
+
+When modifying the database schema:
+
+1. Update the schema definition in `app/lib/db/schema.ts`
+2. Create a new migration SQL file in `app/lib/db/migrations/`
+3. Run the migration using the `run-migration.js` script
+4. Document changes in the technical specification
+
+### 4. API Development Guidelines
+
+For API routes:
+
+1. Place all routes in the appropriate directory under `app/api/`
+2. Implement validation using Zod schemas
+3. Follow the established pattern for rate limiting
+4. Return consistent response formats
+5. Add proper error handling with appropriate status codes
+
+### 5. Testing
+
+Before submitting a pull request:
+
+- Test the feature on both mobile and desktop viewports
+- Verify form validation works as expected
+- Confirm API endpoints return appropriate responses
+- Check database records are created/updated properly
+- Test with different browsers (Chrome, Firefox, Safari)
+
+### 6. Pull Requests
+
+1. Push changes to your feature branch
+2. Create a pull request to `main`
+3. Include a description of changes and testing performed
+4. Link to any related issues
+
+```bash
+git add .
+git commit -m "Descriptive commit message"
+git push origin feature/your-feature-name
+```
+
+### 7. Code Review
+
+- All PRs require at least one review
+- Address feedback promptly
+- Rebase and resolve conflicts if necessary
+
+## Deployment Process
+
+### 1. Development Preview
+
+Vercel will automatically create preview deployments for each PR.
+
+For database changes, Neon provides isolated database branches for each preview deployment.
+
+### 2. Staging
+
+Once a PR is approved and merged to `main`, it is automatically deployed to the staging environment.
+
+### 3. Production
+
+Production deployments are triggered manually from the Vercel dashboard after testing in staging.
+
+## Database Management
+
+### Migrations
+
+For non-breaking schema changes:
+
+1. Create a new migration file in `app/lib/db/migrations/`
+2. Test locally
+3. Apply to development database
+4. Include migration in the PR
+
+For breaking changes:
+
+1. Coordinate with the team to ensure backward compatibility
+2. Consider adding a versioned API endpoint if necessary
+3. Document the migration plan carefully
+
+### Backups
+
+Neon PostgreSQL automatically handles backups. For additional safety:
+
+1. Export important data periodically
+2. Document any manual data modifications
+3. Keep migration history clean and well-documented
+
+## Monitoring and Maintenance
+
+- Check Vercel logs for API errors
+- Monitor form submission success rates
+- Periodically clean up old database entries if needed

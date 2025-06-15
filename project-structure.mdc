@@ -3,3 +3,187 @@ description:
 globs:
 alwaysApply: false
 ---
+# Zentric Digital - Project Structure
+
+This document outlines the organization of the Zentric Digital landing page codebase, explaining the purpose and responsibility of each directory and key file.
+
+## Root Directory Structure
+
+```
+zentric.digital/
+├── app/                    # Next.js App Router application code
+├── public/                 # Static assets
+├── .env.example            # Example environment variables
+├── .env.local              # Local environment variables (gitignored)
+├── .gitignore              # Git ignore rules
+├── DATABASE_SETUP.md       # Database setup documentation
+├── drizzle.config.ts       # Drizzle ORM configuration
+├── next.config.js          # Next.js configuration
+├── package.json            # Project dependencies and scripts
+├── pnpm-lock.yaml          # PNPM lock file
+├── postcss.config.js       # PostCSS configuration
+├── README.md               # Project overview and getting started guide
+├── run-migration.js        # Database migration script
+├── tailwind.config.js      # Tailwind CSS configuration
+└── tsconfig.json           # TypeScript configuration
+```
+
+## App Directory Structure
+
+```
+app/
+├── api/                    # API routes (server-side)
+│   ├── cron/               # Scheduled tasks
+│   │   └── reminder-emails/# Email reminder endpoint for abandoned forms
+│   └── leads/              # Lead form endpoints
+│       ├── capture-email/  # Initial email capture (step 1)
+│       └── complete/       # Complete form submission (step 2)
+├── components/             # React components
+│   ├── sections/           # Page section components
+│   │   ├── Hero.tsx        # Hero section with main CTA
+│   │   ├── Credibility.tsx # Credibility bar with logos
+│   │   └── ...             # Other page sections
+│   └── ui/                 # Reusable UI components
+│       ├── Button.tsx      # Button component
+│       ├── LeadForm.tsx    # Lead capture form component
+│       └── ...             # Other UI components
+├── contexts/               # React context providers
+│   └── LeadFormContext.tsx # Context for lead form state
+├── lib/                    # Shared utilities and libraries
+│   ├── db/                 # Database related code
+│   │   ├── index.ts        # Database client setup
+│   │   ├── schema.ts       # Database schema definition
+│   │   └── migrations/     # Database migrations
+│   │       └── schema.sql  # SQL migration file
+│   ├── rate-limit.ts       # Rate limiting implementation
+│   └── utils.ts            # General utilities
+├── shadcn-components/      # Shadcn UI component examples
+├── globals.css             # Global styles and Tailwind directives
+├── layout.tsx              # Root layout component
+├── page.tsx                # Main landing page component
+└── providers.tsx           # Global providers
+```
+
+## Key Files Explained
+
+### Database and API Files
+
+- **`app/lib/db/schema.ts`**: Defines the database schema using Drizzle ORM
+  ```typescript
+  // Defines tables, columns, relationships, and types
+  export const leadSubmissions = pgTable("lead_submissions", {
+    id: varchar("id").primaryKey().$defaultFn(() => createId()),
+    email: varchar("email").notNull(),
+    // ... other fields
+  });
+  ```
+
+- **`app/lib/db/index.ts`**: Sets up the database connection
+  ```typescript
+  // Creates and exports the database client
+  import { drizzle } from 'drizzle-orm/neon-http';
+  export const db = drizzle(sql, { schema });
+  ```
+
+- **`app/lib/rate-limit.ts`**: Implements rate limiting for API routes
+  ```typescript
+  // Creates a rate limiter with Redis or in-memory fallback
+  export const ratelimit = redis
+    ? new Ratelimit({ ... })
+    : { limit: async (key) => { ... } };
+  ```
+
+- **`app/api/leads/capture-email/route.ts`**: Handles email capture in step 1
+  ```typescript
+  // POST handler for the initial email submission
+  export async function POST(request) {
+    // Validate, rate limit, store in database
+  }
+  ```
+
+- **`app/api/leads/complete/route.ts`**: Handles complete form submission in step 2
+  ```typescript
+  // POST handler for the complete form submission
+  export async function POST(request) {
+    // Validate, rate limit, update database
+  }
+  ```
+
+### Form Components
+
+- **`app/components/ui/LeadForm.tsx`**: Two-step lead capture form component
+  ```typescript
+  // Handles form state, validation, and submission
+  const LeadForm = ({ isOpen, onClose, onSubmit }) => {
+    // Form logic and rendering
+  };
+  ```
+
+- **`app/contexts/LeadFormContext.tsx`**: Context provider for form state
+  ```typescript
+  // Manages form open/close state and submission handling
+  export const LeadFormProvider = ({ children }) => {
+    // Provider implementation
+  };
+  ```
+
+### Configuration Files
+
+- **`drizzle.config.ts`**: Configuration for Drizzle ORM and database access
+  ```typescript
+  // Defines database connection and schema location
+  export default defineConfig({
+    schema: './app/lib/db/schema.ts',
+    // ... other configuration
+  });
+  ```
+
+- **`run-migration.js`**: Node.js script to run database migrations
+  ```javascript
+  // Connects to database and executes SQL migrations
+  async function runMigration() {
+    // Migration implementation
+  }
+  ```
+
+## Component Organization
+
+### Page Sections
+
+The landing page is organized into distinct section components, each serving a specific purpose in the conversion funnel:
+
+1. **Hero**: Main headline, value proposition, and primary CTA
+2. **Credibility**: Client logos and trust indicators
+3. **PAS Slab**: Problem → Agitation → Solution framework
+4. **Offer Stack**: Service tiers and pricing options
+5. **Proof Wall**: Testimonials and case studies
+6. **Process Timeline**: How Zentric works with clients
+7. **Comparison**: Differentiators vs traditional agencies
+8. **Risk Reversal**: Guarantee and objection handling
+9. **Final CTA**: Compelling closing call-to-action
+10. **Footer**: Contact info and supplementary links
+
+### Reusable UI Components
+
+Smaller, reusable UI components are located in `app/components/ui/` and follow a consistent API pattern:
+
+- Button variants: primary, secondary, ghost, link
+- Form inputs: text, email, phone, dropdown
+- Cards, banners, and other UI elements
+
+## Code Organization Best Practices
+
+1. **Feature Co-location**: Related files (components, API routes, utilities) are grouped together
+2. **Clear Separation**: UI components separated from business logic
+3. **Consistent Naming**: Files and components use PascalCase for components, camelCase for utilities
+4. **Type Safety**: TypeScript interfaces and types for all components and functions
+5. **Import Organization**: Related imports grouped together with a blank line between groups
+
+## Adding New Files
+
+When adding new files to the project:
+
+1. Follow the existing directory structure
+2. Use appropriate file naming conventions
+3. Include TypeScript types
+4. Update this documentation when adding new directories or changing structure

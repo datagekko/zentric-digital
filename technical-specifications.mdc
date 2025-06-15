@@ -3,3 +3,150 @@ description:
 globs:
 alwaysApply: false
 ---
+# Zentric Digital - Technical Specifications
+
+## Database Integration for Lead Forms
+
+### Technology Stack
+
+- **Database**: Neon PostgreSQL (serverless)
+- **ORM**: Drizzle ORM
+- **API Framework**: Next.js API routes 
+- **Validation**: Zod schema validation
+- **Rate Limiting**: Upstash Redis (with in-memory fallback)
+- **Form State**: Client-side persistence with localStorage
+
+### Database Schema
+
+The lead form submissions are stored in the `lead_submissions` table:
+
+```sql
+CREATE TABLE lead_submissions (
+  id VARCHAR(128) PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'partial',
+  revenue VARCHAR(50),
+  budget VARCHAR(50),
+  website VARCHAR(255),
+  "firstName" VARCHAR(100),
+  "lastName" VARCHAR(100),
+  phone VARCHAR(50),
+  "referralSource" VARCHAR(100),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  reminders_count VARCHAR DEFAULT '0',
+  last_reminder_at TIMESTAMP WITH TIME ZONE,
+  completed_at TIMESTAMP WITH TIME ZONE,
+  ip_address VARCHAR(50),
+  user_agent TEXT
+);
+```
+
+### API Endpoints
+
+#### 1. POST /api/leads/capture-email
+
+Captures email addresses from step 1 of the form.
+
+- **Request Body**: `{ email: string }`
+- **Response**: 
+  - Success: `{ success: true, message: string, submissionId: string }`
+  - Error: `{ error: string, details?: object }`
+- **Status Codes**:
+  - 200: Success
+  - 400: Validation error
+  - 429: Rate limit exceeded
+  - 500: Server error
+
+#### 2. POST /api/leads/complete
+
+Completes the form submission with additional details.
+
+- **Request Body**: Complete form data including `submissionId` from step 1
+- **Response**: 
+  - Success: `{ success: true, message: string }`
+  - Error: `{ error: string, details?: object }`
+- **Status Codes**:
+  - 200: Success
+  - 400: Validation error or email mismatch
+  - 404: Submission not found
+  - 429: Rate limit exceeded
+  - 500: Server error
+
+#### 3. GET /api/cron/reminder-emails
+
+Scheduled task endpoint to send reminders for abandoned forms.
+
+- **Authorization**: Requires `CRON_SECRET` in Authorization header
+- **Response**: 
+  - Success: `{ message: string, processed: object[] }`
+  - Error: `{ error: string }`
+- **Status Codes**:
+  - 200: Success 
+  - 401: Unauthorized (missing or invalid CRON_SECRET)
+  - 500: Server error
+
+### Rate Limiting
+
+- Default: 5 requests per minute per IP address
+- Implemented using Upstash Redis with in-memory fallback if Redis is not configured
+- Headers returned: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`
+
+### Form Submission Flow
+
+1. **Step 1**: 
+   - User enters email
+   - Email is validated using Zod
+   - API call is made to store the email with 'partial' status
+   - If successful, user proceeds to step 2 with the `submissionId`
+
+2. **Step 2**:
+   - User completes all required fields
+   - Data is validated using Zod
+   - API call is made to update the record with all details
+   - Status changes to 'complete'
+   - User sees thank you message
+
+### Database Connection
+
+Database connection is managed using Drizzle ORM with the following configuration:
+
+```typescript
+// Using Neon's serverless driver
+import { neon } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-http';
+import * as schema from './schema';
+
+// Get the database URL from environment variables
+const databaseUrl = process.env.NEON_DATABASE_URL || process.env.DATABASE_URL;
+
+// Create a Neon client
+const sql = neon(databaseUrl);
+
+// Create a database client with the schema
+export const db = drizzle(sql, { schema });
+```
+
+### Environment Variables
+
+Required variables:
+- `NEON_DATABASE_URL` or `DATABASE_URL`: PostgreSQL connection string
+- `CRON_SECRET`: Secret for authenticating cron job requests
+
+Optional variables:
+- `UPSTASH_REDIS_REST_URL`: Upstash Redis URL for rate limiting
+- `UPSTASH_REDIS_REST_TOKEN`: Upstash Redis token for rate limiting
+
+### Error Handling
+
+- Complete client and server-side validation
+- Structured error responses with details in development mode
+- Fallback implementation for Redis dependency
+- Graceful handling of database connection issues
+
+### Future Enhancements
+
+- Email service integration for sending reminder emails
+- Admin dashboard for viewing and managing leads
+- Analytics tracking to monitor conversion rates
+- A/B testing capability for form variations
