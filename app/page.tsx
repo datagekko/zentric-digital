@@ -8,6 +8,7 @@ import FinalCta from './components/sections/FinalCta';
 import Footer from './components/sections/Footer';
 import Navigation from './components/ui/Navigation';
 import { LeadFormProvider } from './contexts/LeadFormContext';
+import LogoBar from './components/sections/LogoBar';
 
 export default function Home() {
   // Track scroll depth for analytics
@@ -32,6 +33,7 @@ export default function Home() {
         <Navigation />
         <HeroSection />
         <Comparison />
+        <LogoBar />
         <SolutionSection />
         <FinalCta />
         <Footer />
