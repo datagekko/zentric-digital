@@ -7,16 +7,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { useLeadForm } from '../../contexts/LeadFormContext';
 import { Button } from './button';
+import { ChevronDown } from 'lucide-react';
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const pathname = usePathname();
   const { openLeadForm } = useLeadForm();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -30,12 +33,44 @@ const Navigation = () => {
     }
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const quickStartLinks = [
+      { href: '/#comparison', label: 'Our Edge' },
+      { href: '/#solution', label: 'Growth Engine' },
+      { href: '/#guarantees', label: 'Our Promise' },
+      { href: '/#contact', label: 'Book a Call' },
+  ];
+
   const navLinks = [
     { href: '/how-we-work', label: 'How We Work' },
     { href: '/about-us', label: 'About Us' },
-    { href: '/cases', label: 'Cases' },
-    { href: '#contact', label: 'Contact' }
+    // { href: '/cases', label: 'Cases' },
+    // { href: '#contact', label: 'Contact' }
   ];
+
+  const handleQuickStartClick = (href: string) => {
+    setIsDropdownOpen(false);
+    const element = document.querySelector(href);
+    if (element) {
+        const headerOffset = 96; // 6rem, to offset for the sticky header
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+      
+        window.scrollTo({
+             top: offsetPosition,
+             behavior: 'smooth'
+        });
+    }
+  };
 
   return (
     <header 
@@ -56,6 +91,43 @@ const Navigation = () => {
         </Link>
         
         <nav className="hidden md:flex items-center gap-8">
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center gap-2 text-base font-medium transition-colors hover:text-foreground text-muted-foreground"
+            >
+              Quick Start
+              <ChevronDown
+                className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
+              />
+            </button>
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute top-full mt-4 w-56 glass-card rounded-2xl shadow-lg overflow-hidden"
+                >
+                  <div className="p-2">
+                    {quickStartLinks.map(link => (
+                        <a
+                            key={link.href}
+                            href={link.href}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleQuickStartClick(link.href.substring(1));
+                            }}
+                            className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-lg transition-colors cursor-pointer"
+                        >
+                            {link.label}
+                        </a>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
           {navLinks.map(link => (
             <Link 
               key={link.href}
@@ -126,6 +198,22 @@ const Navigation = () => {
                   >
                     {link.label}
                   </Link>
+                ))}
+                <div className="w-full border-t border-white/10 my-4"></div>
+                <div className="text-lg font-medium text-muted-foreground mb-2 px-4">Quick Start</div>
+                {quickStartLinks.map(link => (
+                    <a
+                        key={link.href}
+                        href={link.href}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setIsMobileMenuOpen(false);
+                            handleQuickStartClick(link.href.substring(1));
+                        }}
+                        className="block px-4 py-2 text-lg text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                        {link.label}
+                    </a>
                 ))}
                 <Button 
                     variant="primary" 

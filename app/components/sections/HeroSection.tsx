@@ -45,7 +45,7 @@ const HeroSection = () => {
   } : {};
   
   return (
-    <section ref={ref} className="min-h-screen flex items-center justify-center pt-32 pb-20 relative overflow-hidden">
+    <section ref={ref} id="hero" className="min-h-screen flex items-center justify-center pt-32 pb-20 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-black/30 z-0" />
       
       {/* Animated blobs for ambient light */}

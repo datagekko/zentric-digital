@@ -47,12 +47,12 @@ const Comparison = () => {
     {
       feature: 'Performance Guarantee',
       traditional: "+€8K monthly retainer regardless of results",
-      zentric: "Pay for results only - no retainer after month 2 if targets unmet."
+      zentric: "Pay for results only - no retainer after 2 months if targets unmet."
     }
   ];
 
   return (
-    <section id="challenge" className="py-20 overflow-hidden">
+    <section id="comparison" className="py-20 overflow-hidden">
       <div ref={ref} className="container mx-auto px-6 relative z-10 max-w-7xl">
         <motion.div
           initial="hidden"
@@ -65,7 +65,9 @@ const Comparison = () => {
             Stop Paying Agencies to Burn Your Budget
             </h2>
             <p className="text-muted-foreground text-lg max-w-3xl mx-auto mt-4">
-              Tired of long contracts, poor communication, and misaligned incentives? We built Zentric to be the partner we wish we had.
+              Tired of long contracts, poor communication, and misaligned incentives? 
+              <br />
+              We built Zentric to be the partner we wish we had.
             </p>
           </motion.div>
 
